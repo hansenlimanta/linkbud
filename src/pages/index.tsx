@@ -1,24 +1,85 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import {
+  DragDropContext,
+  Draggable,
+  Droppable,
+  DropResult,
+} from "@hello-pangea/dnd";
 import { api } from "~/utils/api";
 import Linkbud from "./linkbud";
 import { useEffect, useState } from "react";
 
+type Task = {
+  id: string;
+  content: string;
+};
+
+type Column = {
+  id: string;
+  title: string;
+  taskIds: string[];
+};
+
+type TaskList = {
+  tasks: Task[];
+  columns: Column[];
+  columnOrder: string[];
+};
+
 export default function Home() {
-  const [windowWidth, setWindowWidth] = useState(0);
-  const hello = api.example.hello.useQuery({ text: "from tRPC" });
+  const [taskList, setTaskList] = useState<TaskList>({
+    columnOrder: [],
+    columns: [],
+    tasks: [],
+  } as TaskList);
+  // const hello = api.example.hello.useQuery({ text: "from tRPC" });
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      // browser code
-      window.addEventListener("resize", () => {
-        setWindowWidth(window.innerWidth);
-      });
-    }
+    const initialTaskList: TaskList = {
+      tasks: [
+        { id: "task-1", content: "Take out the garbage" },
+        { id: "task-2", content: "Watch my favorite show" },
+        { id: "task-3", content: "Charge my phone" },
+        { id: "task-4", content: "Cook dinner" },
+      ] as Task[],
+      columns: [
+        {
+          id: "column-1",
+          title: "To do",
+          taskIds: ["task-1", "task-2", "task-3", "task-4"],
+        },
+        {
+          id: "column-2",
+          title: "In progress",
+          taskIds: [],
+        },
+        {
+          id: "column-3",
+          title: "Done",
+          taskIds: [],
+        },
+      ] as Column[],
+      columnOrder: ["column-1", "column-2", "column-3"],
+    };
+    setTaskList({ ...initialTaskList });
   }, []);
-  const onDragEnd = () => {
-    // the only one that is required
+  const onDragEnd = (result: DropResult) => {
+    const { destination, source, draggableId } = result;
+    if (!destination) return;
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      return;
+    }
+    const newColumns = [...taskList.columns];
+    const column = newColumns.find(
+      (column) => column.id === source.droppableId,
+    );
+    column?.taskIds.splice(source.index, 1);
+    column?.taskIds.splice(destination.index, 0, draggableId);
+    setTaskList({ ...taskList, columns: newColumns });
   };
 
   return (
@@ -29,32 +90,64 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex h-screen w-screen bg-stone-100 ">
-        <div className="flex h-screen flex-auto flex-col items-center justify-start gap-12 px-4 py-16">
-          <button className="rounded-full bg-amber-200 px-4 py-2">
-            + Add Link
-          </button>
-          <DragDropContext onDragEnd={onDragEnd}>
-            <Droppable droppableId="droppable-1" type="PERSON">
-              {(provided, snapshot) => (
+        <DragDropContext onDragEnd={onDragEnd}>
+          <div className="flex h-screen flex-auto flex-col items-center justify-start gap-12 px-4 py-16">
+            <button className="rounded-full bg-amber-200 px-4 py-2">
+              + Add Link
+            </button>
+            {taskList.columnOrder.map((columnId) => {
+              const column = taskList.columns.find(
+                (column) => column.id === columnId,
+              );
+              const tasks = column?.taskIds.map((taskId) => {
+                return taskList.tasks.find((task) => task.id === taskId);
+              });
+              return (
                 <div
-                  ref={provided.innerRef}
-                  style={{
-                    backgroundColor: snapshot.isDraggingOver ? "blue" : "grey",
-                    width: "100%",
-                    height: "100%",
-                  }}
-                  {...provided.droppableProps}
+                  key={column?.id}
+                  className="m-2 rounded-md border-2 border-black p-3"
                 >
-                  ;<h2>I am a droppable!</h2>
-                  {provided.placeholder}
+                  <h3>{column?.title}</h3>
+                  <Droppable droppableId={column ? column?.id : "1"}>
+                    {(provided) => (
+                      <div
+                        className="border border-gray-500 p-4"
+                        ref={provided.innerRef}
+                        {...provided.droppableProps}
+                      >
+                        {tasks?.map((task, index) => (
+                          <Draggable
+                            key={task?.id}
+                            draggableId={task?.id!}
+                            index={index}
+                            isDragDisabled={false}
+                          >
+                            {(provided) => (
+                              <div
+                                className="p-1"
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                              >
+                                <p className="m-2 rounded-md border-2 border-gray-900 p-3">
+                                  {task?.content}
+                                </p>
+                              </div>
+                            )}
+                          </Draggable>
+                        ))}
+                        {provided.placeholder}
+                      </div>
+                    )}
+                  </Droppable>
                 </div>
-              )}
-            </Droppable>
-          </DragDropContext>
-        </div>
-        <div className="right-0 top-0 z-10 h-screen w-[570px] border-l px-20 py-10">
-          <Linkbud />
-        </div>
+              );
+            })}
+          </div>
+          <div className="right-0 top-0 z-10 h-screen w-[570px] border-l px-20 py-10">
+            <Linkbud />
+          </div>
+        </DragDropContext>
       </main>
       {/* <main className=" flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
         <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
