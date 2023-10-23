@@ -35,6 +35,7 @@ export default function Home() {
     tasks: [],
   } as TaskList);
   // const hello = api.example.hello.useQuery({ text: "from tRPC" });
+  const [isAddUrl, setIsAddUrl] = useState(false);
   useEffect(() => {
     const initialTaskList: TaskList = {
       tasks: [
@@ -92,9 +93,39 @@ export default function Home() {
       <main className="flex h-screen w-screen bg-stone-100 ">
         <DragDropContext onDragEnd={onDragEnd}>
           <div className="flex h-screen flex-auto flex-col items-center justify-start gap-12 px-4 py-16">
-            <button className="rounded-full bg-amber-200 px-4 py-2">
-              + Add Link
-            </button>
+            {isAddUrl ? (
+              <div
+                onClick={() => setIsAddUrl(false)}
+                className="flex w-fit flex-col justify-center rounded-lg border bg-white p-6 pt-4 align-baseline transition-all ease-in-out"
+              >
+                <div className="flex w-full justify-end">
+                  <p className="m-0 h-6 w-6 cursor-pointer rounded-full p-0 text-center text-black transition-all hover:bg-slate-100">
+                    x
+                  </p>
+                </div>
+                <h2 className="mb-4 text-xl font-bold">Enter URL</h2>
+                <div className="flex justify-between gap-4">
+                  <input
+                    type="text"
+                    placeholder="URL"
+                    className="min-w-[492px] rounded-lg border bg-stone-100 px-4 py-2"
+                  />
+                  <button
+                    onClick={() => setIsAddUrl(false)}
+                    className="rounded-full border bg-stone-50 px-5 py-2 transition-all hover:bg-stone-200"
+                  >
+                    Add
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <button
+                onClick={() => setIsAddUrl(true)}
+                className="rounded-full bg-amber-200 px-4 py-2 transition-all ease-in-out"
+              >
+                + Add Link
+              </button>
+            )}
             {taskList.columnOrder.map((columnId) => {
               const column = taskList.columns.find(
                 (column) => column.id === columnId,
