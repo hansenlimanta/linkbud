@@ -1,13 +1,13 @@
-import { signIn, signOut, useSession } from "next-auth/react";
+// import { signIn, signOut, useSession } from "next-auth/react";
 import Head from "next/head";
-import Link from "next/link";
+// import Link from "next/link";
 import {
   DragDropContext,
   Draggable,
   Droppable,
   DropResult,
 } from "@hello-pangea/dnd";
-import { api } from "~/utils/api";
+// import { api } from "~/utils/api";
 import Linkbud from "./linkbud";
 import { useEffect, useState } from "react";
 
@@ -16,56 +16,26 @@ type Task = {
   content: string;
 };
 
-type Column = {
-  id: string;
-  title: string;
-  taskIds: string[];
-};
-
-type TaskList = {
-  tasks: Task[];
-  columns: Column[];
-  columnOrder: string[];
-};
-
 export default function Home() {
-  const [taskList, setTaskList] = useState<TaskList>({
-    columnOrder: [],
-    columns: [],
-    tasks: [],
-  } as TaskList);
   // const hello = api.example.hello.useQuery({ text: "from tRPC" });
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [orderedTasks, setOrderedTasks] = useState<Task[]>([]);
+  const [order, setOrder] = useState<string[]>([]);
   const [isAddUrl, setIsAddUrl] = useState(false);
   useEffect(() => {
-    const initialTaskList: TaskList = {
-      tasks: [
-        { id: "task-1", content: "Take out the garbage" },
-        { id: "task-2", content: "Watch my favorite show" },
-        { id: "task-3", content: "Charge my phone" },
-        { id: "task-4", content: "Cook dinner" },
-      ] as Task[],
-      columns: [
-        {
-          id: "column-1",
-          title: "To do",
-          taskIds: ["task-1", "task-2", "task-3", "task-4"],
-        },
-        {
-          id: "column-2",
-          title: "In progress",
-          taskIds: [],
-        },
-        {
-          id: "column-3",
-          title: "Done",
-          taskIds: [],
-        },
-      ] as Column[],
-      columnOrder: ["column-1", "column-2", "column-3"],
-    };
-    setTaskList({ ...initialTaskList });
+    const initialTask: Task[] = [
+      { id: "task-1", content: "Take out the garbage" },
+      { id: "task-2", content: "Watch my favorite show" },
+      { id: "task-3", content: "Charge my phone" },
+      { id: "task-4", content: "Cook dinner" },
+    ];
+    const initialOrder: string[] = ["task-1", "task-2", "task-3", "task-4"];
+    setTasks([...initialTask]);
+    setOrderedTasks([...initialTask]);
+    setOrder([...initialOrder]);
   }, []);
   const onDragEnd = (result: DropResult) => {
+    console.log("order", order);
     const { destination, source, draggableId } = result;
     if (!destination) return;
     if (
@@ -74,13 +44,15 @@ export default function Home() {
     ) {
       return;
     }
-    const newColumns = [...taskList.columns];
-    const column = newColumns.find(
-      (column) => column.id === source.droppableId,
-    );
-    column?.taskIds.splice(source.index, 1);
-    column?.taskIds.splice(destination.index, 0, draggableId);
-    setTaskList({ ...taskList, columns: newColumns });
+    const newOrder = [...order];
+    newOrder.splice(source.index, 1);
+    newOrder.splice(destination.index, 0, draggableId);
+
+    const orderedTasks: Task[] = newOrder.map((taskId: string) => {
+      return tasks.find((task) => task.id === taskId) as Task;
+    });
+    setOrder([...newOrder]);
+    setOrderedTasks([...orderedTasks]);
   };
 
   return (
@@ -92,11 +64,11 @@ export default function Home() {
       </Head>
       <main className="flex h-screen w-screen bg-stone-100 ">
         <DragDropContext onDragEnd={onDragEnd}>
-          <div className="flex h-screen flex-auto flex-col items-center justify-start gap-12 px-4 py-16">
+          <div className="m-auto flex h-screen max-w-[600px] flex-auto flex-col items-center justify-start gap-4 py-16">
             {isAddUrl ? (
               <div
                 onClick={() => setIsAddUrl(false)}
-                className="flex w-fit flex-col justify-center rounded-lg border bg-white p-6 pt-4 align-baseline transition-all ease-in-out"
+                className="flex w-full flex-col justify-center rounded-xl border bg-white p-6 pt-4 align-baseline transition-all ease-in-out"
               >
                 <div className="flex w-full justify-end">
                   <p className="m-0 h-6 w-6 cursor-pointer rounded-full p-0 text-center text-black transition-all hover:bg-slate-100">
@@ -104,11 +76,11 @@ export default function Home() {
                   </p>
                 </div>
                 <h2 className="mb-4 text-xl font-bold">Enter URL</h2>
-                <div className="flex justify-between gap-4">
+                <div className="flex w-full justify-between gap-4">
                   <input
                     type="text"
                     placeholder="URL"
-                    className="min-w-[492px] rounded-lg border bg-stone-100 px-4 py-2"
+                    className="w-full rounded-lg border bg-stone-100 px-4 py-2"
                   />
                   <button
                     onClick={() => setIsAddUrl(false)}
@@ -126,54 +98,43 @@ export default function Home() {
                 + Add Link
               </button>
             )}
-            {taskList.columnOrder.map((columnId) => {
-              const column = taskList.columns.find(
-                (column) => column.id === columnId,
-              );
-              const tasks = column?.taskIds.map((taskId) => {
-                return taskList.tasks.find((task) => task.id === taskId);
-              });
-              return (
+            <div className="w-full">
+              <button className="rounded-full border bg-inherit px-4 py-2 hover:bg-white">
+                Add header
+              </button>
+            </div>
+            <Droppable droppableId={"drop-area"}>
+              {(provided) => (
                 <div
-                  key={column?.id}
-                  className="m-2 rounded-md border-2 border-black p-3"
+                  className="border border-gray-500 p-4"
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
                 >
-                  <h3>{column?.title}</h3>
-                  <Droppable droppableId={column ? column?.id : "1"}>
-                    {(provided) => (
-                      <div
-                        className="border border-gray-500 p-4"
-                        ref={provided.innerRef}
-                        {...provided.droppableProps}
-                      >
-                        {tasks?.map((task, index) => (
-                          <Draggable
-                            key={task?.id}
-                            draggableId={task?.id!}
-                            index={index}
-                            isDragDisabled={false}
-                          >
-                            {(provided) => (
-                              <div
-                                className="p-1"
-                                ref={provided.innerRef}
-                                {...provided.draggableProps}
-                                {...provided.dragHandleProps}
-                              >
-                                <p className="m-2 rounded-md border-2 border-gray-900 p-3">
-                                  {task?.content}
-                                </p>
-                              </div>
-                            )}
-                          </Draggable>
-                        ))}
-                        {provided.placeholder}
-                      </div>
-                    )}
-                  </Droppable>
+                  {orderedTasks?.map((task, index) => (
+                    <Draggable
+                      key={task?.id}
+                      draggableId={task?.id!}
+                      index={index}
+                      isDragDisabled={false}
+                    >
+                      {(provided) => (
+                        <div
+                          className="p-1"
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                        >
+                          <p className="m-2 rounded-md border-2 border-gray-900 p-3">
+                            {task?.content}
+                          </p>
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
                 </div>
-              );
-            })}
+              )}
+            </Droppable>
           </div>
           <div className="right-0 top-0 z-10 h-screen w-[570px] border-l px-20 py-10">
             <Linkbud />
@@ -227,26 +188,26 @@ export default function Home() {
   );
 }
 
-function AuthShowcase() {
-  const { data: sessionData } = useSession();
+// function AuthShowcase() {
+//   const { data: sessionData } = useSession();
 
-  const { data: secretMessage } = api.example.getSecretMessage.useQuery(
-    undefined, // no input
-    { enabled: sessionData?.user !== undefined },
-  );
+//   const { data: secretMessage } = api.example.getSecretMessage.useQuery(
+//     undefined, // no input
+//     { enabled: sessionData?.user !== undefined },
+//   );
 
-  return (
-    <div className="flex flex-col items-center justify-center gap-4">
-      <p className="text-center text-2xl text-white">
-        {sessionData && <span>Logged in as {sessionData.user?.name}</span>}
-        {secretMessage && <span> - {secretMessage}</span>}
-      </p>
-      <button
-        className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
-        onClick={sessionData ? () => void signOut() : () => void signIn()}
-      >
-        {sessionData ? "Sign out" : "Sign in"}
-      </button>
-    </div>
-  );
-}
+//   return (
+//     <div className="flex flex-col items-center justify-center gap-4">
+//       <p className="text-center text-2xl text-white">
+//         {sessionData && <span>Logged in as {sessionData.user?.name}</span>}
+//         {secretMessage && <span> - {secretMessage}</span>}
+//       </p>
+//       <button
+//         className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
+//         onClick={sessionData ? () => void signOut() : () => void signIn()}
+//       >
+//         {sessionData ? "Sign out" : "Sign in"}
+//       </button>
+//     </div>
+//   );
+// }
