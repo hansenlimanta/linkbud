@@ -9,7 +9,8 @@ import {
 } from "@hello-pangea/dnd";
 // import { api } from "~/utils/api";
 import Linkbud from "./linkbud";
-import { useEffect, useState } from "react";
+import { use, useEffect, useRef, useState } from "react";
+import { set } from "zod";
 
 type Task = {
   id: string;
@@ -20,8 +21,10 @@ type Task = {
 export default function Home() {
   // const hello = api.example.hello.useQuery({ text: "from tRPC" });
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [scalePercent, setScalePercent] = useState(100);
   const [order, setOrder] = useState<string[]>([]);
   const [isAddUrl, setIsAddUrl] = useState(false);
+  const previewRef = useRef<HTMLIFrameElement>(null);
   useEffect(() => {
     const initialTask: Task[] = [
       {
@@ -49,6 +52,14 @@ export default function Home() {
     setTasks([...initialTask]);
     setOrder([...initialOrder]);
   }, []);
+  useEffect(() => {
+    const preview = previewRef.current as HTMLIFrameElement;
+    const screenHeight = window.screen.height;
+    const currentHeight = preview.contentWindow?.document.body.scrollHeight;
+    if (currentHeight) {
+      setScalePercent((currentHeight / screenHeight) * 100);
+    }
+  }, [scalePercent]);
   const onDragEnd = (result: DropResult) => {
     console.log("order", order);
     const { destination, source, draggableId } = result;
@@ -176,8 +187,16 @@ export default function Home() {
               )}
             </Droppable>
           </div>
-          <div className="right-0 top-0 z-10 h-screen w-[570px] border-l px-20 py-10">
-            <Linkbud />
+          <div className="right-0 top-0 z-10 w-[570px] border-l">
+            <div
+              className={`m-auto flex h-full w-full items-center justify-center py-32 scale-${scalePercent}`}
+            >
+              <iframe
+                src="http://localhost:3000/linkbud"
+                className="h-full"
+                ref={previewRef}
+              ></iframe>
+            </div>
           </div>
         </DragDropContext>
       </main>

@@ -26,7 +26,7 @@ export default function Linkbud() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="w-full bg-teal-700">
-        <div className="flex min-h-screen flex-col items-center justify-start gap-2 bg-teal-700 px-8 py-20 text-white sm:mx-auto sm:w-96">
+        <div className="flex h-full flex-col items-center justify-start gap-2 bg-teal-700 px-8 py-20 text-white sm:mx-auto sm:w-96">
           <img
             className="h-24 rounded-full"
             src={profilePicture}
