@@ -14,24 +14,39 @@ import { useEffect, useState } from "react";
 type Task = {
   id: string;
   content: string;
+  url: string;
 };
 
 export default function Home() {
   // const hello = api.example.hello.useQuery({ text: "from tRPC" });
   const [tasks, setTasks] = useState<Task[]>([]);
-  const [orderedTasks, setOrderedTasks] = useState<Task[]>([]);
   const [order, setOrder] = useState<string[]>([]);
   const [isAddUrl, setIsAddUrl] = useState(false);
   useEffect(() => {
     const initialTask: Task[] = [
-      { id: "task-1", content: "Take out the garbage" },
-      { id: "task-2", content: "Watch my favorite show" },
-      { id: "task-3", content: "Charge my phone" },
-      { id: "task-4", content: "Cook dinner" },
+      {
+        id: "task-1",
+        content: "Take out the garbage",
+        url: "https://www.hansenlimanta.com",
+      },
+      {
+        id: "task-2",
+        content: "Watch my favorite show",
+        url: "https://www.hansenlimanta.com",
+      },
+      {
+        id: "task-3",
+        content: "Charge my phone",
+        url: "https://www.hansenlimanta.com",
+      },
+      {
+        id: "task-4",
+        content: "Cook dinner",
+        url: "https://www.hansenlimanta.com",
+      },
     ];
     const initialOrder: string[] = ["task-1", "task-2", "task-3", "task-4"];
     setTasks([...initialTask]);
-    setOrderedTasks([...initialTask]);
     setOrder([...initialOrder]);
   }, []);
   const onDragEnd = (result: DropResult) => {
@@ -48,11 +63,11 @@ export default function Home() {
     newOrder.splice(source.index, 1);
     newOrder.splice(destination.index, 0, draggableId);
 
-    const orderedTasks: Task[] = newOrder.map((taskId: string) => {
+    const newTasks: Task[] = newOrder.map((taskId: string) => {
       return tasks.find((task) => task.id === taskId) as Task;
     });
     setOrder([...newOrder]);
-    setOrderedTasks([...orderedTasks]);
+    setTasks([...newTasks]);
   };
 
   return (
@@ -93,40 +108,65 @@ export default function Home() {
             ) : (
               <button
                 onClick={() => setIsAddUrl(true)}
-                className="rounded-full bg-amber-200 px-4 py-2 transition-all ease-in-out"
+                className="w-full rounded-full bg-amber-200 px-4 py-2 font-semibold transition-all ease-in-out"
               >
                 + Add Link
               </button>
             )}
             <div className="w-full">
-              <button className="rounded-full border bg-inherit px-4 py-2 hover:bg-white">
+              <button className="rounded-full border-2 bg-inherit px-4 py-2 hover:bg-white">
                 Add header
               </button>
             </div>
             <Droppable droppableId={"drop-area"}>
               {(provided) => (
                 <div
-                  className="border border-gray-500 p-4"
+                  className="flex w-full flex-col"
                   ref={provided.innerRef}
                   {...provided.droppableProps}
                 >
-                  {orderedTasks?.map((task, index) => (
+                  {tasks.map((task, index) => (
                     <Draggable
-                      key={task?.id}
-                      draggableId={task?.id!}
+                      key={task.id}
+                      draggableId={task.id!}
                       index={index}
                       isDragDisabled={false}
                     >
                       {(provided) => (
                         <div
-                          className="p-1"
+                          className="py-2"
                           ref={provided.innerRef}
                           {...provided.draggableProps}
-                          {...provided.dragHandleProps}
                         >
-                          <p className="m-2 rounded-md border-2 border-gray-900 p-3">
-                            {task?.content}
-                          </p>
+                          <div className="flex w-full gap-2 rounded-2xl bg-white">
+                            <div
+                              className="flex w-8 flex-col items-center justify-center py-4 text-center"
+                              {...provided.dragHandleProps}
+                            >
+                              ||
+                            </div>
+                            <div className="flex w-full flex-col py-4">
+                              <input
+                                type="text"
+                                value={task.content}
+                                className="w-fit cursor-pointer font-medium focus:cursor-text focus:border-none"
+                              />
+                              <input
+                                type="text"
+                                value={task.url}
+                                className="cursor-pointer focus:cursor-text focus:border-none"
+                              />
+                            </div>
+                            <div className="gap2 flex flex-col items-center justify-center px-2 py-4">
+                              <input type="checkbox" name="" id="" />
+                              <button
+                                onClick={() => setIsAddUrl(false)}
+                                className="rounded-full bg-inherit p-2 text-sm text-red-300 transition-all hover:bg-stone-100 hover:text-red-600"
+                              >
+                                Del
+                              </button>
+                            </div>
+                          </div>
                         </div>
                       )}
                     </Draggable>
