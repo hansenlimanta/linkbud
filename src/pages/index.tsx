@@ -1,4 +1,6 @@
 import Head from "next/head";
+import Image from "next/image";
+import Link from "next/link";
 // import { signIn, signOut, useSession } from "next-auth/react";
 // import Link from "next/link";
 // import { api } from "~/utils/api";
@@ -14,11 +16,29 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="min-h-screen w-full bg-stone-100">
-        <div className="flex h-screen w-full bg-lime-600 px-24">
-          <div className="flex flex-1 flex-col items-start justify-center gap-4">
-            <h1 className="text-6xl font-extrabold">
-              Everything you are. <br />
-              In one, simple link in bio.
+        <nav className="fixed top-0 z-20 m-auto w-full">
+          <div className="mx-36 mt-12 flex max-w-[1728px] items-center justify-between rounded-full bg-white px-8 py-4">
+            <div className="flex items-center justify-start gap-6">
+              <p className="cursor-pointer px-4 text-3xl font-bold">Linkbud</p>
+              <p>Templates</p>
+              <p>Marketplace</p>
+              <p>Discover</p>
+              <p>Pricing</p>
+              <p>Learn</p>
+            </div>
+            <div>
+              <Link href="/admin">
+                <button className="rounded-full bg-pink-300 px-8 py-4 font-medium transition hover:bg-pink-400">
+                  Login
+                </button>
+              </Link>
+            </div>
+          </div>
+        </nav>
+        <div className="flex h-screen w-full bg-lime-600 px-36">
+          <div className="flex flex-1 flex-col items-start justify-center gap-6">
+            <h1 className="text-7xl font-extrabold">
+              Everything you are. In one, simple link in bio.
             </h1>
             <h2 className="text-lg font-medium">
               Join 40M+ people using Linktree for their link in bio. One link to
@@ -37,7 +57,16 @@ export default function Home() {
               </button>
             </div>
           </div>
-          <div className="flex flex-1 items-center justify-center"> testt</div>
+          <div className="flex flex-1 items-center justify-center">
+            <div className="relative h-[600px] w-[350px] rounded-lg">
+              <Image
+                alt="example"
+                src="/linkbud-example.png"
+                objectFit="cover"
+                fill
+              />
+            </div>
+          </div>
         </div>
       </main>
       {/* <main className=" flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">

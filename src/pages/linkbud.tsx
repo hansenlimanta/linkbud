@@ -29,7 +29,7 @@ export default function Linkbud() {
       </Head>
       <main className="min-h-screen w-full">
         <div className="flex flex-col items-center justify-start gap-2 px-8 py-20 text-white sm:mx-auto sm:w-96">
-          <Background theme="white" />
+          <Background theme="black" />
           <img
             className="h-24 rounded-full"
             src={profilePicture}
