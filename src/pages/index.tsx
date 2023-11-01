@@ -112,7 +112,7 @@ export default function Home() {
               ) : (
                 <button
                   onClick={() => setIsAddUrl(true)}
-                  className="w-full rounded-full bg-amber-200 px-4 py-2 font-semibold transition-all ease-in-out"
+                  className="w-full rounded-full bg-amber-200 px-4 py-2 font-semibold transition-all ease-in-out hover:bg-amber-300"
                 >
                   + Add Link
                 </button>

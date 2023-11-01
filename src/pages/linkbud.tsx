@@ -2,6 +2,8 @@
 
 import Head from "next/head";
 import { useEffect, useState } from "react";
+import Background from "~/components/Background";
+import LinkButton from "~/components/LinkButton";
 export default function Linkbud() {
   const [profilePicture, setProfilePicture] = useState("");
   useEffect(() => {
@@ -27,14 +29,7 @@ export default function Linkbud() {
       </Head>
       <main className="min-h-screen w-full">
         <div className="flex flex-col items-center justify-start gap-2 px-8 py-20 text-white sm:mx-auto sm:w-96">
-          {/* <div className="fixed left-0 top-0 -z-10 h-full w-full bg-gradient-to-br from-green-400 to-blue-500"/> */}
-          <div className="fixed left-0 top-0 -z-10 h-full w-full bg-black">
-            <img
-              className="h-full w-full object-cover opacity-50 blur-lg"
-              src={profilePicture}
-              alt="bg"
-            />
-          </div>
+          <Background theme="white" />
           <img
             className="h-24 rounded-full"
             src={profilePicture}
@@ -45,22 +40,22 @@ export default function Linkbud() {
             Description Lorem ipsum dolor sit, amet consectetur adipisicing
             elit. Eveniet, quas?
           </h2>
-          <div className="my-4 flex w-full flex-col gap-4 text-black">
-            <a href="https://www.instagram.com/hansen_limanta/" target="_blank">
-              <div className="w-100 flex cursor-pointer items-center justify-center gap-2 rounded-full border-2 border-white bg-white py-3 duration-150 ease-in-out hover:bg-transparent hover:text-white">
-                <p className="text-center">Instagram</p>
-              </div>
-            </a>
-            <a href="https://www.instagram.com/hansen_limanta/" target="_blank">
-              <div className="w-100 flex cursor-pointer items-center justify-center gap-2 rounded-full border-2 border-white bg-white py-3 duration-150 ease-in-out hover:bg-transparent hover:text-white">
-                <p className="text-center">LinkedIn</p>
-              </div>
-            </a>
-            <a href="https://www.instagram.com/hansen_limanta/" target="_blank">
-              <div className="w-100 flex cursor-pointer items-center justify-center gap-2 rounded-full border-2 border-white bg-white py-3 duration-150 ease-in-out hover:bg-transparent hover:text-white">
-                <p className="text-center">TikTok</p>
-              </div>
-            </a>
+          <div className="my-4 flex w-full flex-col gap-4">
+            <LinkButton
+              name="Instagram"
+              theme="white"
+              url="https://www.instagram.com/hansen_limanta/"
+            />
+            <LinkButton
+              name="LinkedIn"
+              theme="white"
+              url="https://www.instagram.com/hansen_limanta/"
+            />
+            <LinkButton
+              name="Tiktok"
+              theme="white"
+              url="https://www.instagram.com/hansen_limanta/"
+            />
           </div>
         </div>
       </main>
