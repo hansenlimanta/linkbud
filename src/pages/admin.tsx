@@ -10,6 +10,7 @@ import {
 // import { api } from "~/utils/api";
 import { useEffect, useState } from "react";
 import * as Switch from "@radix-ui/react-switch";
+import Link from "next/link";
 
 type Task = {
   id: string;
@@ -79,6 +80,32 @@ export default function Admin() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="min-h-screen bg-stone-100">
+        <nav className="fixed top-0 z-20 w-full p-2">
+          <div className="flex w-full items-center justify-between rounded-full bg-white px-8 py-2">
+            <div className="flex items-center justify-start gap-4">
+              <p className="cursor-pointer px-4 text-2xl font-bold">Linkbud</p>
+              <div className="cursor-pointer rounded-xl px-4 py-2 font-semibold text-gray-700 hover:bg-slate-100">
+                <p>Links</p>
+              </div>
+              <div className="cursor-pointer rounded-xl px-4 py-2 font-semibold text-gray-700 hover:bg-slate-100">
+                <p>Appearance</p>
+              </div>
+              <div className="cursor-pointer rounded-xl px-4 py-2 font-semibold text-gray-700 hover:bg-slate-100">
+                <p>Analytics</p>
+              </div>
+              <div className="cursor-pointer rounded-xl px-4 py-2 font-semibold text-gray-700 hover:bg-slate-100">
+                <p>Settings</p>
+              </div>
+            </div>
+            <div>
+              <Link href="/admin">
+                <button className="rounded-full bg-pink-300 px-4 py-3 font-medium transition hover:bg-pink-400">
+                  Login
+                </button>
+              </Link>
+            </div>
+          </div>
+        </nav>
         <DragDropContext onDragEnd={onDragEnd}>
           <div className="!ml-0 mr-[570px] overflow-x-auto">
             <div className="mt-20 w-full px-6">
@@ -202,7 +229,6 @@ export default function Admin() {
                   </div>
                 )}
               </Droppable>
-              <div className="h-[5000px] w-full bg-green-400"></div>
             </div>
           </div>
           <div className="fixed right-0 top-0 z-10 h-screen w-[570px] border-l">
