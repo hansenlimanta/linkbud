@@ -31,7 +31,7 @@ export default function Linkbud() {
         <div className="flex flex-col items-center justify-start gap-2 px-8 py-20 text-white sm:mx-auto sm:w-96">
           <Background theme="black" />
           <img
-            className="h-24 rounded-full"
+            className="h-20 rounded-full"
             src={profilePicture}
             alt="profile picture"
           />

@@ -62,7 +62,7 @@ export default function Home() {
               <Image
                 alt="example"
                 src="/linkbud-example.png"
-                objectFit="cover"
+                className="object-cover"
                 fill
               />
             </div>
