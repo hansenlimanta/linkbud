@@ -3,6 +3,10 @@ import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 // import { signIn, signOut, useSession } from "next-auth/react";
 // import Link from "next/link";
 // import { api } from "~/utils/api";
+import { FiTrash2 } from "react-icons/fi";
+import { PiDotsSixVerticalLight } from "react-icons/pi";
+import { RiLayoutTop2Line } from "react-icons/ri";
+import { GoPencil } from "react-icons/go";
 import { useState } from "react";
 import * as Switch from "@radix-ui/react-switch";
 import AdminNav from "~/components/AdminNav";
@@ -83,7 +87,8 @@ export default function Admin() {
                 </button>
               )}
               <div className="w-full">
-                <button className="rounded-full border-2 bg-inherit px-4 py-2 hover:bg-white">
+                <button className="flex items-center justify-center gap-2 rounded-full border-2 bg-inherit px-4 py-2 hover:bg-white">
+                  <RiLayoutTop2Line />
                   Add header
                 </button>
               </div>
@@ -112,7 +117,7 @@ export default function Admin() {
                                 className="flex w-8 flex-col items-center justify-center py-4 text-center"
                                 {...provided.dragHandleProps}
                               >
-                                ||
+                                <PiDotsSixVerticalLight size={20} />
                               </div>
                               <div className="flex w-full flex-col py-4">
                                 <input
@@ -120,13 +125,14 @@ export default function Admin() {
                                   value={task.name}
                                   className="w-fit cursor-pointer font-medium focus:cursor-text focus:border-none"
                                 />
+                                <GoPencil />
                                 <input
                                   type="text"
                                   value={task.url}
                                   className="cursor-pointer focus:cursor-text focus:border-none"
                                 />
                               </div>
-                              <div className="gap2 flex flex-col items-center justify-center px-2 py-4">
+                              <div className="flex flex-col items-center justify-center gap-2 px-2 py-4">
                                 <Switch.Root className="group relative h-6 w-10 rounded-full bg-gray-500 aria-checked:bg-green-700">
                                   <Switch.Thumb className="block h-5 w-5 translate-x-0.5 rounded-full bg-white transition-transform will-change-transform group-aria-checked:translate-x-[18px]" />
                                 </Switch.Root>
@@ -134,7 +140,7 @@ export default function Admin() {
                                   onClick={() => setIsAddUrl(false)}
                                   className="rounded-full bg-inherit p-2 text-sm text-red-300 transition-all hover:bg-stone-100 hover:text-red-600"
                                 >
-                                  Del
+                                  <FiTrash2 />
                                 </button>
                               </div>
                             </div>
