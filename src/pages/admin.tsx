@@ -117,7 +117,7 @@ export default function Admin() {
                               <div className="flex w-full flex-col py-4">
                                 <input
                                   type="text"
-                                  value={task.content}
+                                  value={task.name}
                                   className="w-fit cursor-pointer font-medium focus:cursor-text focus:border-none"
                                 />
                                 <input

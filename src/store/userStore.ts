@@ -3,7 +3,7 @@ import { create } from "zustand";
 
 type Link = {
   id: string;
-  content: string;
+  name: string;
   url: string;
 };
 
@@ -19,27 +19,27 @@ type Action = {
 export const useUserStore = create<State & Action>((set) => ({
   links: [
     {
-      id: "task-1",
-      content: "Take out the garbage",
+      id: "link-1",
+      name: "Portfolio",
       url: "https://www.hansenlimanta.com",
     },
     {
-      id: "task-2",
-      content: "Watch my favorite show",
+      id: "link-2",
+      name: "Instagram",
       url: "https://www.hansenlimanta.com",
     },
     {
-      id: "task-3",
-      content: "Charge my phone",
+      id: "link-3",
+      name: "LinkedIn",
       url: "https://www.hansenlimanta.com",
     },
     {
-      id: "task-4",
-      content: "Cook dinner",
+      id: "link-4",
+      name: "Tiktok",
       url: "https://www.hansenlimanta.com",
     },
   ],
-  order: ["task-1", "task-2", "task-3", "task-4"],
+  order: ["link-1", "link-2", "link-3", "link-4"],
   updateOrders: (result) =>
     set((state: State) => {
       const { destination, source, draggableId } = result;

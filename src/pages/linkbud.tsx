@@ -4,7 +4,9 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import Background from "~/components/Background";
 import LinkButton from "~/components/LinkButton";
+import { useUserStore } from "~/store/userStore";
 export default function Linkbud() {
+  const links = useUserStore((state) => state.links);
   const [profilePicture, setProfilePicture] = useState("");
   useEffect(() => {
     getProfilePicture();
@@ -14,8 +16,6 @@ export default function Linkbud() {
     fetch("https://randomuser.me/api/")
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.results[0].picture.large);
-
         setProfilePicture(data.results[0].picture.large);
       });
   }
@@ -41,21 +41,14 @@ export default function Linkbud() {
             elit. Eveniet, quas?
           </h2>
           <div className="my-4 flex w-full flex-col gap-4">
-            <LinkButton
-              name="Instagram"
-              theme="white"
-              url="https://www.instagram.com/hansen_limanta/"
-            />
-            <LinkButton
-              name="LinkedIn"
-              theme="white"
-              url="https://www.instagram.com/hansen_limanta/"
-            />
-            <LinkButton
-              name="Tiktok"
-              theme="white"
-              url="https://www.instagram.com/hansen_limanta/"
-            />
+            {links.map((link) => (
+              <LinkButton
+                key={link.id}
+                name={link.name}
+                theme="white"
+                url={link.url}
+              />
+            ))}
           </div>
         </div>
       </main>
