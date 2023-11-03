@@ -1,76 +1,18 @@
 import Head from "next/head";
-import {
-  DragDropContext,
-  Draggable,
-  Droppable,
-  DropResult,
-} from "@hello-pangea/dnd";
+import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 // import { signIn, signOut, useSession } from "next-auth/react";
 // import Link from "next/link";
 // import { api } from "~/utils/api";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import * as Switch from "@radix-ui/react-switch";
-import Link from "next/link";
-
-type Task = {
-  id: string;
-  content: string;
-  url: string;
-};
+import AdminNav from "~/components/AdminNav";
+import { useUserStore } from "~/store/userStore";
 
 export default function Admin() {
   // const hello = api.example.hello.useQuery({ text: "from tRPC" });
-  const [tasks, setTasks] = useState<Task[]>([]);
-  const [order, setOrder] = useState<string[]>([]);
+  const links = useUserStore((state) => state.links);
+  const updateOrders = useUserStore((state) => state.updateOrders);
   const [isAddUrl, setIsAddUrl] = useState(false);
-
-  useEffect(() => {
-    const initialTask: Task[] = [
-      {
-        id: "task-1",
-        content: "Take out the garbage",
-        url: "https://www.hansenlimanta.com",
-      },
-      {
-        id: "task-2",
-        content: "Watch my favorite show",
-        url: "https://www.hansenlimanta.com",
-      },
-      {
-        id: "task-3",
-        content: "Charge my phone",
-        url: "https://www.hansenlimanta.com",
-      },
-      {
-        id: "task-4",
-        content: "Cook dinner",
-        url: "https://www.hansenlimanta.com",
-      },
-    ];
-    const initialOrder: string[] = ["task-1", "task-2", "task-3", "task-4"];
-    setTasks([...initialTask]);
-    setOrder([...initialOrder]);
-  }, []);
-  const onDragEnd = (result: DropResult) => {
-    console.log("order", order);
-    const { destination, source, draggableId } = result;
-    if (!destination) return;
-    if (
-      destination.droppableId === source.droppableId &&
-      destination.index === source.index
-    ) {
-      return;
-    }
-    const newOrder = [...order];
-    newOrder.splice(source.index, 1);
-    newOrder.splice(destination.index, 0, draggableId);
-
-    const newTasks: Task[] = newOrder.map((taskId: string) => {
-      return tasks.find((task) => task.id === taskId) as Task;
-    });
-    setOrder([...newOrder]);
-    setTasks([...newTasks]);
-  };
 
   return (
     <>
@@ -80,33 +22,8 @@ export default function Admin() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="min-h-screen bg-stone-100">
-        <nav className="fixed top-0 z-20 w-full p-2">
-          <div className="flex w-full items-center justify-between rounded-full bg-white px-8 py-2">
-            <div className="flex items-center justify-start gap-4">
-              <p className="cursor-pointer px-4 text-2xl font-bold">Linkbud</p>
-              <div className="cursor-pointer rounded-xl px-4 py-2 font-semibold text-gray-700 hover:bg-slate-100">
-                <p>Links</p>
-              </div>
-              <div className="cursor-pointer rounded-xl px-4 py-2 font-semibold text-gray-700 hover:bg-slate-100">
-                <p>Appearance</p>
-              </div>
-              <div className="cursor-pointer rounded-xl px-4 py-2 font-semibold text-gray-700 hover:bg-slate-100">
-                <p>Analytics</p>
-              </div>
-              <div className="cursor-pointer rounded-xl px-4 py-2 font-semibold text-gray-700 hover:bg-slate-100">
-                <p>Settings</p>
-              </div>
-            </div>
-            <div>
-              <Link href="/admin">
-                <button className="rounded-full bg-pink-300 px-4 py-3 font-medium transition hover:bg-pink-400">
-                  Login
-                </button>
-              </Link>
-            </div>
-          </div>
-        </nav>
-        <DragDropContext onDragEnd={onDragEnd}>
+        <AdminNav />
+        <DragDropContext onDragEnd={(e) => updateOrders(e)}>
           <div className="!ml-0 mr-[570px] overflow-x-auto">
             <div className="mt-20 w-full px-6">
               <div className="flex h-20 w-full items-center justify-between rounded-3xl bg-blue-100 px-4 shadow">
@@ -177,7 +94,7 @@ export default function Admin() {
                     ref={provided.innerRef}
                     {...provided.droppableProps}
                   >
-                    {tasks.map((task, index) => (
+                    {links.map((task, index) => (
                       <Draggable
                         key={task.id}
                         draggableId={task.id!}
