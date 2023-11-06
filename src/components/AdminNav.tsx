@@ -21,9 +21,7 @@ const AdminNav = () => {
         </div>
         <div>
           <Link href="/admin">
-            <button className="rounded-full bg-pink-300 px-4 py-3 font-medium transition hover:bg-pink-400">
-              Login
-            </button>
+            <div className="h-10 w-10 rounded-full bg-pink-300 font-medium transition hover:bg-pink-400" />
           </Link>
         </div>
       </div>
