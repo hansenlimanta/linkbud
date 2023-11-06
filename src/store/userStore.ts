@@ -1,7 +1,7 @@
 import { DropResult } from "@hello-pangea/dnd";
 import { create } from "zustand";
 
-type Link = {
+export type Link = {
   id: string;
   name: string;
   url: string;
@@ -14,6 +14,7 @@ type State = {
 
 type Action = {
   updateOrders: (result: DropResult) => void;
+  addLink: (link: Link) => void;
 };
 
 export const useUserStore = create<State & Action>((set) => ({
@@ -41,7 +42,7 @@ export const useUserStore = create<State & Action>((set) => ({
   ],
   order: ["link-1", "link-2", "link-3", "link-4"],
   updateOrders: (result) =>
-    set((state: State) => {
+    set((state) => {
       const { destination, source, draggableId } = result;
       if (!destination) return { ...state };
       if (
@@ -60,4 +61,9 @@ export const useUserStore = create<State & Action>((set) => ({
 
       return { links: newLinks, order: newOrder };
     }),
+  addLink: (link) =>
+    set((state) => ({
+      links: [link, ...state.links],
+      order: [link.id, ...state.order],
+    })),
 }));
