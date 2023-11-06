@@ -7,6 +7,7 @@ import { FiTrash2 } from "react-icons/fi";
 import { PiDotsSixVerticalLight } from "react-icons/pi";
 import { RiLayoutTop2Line } from "react-icons/ri";
 import { GoPencil } from "react-icons/go";
+import { RxCross2 } from "react-icons/rx";
 import { useState } from "react";
 import * as Switch from "@radix-ui/react-switch";
 import AdminNav from "~/components/AdminNav";
@@ -15,6 +16,7 @@ import { Link, useUserStore } from "~/store/userStore";
 export default function Admin() {
   // const hello = api.example.hello.useQuery({ text: "from tRPC" });
   const addLink = useUserStore((state) => state.addLink);
+  const removeLink = useUserStore((state) => state.removeLink);
   const [inputUrl, setInputUrl] = useState("");
   const [isAddUrl, setIsAddUrl] = useState(false);
   const links = useUserStore((state) => state.links);
@@ -68,14 +70,18 @@ export default function Admin() {
             </div>
             <div className="m-auto flex min-h-screen max-w-[620px] flex-auto flex-col items-center justify-start gap-4 py-14">
               {isAddUrl ? (
-                <div className="flex w-full flex-col justify-center rounded-xl border bg-white p-6 pt-4 align-baseline transition-all ease-in-out">
-                  <div className="flex w-full justify-end">
-                    <p className="m-0 h-6 w-6 cursor-pointer rounded-full p-0 text-center text-black transition-all hover:bg-slate-100">
-                      x
-                    </p>
+                <div className="relative flex w-full flex-col justify-center rounded-xl border bg-white p-6 align-baseline transition-all ease-in-out">
+                  <div
+                    className="absolute right-2 top-2 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full p-2 transition-all hover:bg-slate-100"
+                    onClick={() => setIsAddUrl(false)}
+                  >
+                    <RxCross2 />
                   </div>
                   <h2 className="mb-4 text-xl font-bold">Enter URL</h2>
-                  <div className="flex w-full justify-between gap-4">
+                  <form
+                    onSubmit={handleSubmitUrl}
+                    className="flex w-full justify-between gap-4"
+                  >
                     <input
                       value={inputUrl}
                       onChange={(e) => setInputUrl(e.target.value)}
@@ -83,13 +89,10 @@ export default function Admin() {
                       placeholder="URL"
                       className="w-full rounded-lg border bg-stone-100 px-4 py-2"
                     />
-                    <button
-                      onClick={handleSubmitUrl}
-                      className="rounded-full border bg-stone-50 px-5 py-2 transition-all hover:bg-stone-200"
-                    >
+                    <button className="rounded-full border bg-stone-50 px-5 py-2 transition-all hover:bg-stone-200">
                       Add
                     </button>
-                  </div>
+                  </form>
                 </div>
               ) : (
                 <button
@@ -150,7 +153,7 @@ export default function Admin() {
                                   <Switch.Thumb className="block h-5 w-5 translate-x-0.5 rounded-full bg-white transition-transform will-change-transform group-aria-checked:translate-x-[18px]" />
                                 </Switch.Root>
                                 <button
-                                  onClick={() => setIsAddUrl(false)}
+                                  onClick={() => removeLink(task.id)}
                                   className="rounded-full bg-inherit p-2 text-sm text-red-300 transition-all hover:bg-stone-100 hover:text-red-600"
                                 >
                                   <FiTrash2 />

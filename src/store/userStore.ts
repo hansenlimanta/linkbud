@@ -15,6 +15,7 @@ type State = {
 type Action = {
   updateOrders: (result: DropResult) => void;
   addLink: (link: Link) => void;
+  removeLink: (id: string) => void;
 };
 
 export const useUserStore = create<State & Action>((set) => ({
@@ -66,4 +67,10 @@ export const useUserStore = create<State & Action>((set) => ({
       links: [link, ...state.links],
       order: [link.id, ...state.order],
     })),
+  removeLink: (id) =>
+    set((state) => {
+      const newLinks = state.links.filter((link) => link.id !== id);
+      const newOrder = state.order.filter((linkId) => linkId !== id);
+      return { links: newLinks, order: newOrder };
+    }),
 }));
