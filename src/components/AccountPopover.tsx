@@ -1,86 +1,64 @@
 import React from "react";
 import * as Popover from "@radix-ui/react-popover";
+import { RiAccountBoxLine } from "react-icons/ri";
+import { AiOutlineExclamationCircle, AiOutlineDollar } from "react-icons/ai";
+import { PiChatsLight, PiSignOutLight } from "react-icons/pi";
 
-const PopoverDemo = () => (
+const AccountPopover = () => (
   <Popover.Root>
     <Popover.Trigger asChild>
       <div
-        className="text-violet11 shadow-blackA4 hover:bg-violet3 inline-flex h-10 w-10 cursor-default items-center justify-center rounded-full bg-pink-300 shadow-[0_2px_10px] outline-none transition hover:bg-pink-400 focus:shadow-[0_0_0_2px] focus:shadow-black"
+        className="text-violet11 shadow-blackA4 hover:bg-violet3 inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-pink-300 shadow-md outline-none transition hover:bg-pink-400 focus:shadow-[0_0_0_2px] focus:shadow-black"
         aria-label="Update dimensions"
       />
     </Popover.Trigger>
     <Popover.Portal>
       <Popover.Content
-        className="data-[state=open]:data-[side=top]:animate-slideDownAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade w-[260px] rounded bg-white p-5 shadow-[0_10px_38px_-10px_hsla(206,22%,7%,.35),0_10px_20px_-15px_hsla(206,22%,7%,.2)] will-change-[transform,opacity] focus:shadow-[0_10px_38px_-10px_hsla(206,22%,7%,.35),0_10px_20px_-15px_hsla(206,22%,7%,.2),0_0_0_2px_theme(colors.violet7)]"
+        className="data-[state=open]:data-[side=top]:animate-slideDownAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade z-50 mr-8 w-[350px] min-w-fit rounded-2xl border bg-white p-2 shadow-[0_10px_38px_-10px_hsla(206,22%,7%,.35),0_10px_20px_-15px_hsla(206,22%,7%,.2)] transition will-change-[transform,opacity] focus:shadow-[0_10px_38px_-10px_hsla(206,22%,7%,.35),0_10px_20px_-15px_hsla(206,22%,7%,.2),0_0_0_2px_theme(colors.violet7)]"
         sideOffset={5}
       >
-        <div className="flex flex-col gap-2.5">
-          <p className="text-mauve12 mb-2.5 text-[15px] font-medium leading-[19px]">
-            Dimensions
-          </p>
-          <fieldset className="flex items-center gap-5">
-            <label
-              className="text-violet11 w-[75px] text-[13px]"
-              htmlFor="width"
-            >
-              Width
-            </label>
-            <input
-              className="text-violet11 shadow-violet7 focus:shadow-violet8 inline-flex h-[25px] w-full flex-1 items-center justify-center rounded px-2.5 text-[13px] leading-none shadow-[0_0_0_1px] outline-none focus:shadow-[0_0_0_2px]"
-              id="width"
-              defaultValue="100%"
-            />
-          </fieldset>
-          <fieldset className="flex items-center gap-5">
-            <label
-              className="text-violet11 w-[75px] text-[13px]"
-              htmlFor="maxWidth"
-            >
-              Max. width
-            </label>
-            <input
-              className="text-violet11 shadow-violet7 focus:shadow-violet8 inline-flex h-[25px] w-full flex-1 items-center justify-center rounded px-2.5 text-[13px] leading-none shadow-[0_0_0_1px] outline-none focus:shadow-[0_0_0_2px]"
-              id="maxWidth"
-              defaultValue="300px"
-            />
-          </fieldset>
-          <fieldset className="flex items-center gap-5">
-            <label
-              className="text-violet11 w-[75px] text-[13px]"
-              htmlFor="height"
-            >
-              Height
-            </label>
-            <input
-              className="text-violet11 shadow-violet7 focus:shadow-violet8 inline-flex h-[25px] w-full flex-1 items-center justify-center rounded px-2.5 text-[13px] leading-none shadow-[0_0_0_1px] outline-none focus:shadow-[0_0_0_2px]"
-              id="height"
-              defaultValue="25px"
-            />
-          </fieldset>
-          <fieldset className="flex items-center gap-5">
-            <label
-              className="text-violet11 w-[75px] text-[13px]"
-              htmlFor="maxHeight"
-            >
-              Max. height
-            </label>
-            <input
-              className="text-violet11 shadow-violet7 focus:shadow-violet8 inline-flex h-[25px] w-full flex-1 items-center justify-center rounded px-2.5 text-[13px] leading-none shadow-[0_0_0_1px] outline-none focus:shadow-[0_0_0_2px]"
-              id="maxHeight"
-              defaultValue="none"
-            />
-          </fieldset>
+        <div className="flex flex-col gap-1">
+          <div className="flex items-center justify-start gap-4 p-4">
+            <div className="h-12 w-12 rounded-full bg-pink-300" />
+            <div className="flex flex-col items-start justify-center">
+              <p className="text-lg font-semibold">@hansenlimanta</p>
+              <p className="text-sm text-gray-400">link.bud/hansenlimanta</p>
+            </div>
+          </div>
+          <p className="px-4 font-bold text-gray-500">Account</p>
+          <div className="flex cursor-pointer items-center justify-start gap-4 rounded-lg p-4 hover:bg-slate-100">
+            <RiAccountBoxLine size={25} />
+            <p>My account</p>
+          </div>
+          <div className="flex cursor-pointer items-center justify-start gap-4 rounded-lg p-4 hover:bg-slate-100">
+            <AiOutlineDollar size={25} />
+            <p>Billing</p>
+          </div>
+          <div className="flex cursor-pointer items-center justify-start gap-4 rounded-lg p-4 hover:bg-slate-100">
+            <AiOutlineExclamationCircle size={25} />
+            <p>Cookie preference</p>
+          </div>
+          <p className="px-4 font-bold text-gray-500">Support</p>
+          <div className="flex cursor-pointer items-center justify-start gap-4 rounded-lg p-4 hover:bg-slate-100">
+            <AiOutlineExclamationCircle size={25} />
+            <p>Ask a question</p>
+          </div>
+          <div className="flex cursor-pointer items-center justify-start gap-4 rounded-lg p-4 hover:bg-slate-100">
+            <RiAccountBoxLine size={25} />
+            <p>Help topics</p>
+          </div>
+          <div className="flex cursor-pointer items-center justify-start gap-4 rounded-lg p-4 hover:bg-slate-100">
+            <PiChatsLight size={25} />
+            <p>Submit feedback</p>
+          </div>
+          <div className="mt-2 flex cursor-pointer items-center justify-start gap-4 rounded-lg p-4 hover:bg-slate-100">
+            <PiSignOutLight size={25} />
+            <p>Sign out</p>
+          </div>
         </div>
-        <Popover.Close
-          className="text-violet11 hover:bg-violet4 focus:shadow-violet7 absolute right-[5px] top-[5px] inline-flex h-[25px] w-[25px] cursor-default items-center justify-center rounded-full outline-none focus:shadow-[0_0_0_2px]"
-          aria-label="Close"
-        >
-          {/* <RxCross2 /> */}
-        </Popover.Close>
-        <Popover.Arrow className="fill-white" />
       </Popover.Content>
     </Popover.Portal>
   </Popover.Root>
 );
 
-export default PopoverDemo;
+export default AccountPopover;

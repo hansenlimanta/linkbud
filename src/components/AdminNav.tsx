@@ -1,4 +1,5 @@
 import Link from "next/link";
+import AccountPopover from "./AccountPopover";
 
 const AdminNav = () => {
   return (
@@ -20,9 +21,7 @@ const AdminNav = () => {
           </div>
         </div>
         <div>
-          <Link href="/admin">
-            <div className="h-10 w-10 rounded-full bg-pink-300 font-medium transition hover:bg-pink-400" />
-          </Link>
+          <AccountPopover />
         </div>
       </div>
     </nav>

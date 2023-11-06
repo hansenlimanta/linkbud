@@ -66,6 +66,7 @@ export default function Admin() {
                   <h2 className="mb-4 text-xl font-bold">Enter URL</h2>
                   <div className="flex w-full justify-between gap-4">
                     <input
+                      defaultValue={""}
                       type="text"
                       placeholder="URL"
                       className="w-full rounded-lg border bg-stone-100 px-4 py-2"
@@ -121,12 +122,14 @@ export default function Admin() {
                               </div>
                               <div className="flex w-full flex-col py-4">
                                 <input
+                                  defaultValue={""}
                                   type="text"
                                   value={task.name}
                                   className="w-fit cursor-pointer font-medium focus:cursor-text focus:border-none"
                                 />
                                 <GoPencil />
                                 <input
+                                  defaultValue={""}
                                   type="text"
                                   value={task.url}
                                   className="cursor-pointer focus:cursor-text focus:border-none"
