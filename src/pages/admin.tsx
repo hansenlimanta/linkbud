@@ -12,6 +12,7 @@ import { useState } from "react";
 import * as Switch from "@radix-ui/react-switch";
 import AdminNav from "~/components/AdminNav";
 import { Link, useUserStore } from "~/store/userStore";
+import DraggableLink from "~/components/DraggableLink";
 
 export default function Admin() {
   // const hello = api.example.hello.useQuery({ text: "from tRPC" });
@@ -115,54 +116,8 @@ export default function Admin() {
                     ref={provided.innerRef}
                     {...provided.droppableProps}
                   >
-                    {links.map((task, index) => (
-                      <Draggable
-                        key={task.id}
-                        draggableId={task.id!}
-                        index={index}
-                        isDragDisabled={false}
-                      >
-                        {(provided) => (
-                          <div
-                            className="py-2"
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                          >
-                            <div className="flex w-full gap-2 rounded-2xl bg-white">
-                              <div
-                                className="flex w-8 flex-col items-center justify-center py-4 text-center"
-                                {...provided.dragHandleProps}
-                              >
-                                <PiDotsSixVerticalLight size={20} />
-                              </div>
-                              <div className="flex w-full flex-col py-4">
-                                <input
-                                  defaultValue={task.name}
-                                  type="text"
-                                  className="w-fit cursor-pointer font-medium focus:cursor-text focus:border-none"
-                                />
-                                <GoPencil />
-                                <input
-                                  defaultValue={task.url}
-                                  type="text"
-                                  className="cursor-pointer focus:cursor-text focus:border-none"
-                                />
-                              </div>
-                              <div className="flex flex-col items-center justify-center gap-2 px-2 py-4">
-                                <Switch.Root className="group relative h-6 w-10 rounded-full bg-gray-500 aria-checked:bg-green-700">
-                                  <Switch.Thumb className="block h-5 w-5 translate-x-0.5 rounded-full bg-white transition-transform will-change-transform group-aria-checked:translate-x-[18px]" />
-                                </Switch.Root>
-                                <button
-                                  onClick={() => removeLink(task.id)}
-                                  className="rounded-full bg-inherit p-2 text-sm text-red-300 transition-all hover:bg-stone-100 hover:text-red-600"
-                                >
-                                  <FiTrash2 />
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        )}
-                      </Draggable>
+                    {links.map((link, index) => (
+                      <DraggableLink link={link} index={index} />
                     ))}
                     {provided.placeholder}
                   </div>
