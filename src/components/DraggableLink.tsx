@@ -42,7 +42,7 @@ const DraggableLink: FC<DraggableLinkProps> = ({ link, index }) => {
     setIsEditUrl(true);
   };
 
-  const handleInput = (input: string, type: string) => {
+  const handleInput = (input: string, type: string, isActive: boolean) => {
     const updatedLink: Link = { ...link };
     switch (type) {
       case "url":
@@ -51,6 +51,8 @@ const DraggableLink: FC<DraggableLinkProps> = ({ link, index }) => {
       case "title":
         updatedLink.title = input;
         break;
+      case "isActive":
+        updatedLink.isActive = isActive;
     }
     updateLink(updatedLink);
   };
@@ -87,7 +89,9 @@ const DraggableLink: FC<DraggableLinkProps> = ({ link, index }) => {
                 >
                   <input
                     value={link.title}
-                    onChange={(e) => handleInput(e.target.value, "title")}
+                    onChange={(e) =>
+                      handleInput(e.target.value, "title", link.isActive)
+                    }
                     type="text"
                     ref={titleRef}
                     className="w-full text-sm font-normal focus:outline-none"
@@ -124,7 +128,9 @@ const DraggableLink: FC<DraggableLinkProps> = ({ link, index }) => {
                 >
                   <input
                     value={link.url}
-                    onChange={(e) => handleInput(e.target.value, "url")}
+                    onChange={(e) =>
+                      handleInput(e.target.value, "url", link.isActive)
+                    }
                     type="text"
                     ref={urlRef}
                     className="w-full text-sm font-normal focus:outline-none"
@@ -152,7 +158,11 @@ const DraggableLink: FC<DraggableLinkProps> = ({ link, index }) => {
               </div>
             </div>
             <div className="flex flex-col items-center justify-center gap-2 px-2 py-4">
-              <Switch.Root className="group relative h-6 w-10 rounded-full bg-gray-500 aria-checked:bg-green-700">
+              <Switch.Root
+                checked={link.isActive}
+                onCheckedChange={(e) => handleInput("", "isActive", e)}
+                className="group relative h-6 w-10 rounded-full bg-gray-500 aria-checked:bg-green-700"
+              >
                 <Switch.Thumb className="block h-5 w-5 translate-x-0.5 rounded-full bg-white transition-transform will-change-transform group-aria-checked:translate-x-[18px]" />
               </Switch.Root>
               <button

@@ -3,15 +3,11 @@ import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 // import { signIn, signOut, useSession } from "next-auth/react";
 // import Link from "next/link";
 // import { api } from "~/utils/api";
-import { FiTrash2 } from "react-icons/fi";
-import { PiDotsSixVerticalLight } from "react-icons/pi";
 import { RiLayoutTop2Line } from "react-icons/ri";
-import { GoPencil } from "react-icons/go";
 import { RxCross2 } from "react-icons/rx";
 import { useState } from "react";
-import * as Switch from "@radix-ui/react-switch";
 import AdminNav from "~/components/AdminNav";
-import { Link, useUserStore } from "~/store/userStore";
+import { Link, LinkType, useUserStore } from "~/store/userStore";
 import DraggableLink from "~/components/DraggableLink";
 
 export default function Admin() {
@@ -27,6 +23,8 @@ export default function Admin() {
       id: Math.floor(Math.random() * 100000000).toString(),
       title: "Test",
       url: inputUrl,
+      isActive: true,
+      type: LinkType.Link,
     };
     console.log(newLink);
 

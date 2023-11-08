@@ -1,11 +1,17 @@
 import { DropResult } from "@hello-pangea/dnd";
-import { link } from "fs";
 import { create } from "zustand";
+
+export enum LinkType {
+  Header = "HEADER",
+  Link = "LINK",
+}
 
 export type Link = {
   id: string;
   title: string;
   url: string;
+  isActive: boolean;
+  type: LinkType;
 };
 
 type State = {
@@ -26,21 +32,29 @@ export const useUserStore = create<State & Action>((set) => ({
       id: "link-1",
       title: "Portfolio",
       url: "https://www.hansenlimanta.com",
+      isActive: true,
+      type: LinkType.Link,
     },
     {
       id: "link-2",
       title: "Instagram",
       url: "https://www.hansenlimanta.com",
+      isActive: true,
+      type: LinkType.Link,
     },
     {
       id: "link-3",
       title: "LinkedIn",
       url: "https://www.hansenlimanta.com",
+      isActive: true,
+      type: LinkType.Link,
     },
     {
       id: "link-4",
       title: "Tiktok",
       url: "https://www.hansenlimanta.com",
+      isActive: true,
+      type: LinkType.Link,
     },
   ],
   order: ["link-1", "link-2", "link-3", "link-4"],
