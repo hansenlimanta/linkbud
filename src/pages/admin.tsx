@@ -9,11 +9,11 @@ import { useState } from "react";
 import AdminNav from "~/components/AdminNav";
 import { Link, LinkType, useUserStore } from "~/store/userStore";
 import DraggableLink from "~/components/DraggableLink";
+import DraggableHeader from "~/components/DraggableHeader";
 
 export default function Admin() {
   // const hello = api.example.hello.useQuery({ text: "from tRPC" });
   const addLink = useUserStore((state) => state.addLink);
-  const removeLink = useUserStore((state) => state.removeLink);
   const [inputUrl, setInputUrl] = useState("");
   const [isAddUrl, setIsAddUrl] = useState(false);
   const links = useUserStore((state) => state.links);
@@ -24,13 +24,25 @@ export default function Admin() {
       title: "Test",
       url: inputUrl,
       isActive: true,
-      type: LinkType.Link,
+      type: LinkType.Classic,
     };
     console.log(newLink);
 
     addLink(newLink);
     setInputUrl("");
     setIsAddUrl(false);
+  };
+  const handleAddHeader = () => {
+    const newLink: Link = {
+      id: Math.floor(Math.random() * 100000000).toString(),
+      title: "Test",
+      url: "",
+      isActive: true,
+      type: LinkType.Header,
+    };
+    console.log(newLink);
+
+    addLink(newLink);
   };
 
   return (
@@ -102,7 +114,10 @@ export default function Admin() {
                 </button>
               )}
               <div className="w-full">
-                <button className="flex items-center justify-center gap-2 rounded-full border-2 bg-inherit px-4 py-2 hover:bg-white">
+                <button
+                  onClick={handleAddHeader}
+                  className="flex items-center justify-center gap-2 rounded-full border-2 bg-inherit px-4 py-2 hover:bg-white"
+                >
                   <RiLayoutTop2Line />
                   Add header
                 </button>
@@ -114,9 +129,25 @@ export default function Admin() {
                     ref={provided.innerRef}
                     {...provided.droppableProps}
                   >
-                    {links.map((link, index) => (
-                      <DraggableLink key={link.id} link={link} index={index} />
-                    ))}
+                    {links.map((link, index) => {
+                      if (link.type === LinkType.Header) {
+                        return (
+                          <DraggableHeader
+                            key={link.id}
+                            link={link}
+                            index={index}
+                          />
+                        );
+                      } else {
+                        return (
+                          <DraggableLink
+                            key={link.id}
+                            link={link}
+                            index={index}
+                          />
+                        );
+                      }
+                    })}
                     {provided.placeholder}
                   </div>
                 )}

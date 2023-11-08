@@ -3,7 +3,7 @@ import { create } from "zustand";
 
 export enum LinkType {
   Header = "HEADER",
-  Link = "LINK",
+  Classic = "CLASSIC",
 }
 
 export type Link = {
@@ -29,35 +29,42 @@ type Action = {
 export const useUserStore = create<State & Action>((set) => ({
   links: [
     {
+      id: "header-1",
+      title: "Portfolio",
+      url: "",
+      isActive: true,
+      type: LinkType.Header,
+    },
+    {
       id: "link-1",
       title: "Portfolio",
       url: "https://www.hansenlimanta.com",
       isActive: true,
-      type: LinkType.Link,
+      type: LinkType.Classic,
     },
     {
       id: "link-2",
       title: "Instagram",
       url: "https://www.hansenlimanta.com",
       isActive: true,
-      type: LinkType.Link,
+      type: LinkType.Classic,
     },
     {
       id: "link-3",
       title: "LinkedIn",
       url: "https://www.hansenlimanta.com",
       isActive: true,
-      type: LinkType.Link,
+      type: LinkType.Classic,
     },
     {
       id: "link-4",
       title: "Tiktok",
       url: "https://www.hansenlimanta.com",
       isActive: true,
-      type: LinkType.Link,
+      type: LinkType.Classic,
     },
   ],
-  order: ["link-1", "link-2", "link-3", "link-4"],
+  order: ["header-1", "link-1", "link-2", "link-3", "link-4"],
   updateOrders: (result) =>
     set((state) => {
       const { destination, source, draggableId } = result;

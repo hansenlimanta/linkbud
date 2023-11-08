@@ -4,7 +4,7 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import Background from "~/components/Background";
 import LinkButton from "~/components/LinkButton";
-import { useUserStore } from "~/store/userStore";
+import { LinkType, useUserStore } from "~/store/userStore";
 export default function Linkbud() {
   const links = useUserStore((state) => state.links);
   const [profilePicture, setProfilePicture] = useState("");
@@ -41,14 +41,24 @@ export default function Linkbud() {
             elit. Eveniet, quas?
           </h2>
           <div className="my-4 flex w-full flex-col gap-4">
-            {links.map((link) => (
-              <LinkButton
-                key={link.id}
-                name={link.title}
-                theme="white"
-                url={link.url}
-              />
-            ))}
+            {links.map((link) => {
+              if (link.type === LinkType.Classic) {
+                return (
+                  <LinkButton
+                    key={link.id}
+                    name={link.title}
+                    theme="white"
+                    url={link.url}
+                  />
+                );
+              } else if (link.type === LinkType.Header) {
+                return (
+                  <div className="w-full text-center">
+                    <h1 className="text-1xl font-semibold">{link.title}</h1>
+                  </div>
+                );
+              }
+            })}
           </div>
         </div>
       </main>
