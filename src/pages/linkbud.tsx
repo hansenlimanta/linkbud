@@ -44,7 +44,7 @@ export default function Linkbud() {
             {links.map((link) => (
               <LinkButton
                 key={link.id}
-                name={link.name}
+                name={link.title}
                 theme="white"
                 url={link.url}
               />

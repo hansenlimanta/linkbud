@@ -25,7 +25,7 @@ export default function Admin() {
   const handleSubmitUrl = () => {
     const newLink: Link = {
       id: Math.floor(Math.random() * 100000000).toString(),
-      name: "Test",
+      title: "Test",
       url: inputUrl,
     };
     console.log(newLink);
@@ -117,7 +117,7 @@ export default function Admin() {
                     {...provided.droppableProps}
                   >
                     {links.map((link, index) => (
-                      <DraggableLink link={link} index={index} />
+                      <DraggableLink key={link.id} link={link} index={index} />
                     ))}
                     {provided.placeholder}
                   </div>

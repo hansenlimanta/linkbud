@@ -18,11 +18,14 @@ const DraggableLink: FC<DraggableLinkProps> = ({ link, index }) => {
   const [url, setUrl] = useState("");
   const titleRef = useRef<HTMLInputElement>(null);
   const urlRef = useRef<HTMLInputElement>(null);
+  const updateLink = useUserStore((state) => state.updateLink);
   const removeLink = useUserStore((state) => state.removeLink);
+
   useEffect(() => {
-    setTitle(link.name);
+    setTitle(link.title);
     setUrl(link.url);
   }, []);
+
   const handleEditTitle = () => {
     if (titleRef.current?.selectionStart === 0) {
       titleRef.current.setSelectionRange(title.length, title.length);
@@ -30,12 +33,26 @@ const DraggableLink: FC<DraggableLinkProps> = ({ link, index }) => {
     titleRef.current?.focus();
     setIsEditTitle(true);
   };
+
   const handleEditUrl = () => {
     if (urlRef.current?.selectionStart === 0) {
       urlRef.current.setSelectionRange(url.length, url.length);
     }
     urlRef.current?.focus();
     setIsEditUrl(true);
+  };
+
+  const handleInput = (input: string, type: string) => {
+    const updatedLink: Link = { ...link };
+    switch (type) {
+      case "url":
+        updatedLink.url = input;
+        break;
+      case "title":
+        updatedLink.title = input;
+        break;
+    }
+    updateLink(updatedLink);
   };
 
   return (
@@ -69,8 +86,8 @@ const DraggableLink: FC<DraggableLinkProps> = ({ link, index }) => {
                   onBlur={() => setIsEditTitle(false)}
                 >
                   <input
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
+                    value={link.title}
+                    onChange={(e) => handleInput(e.target.value, "title")}
                     type="text"
                     ref={titleRef}
                     className="w-full text-sm font-normal focus:outline-none"
@@ -88,7 +105,7 @@ const DraggableLink: FC<DraggableLinkProps> = ({ link, index }) => {
                     className="flex max-w-full items-center rounded-sm outline-2 outline-offset-2 focus-visible:outline"
                   >
                     <p className="max-w-full overflow-hidden text-ellipsis whitespace-nowrap text-sm font-semibold text-black">
-                      {link.name}
+                      {link.title}
                     </p>
                     <span className="ml-2 flex">
                       <GoPencil />
@@ -106,8 +123,8 @@ const DraggableLink: FC<DraggableLinkProps> = ({ link, index }) => {
                   onBlur={() => setIsEditUrl(false)}
                 >
                   <input
-                    value={url}
-                    onChange={(e) => setUrl(e.target.value)}
+                    value={link.url}
+                    onChange={(e) => handleInput(e.target.value, "url")}
                     type="text"
                     ref={urlRef}
                     className="w-full text-sm font-normal focus:outline-none"

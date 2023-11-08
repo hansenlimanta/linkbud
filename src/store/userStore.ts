@@ -1,9 +1,10 @@
 import { DropResult } from "@hello-pangea/dnd";
+import { link } from "fs";
 import { create } from "zustand";
 
 export type Link = {
   id: string;
-  name: string;
+  title: string;
   url: string;
 };
 
@@ -16,28 +17,29 @@ type Action = {
   updateOrders: (result: DropResult) => void;
   addLink: (link: Link) => void;
   removeLink: (id: string) => void;
+  updateLink: (link: Link) => void;
 };
 
 export const useUserStore = create<State & Action>((set) => ({
   links: [
     {
       id: "link-1",
-      name: "Portfolio",
+      title: "Portfolio",
       url: "https://www.hansenlimanta.com",
     },
     {
       id: "link-2",
-      name: "Instagram",
+      title: "Instagram",
       url: "https://www.hansenlimanta.com",
     },
     {
       id: "link-3",
-      name: "LinkedIn",
+      title: "LinkedIn",
       url: "https://www.hansenlimanta.com",
     },
     {
       id: "link-4",
-      name: "Tiktok",
+      title: "Tiktok",
       url: "https://www.hansenlimanta.com",
     },
   ],
@@ -72,5 +74,16 @@ export const useUserStore = create<State & Action>((set) => ({
       const newLinks = state.links.filter((link) => link.id !== id);
       const newOrder = state.order.filter((linkId) => linkId !== id);
       return { links: newLinks, order: newOrder };
+    }),
+  updateLink: (updatedLink) =>
+    set((state) => {
+      const newLinks: Link[] = state.links.map((link) => {
+        if (link.id === updatedLink.id) {
+          return updatedLink;
+        } else {
+          return link;
+        }
+      });
+      return { links: newLinks };
     }),
 }));
