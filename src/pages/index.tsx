@@ -1,12 +1,13 @@
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-// import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 // import Link from "next/link";
 // import { api } from "~/utils/api";
 
 export default function Home() {
   // const hello = api.example.hello.useQuery({ text: "from tRPC" });
+  const { data: sessionData } = useSession();
 
   return (
     <>
@@ -27,11 +28,21 @@ export default function Home() {
               <p>Learn</p>
             </div>
             <div>
-              <Link href="/admin">
-                <button className="rounded-full bg-pink-300 px-8 py-4 font-medium transition hover:bg-pink-400">
+              {sessionData ? (
+                <button
+                  className="rounded-full bg-pink-300 px-8 py-4 font-medium transition hover:bg-pink-400"
+                  onClick={() => void signOut()}
+                >
+                  logout
+                </button>
+              ) : (
+                <button
+                  className="rounded-full bg-pink-300 px-8 py-4 font-medium transition hover:bg-pink-400"
+                  onClick={() => void signIn("google")}
+                >
                   Login
                 </button>
-              </Link>
+              )}
             </div>
           </div>
         </nav>
