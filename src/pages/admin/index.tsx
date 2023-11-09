@@ -46,7 +46,7 @@ export default function Admin() {
       <Head>
         <title>Linkbud Admin</title>
         <meta name="description" content="linkbud admin" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.svg" />
       </Head>
       <main className="min-h-screen bg-stone-100">
         <AdminNav />
