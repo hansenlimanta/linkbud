@@ -58,6 +58,7 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
+    links         Link[]
 }
 
 model VerificationToken {
@@ -66,4 +67,14 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+model Link {
+    id          String  @id
+    title       String
+    url         String
+    isActive    Boolean
+    type        String
+    userId      String
+    user        User    @relation(fields: [userId], references: [id])
 }

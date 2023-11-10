@@ -70,9 +70,12 @@ function Themes() {
     <div className="mt-10 flex w-full max-w-[620px] flex-col gap-4">
       <p className="text-xl font-semibold">Themes</p>
       <div className="inline-grid grid-cols-[repeat(auto-fit,_minmax(130px,_1fr))] gap-4 rounded-2xl bg-white p-6">
-        {data.map((item) => {
+        {data.map((item, index) => {
           return (
-            <div className="flex h-fit w-full flex-col items-center justify-start">
+            <div
+              key={index}
+              className="flex h-fit w-full flex-col items-center justify-start"
+            >
               <div className="h-[200px] w-full cursor-pointer rounded-lg border"></div>
               <p className="py-3">Custom</p>
             </div>
@@ -90,9 +93,12 @@ function Backgrounds() {
       <p className="text-xl font-semibold">Backgrounds</p>
       <div className="rounded-2xl bg-white p-6">
         <div className="inline-grid w-full grid-cols-[repeat(auto-fit,_minmax(130px,_1fr))] gap-4">
-          {data.map((item) => {
+          {data.map((item, index) => {
             return (
-              <div className="flex h-fit w-full flex-col items-center justify-start">
+              <div
+                key={index}
+                className="flex h-fit w-full flex-col items-center justify-start"
+              >
                 <div className="h-[200px] w-full cursor-pointer rounded-lg border"></div>
                 <p className="py-3">Custom</p>
               </div>
@@ -122,9 +128,12 @@ function Buttons() {
       <div className="flex flex-col gap-2 rounded-2xl bg-white p-6">
         <p>Fill</p>
         <div className="inline-grid w-full grid-cols-2 gap-4 md:grid-cols-3">
-          {data.map((item) => {
+          {data.map((item, index) => {
             return (
-              <div className="flex h-fit w-full flex-col items-center justify-start">
+              <div
+                key={index}
+                className="flex h-fit w-full flex-col items-center justify-start"
+              >
                 <div className="h-9 w-full cursor-pointer rounded-lg border"></div>
               </div>
             );
@@ -132,9 +141,12 @@ function Buttons() {
         </div>
         <p>Outline</p>
         <div className="inline-grid w-full grid-cols-2 gap-4 md:grid-cols-3">
-          {data.map((item) => {
+          {data.map((item, index) => {
             return (
-              <div className="flex h-fit w-full flex-col items-center justify-start">
+              <div
+                key={index}
+                className="flex h-fit w-full flex-col items-center justify-start"
+              >
                 <div className="h-9 w-full cursor-pointer rounded-lg border"></div>
               </div>
             );
@@ -142,9 +154,12 @@ function Buttons() {
         </div>
         <p>Soft shadow</p>
         <div className="inline-grid w-full grid-cols-2 gap-4 md:grid-cols-3">
-          {data.map((item) => {
+          {data.map((item, index) => {
             return (
-              <div className="flex h-fit w-full flex-col items-center justify-start">
+              <div
+                key={index}
+                className="flex h-fit w-full flex-col items-center justify-start"
+              >
                 <div className="h-9 w-full cursor-pointer rounded-lg border"></div>
               </div>
             );

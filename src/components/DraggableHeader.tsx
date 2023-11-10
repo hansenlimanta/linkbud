@@ -1,6 +1,6 @@
 import { FC, useState, useRef, useEffect } from "react";
 import { Draggable } from "@hello-pangea/dnd";
-import { Link, useUserStore } from "~/store/userStore";
+import { Link, useLinksStore } from "~/store/linksStore";
 import * as Switch from "@radix-ui/react-switch";
 import { FiTrash2 } from "react-icons/fi";
 import { GoPencil } from "react-icons/go";
@@ -15,8 +15,8 @@ const DraggableHeader: FC<DraggableHeaderProps> = ({ link, index }) => {
   const [isEditTitle, setIsEditTitle] = useState(false);
   const [title, setTitle] = useState("");
   const titleRef = useRef<HTMLInputElement>(null);
-  const updateLink = useUserStore((state) => state.updateLink);
-  const removeLink = useUserStore((state) => state.removeLink);
+  const updateLink = useLinksStore((state) => state.updateLink);
+  const removeLink = useLinksStore((state) => state.removeLink);
 
   useEffect(() => {
     setTitle(link.title);

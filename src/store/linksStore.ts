@@ -16,7 +16,6 @@ export type Link = {
 
 type State = {
   links: Link[];
-  order: string[];
 };
 
 type Action = {
@@ -26,7 +25,7 @@ type Action = {
   updateLink: (link: Link) => void;
 };
 
-export const useUserStore = create<State & Action>((set) => ({
+export const useLinksStore = create<State & Action>((set) => ({
   links: [
     {
       id: "header-1",
@@ -64,7 +63,6 @@ export const useUserStore = create<State & Action>((set) => ({
       type: LinkType.Classic,
     },
   ],
-  order: ["header-1", "link-1", "link-2", "link-3", "link-4"],
   updateOrders: (result) =>
     set((state) => {
       const { destination, source, draggableId } = result;
@@ -75,7 +73,7 @@ export const useUserStore = create<State & Action>((set) => ({
       ) {
         return { ...state };
       }
-      const newOrder: string[] = [...state.order];
+      const newOrder: string[] = state.links.map((link) => link.id);
       newOrder.splice(source.index, 1);
       newOrder.splice(destination.index, 0, draggableId);
 
@@ -83,18 +81,16 @@ export const useUserStore = create<State & Action>((set) => ({
         return state.links.find((task) => task.id === taskId) as Link;
       });
 
-      return { links: newLinks, order: newOrder };
+      return { links: newLinks };
     }),
   addLink: (link) =>
     set((state) => ({
       links: [link, ...state.links],
-      order: [link.id, ...state.order],
     })),
   removeLink: (id) =>
     set((state) => {
       const newLinks = state.links.filter((link) => link.id !== id);
-      const newOrder = state.order.filter((linkId) => linkId !== id);
-      return { links: newLinks, order: newOrder };
+      return { links: newLinks };
     }),
   updateLink: (updatedLink) =>
     set((state) => {

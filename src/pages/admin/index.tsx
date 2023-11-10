@@ -4,16 +4,16 @@ import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 import AdminNav from "~/components/AdminNav";
 import DraggableLink from "~/components/DraggableLink";
 import DraggableHeader from "~/components/DraggableHeader";
-import { Link, LinkType, useUserStore } from "~/store/userStore";
+import { Link, LinkType, useLinksStore } from "~/store/linksStore";
 import { RiLayoutTop2Line } from "react-icons/ri";
 import { RxCross2 } from "react-icons/rx";
 
 export default function Admin() {
-  const addLink = useUserStore((state) => state.addLink);
+  const addLink = useLinksStore((state) => state.addLink);
   const [inputUrl, setInputUrl] = useState("");
   const [isAddUrl, setIsAddUrl] = useState(false);
-  const links = useUserStore((state) => state.links);
-  const updateOrders = useUserStore((state) => state.updateOrders);
+  const links = useLinksStore((state) => state.links);
+  const updateOrders = useLinksStore((state) => state.updateOrders);
   const handleSubmitUrl = () => {
     const newLink: Link = {
       id: Math.floor(Math.random() * 100000000).toString(),
