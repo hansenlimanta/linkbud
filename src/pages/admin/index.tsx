@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Head from "next/head";
 import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 import AdminNav from "~/components/AdminNav";
@@ -7,13 +7,35 @@ import DraggableHeader from "~/components/DraggableHeader";
 import { Link, LinkType, useLinksStore } from "~/store/linksStore";
 import { RiLayoutTop2Line } from "react-icons/ri";
 import { RxCross2 } from "react-icons/rx";
+import { signIn, signOut, useSession } from "next-auth/react";
+import { api } from "~/utils/api";
 
 export default function Admin() {
+  const { data: sessionData } = useSession();
+  const { data: dbLinks } = api.links.getLinks.useQuery();
+  const setInitialLinks = useLinksStore((state) => state.setInitialLinks);
   const addLink = useLinksStore((state) => state.addLink);
-  const [inputUrl, setInputUrl] = useState("");
-  const [isAddUrl, setIsAddUrl] = useState(false);
   const links = useLinksStore((state) => state.links);
   const updateOrders = useLinksStore((state) => state.updateOrders);
+  const [inputUrl, setInputUrl] = useState("");
+  const [isAddUrl, setIsAddUrl] = useState(false);
+
+  useEffect(() => {
+    const initialLinks = dbLinks
+      ? dbLinks.map(
+          (link) =>
+            ({
+              id: link.id,
+              isActive: link.isActive,
+              title: link.title,
+              type: link.type,
+              url: link.url,
+            }) as Link,
+        )
+      : ([] as Link[]);
+    setInitialLinks(initialLinks);
+  }, [dbLinks]);
+
   const handleSubmitUrl = () => {
     const newLink: Link = {
       id: Math.floor(Math.random() * 100000000).toString(),
@@ -40,6 +62,9 @@ export default function Admin() {
 
     addLink(newLink);
   };
+  const handleLogin = () => {
+    sessionData ? signOut() : signIn("google");
+  };
 
   return (
     <>
@@ -53,6 +78,12 @@ export default function Admin() {
         <DragDropContext onDragEnd={(e) => updateOrders(e)}>
           <div className="!ml-0 mr-[570px] overflow-x-auto">
             <div className="mt-20 w-full px-6">
+              <div
+                onClick={handleLogin}
+                className="w-fit cursor-pointer rounded-2xl border bg-cyan-100 px-4  py-2 text-center transition-colors  hover:bg-cyan-200"
+              >
+                {sessionData ? "SIGN OUT TEST" : "SIGN IN TEST"}
+              </div>
               <div className="flex h-20 w-full items-center justify-between rounded-3xl bg-blue-100 px-4 shadow">
                 <div className="flex items-center justify-start gap-2">
                   <p className="font-semibold">Your Linkbud is live: </p>

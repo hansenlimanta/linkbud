@@ -1,5 +1,6 @@
 import { DropResult } from "@hello-pangea/dnd";
 import { create } from "zustand";
+import { api } from "~/utils/api";
 
 export enum LinkType {
   Header = "HEADER",
@@ -23,46 +24,12 @@ type Action = {
   addLink: (link: Link) => void;
   removeLink: (id: string) => void;
   updateLink: (link: Link) => void;
+  setInitialLinks: (links: Link[]) => void;
 };
 
 export const useLinksStore = create<State & Action>((set) => ({
-  links: [
-    {
-      id: "header-1",
-      title: "Portfolio",
-      url: "",
-      isActive: true,
-      type: LinkType.Header,
-    },
-    {
-      id: "link-1",
-      title: "Portfolio",
-      url: "https://www.hansenlimanta.com",
-      isActive: true,
-      type: LinkType.Classic,
-    },
-    {
-      id: "link-2",
-      title: "Instagram",
-      url: "https://www.hansenlimanta.com",
-      isActive: true,
-      type: LinkType.Classic,
-    },
-    {
-      id: "link-3",
-      title: "LinkedIn",
-      url: "https://www.hansenlimanta.com",
-      isActive: true,
-      type: LinkType.Classic,
-    },
-    {
-      id: "link-4",
-      title: "Tiktok",
-      url: "https://www.hansenlimanta.com",
-      isActive: true,
-      type: LinkType.Classic,
-    },
-  ],
+  links: [],
+  setInitialLinks: (initialLinks) => set(() => ({ links: [...initialLinks] })),
   updateOrders: (result) =>
     set((state) => {
       const { destination, source, draggableId } = result;
