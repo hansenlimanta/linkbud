@@ -1,12 +1,17 @@
 // page to show linkbud page. it will be like the linktree page
 
 import Head from "next/head";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Background from "~/components/Background";
 import LinkButton from "~/components/LinkButton";
 import { LinkType, useLinksStore } from "~/store/linksStore";
+import { api } from "~/utils/api";
 export default function Linkbud() {
-  const links = useLinksStore((state) => state.links);
+  const { pathname } = useRouter();
+  const { data: links } = api.links.getLinksByEndpoint.useQuery({
+    endpoint: pathname,
+  });
   const [profilePicture, setProfilePicture] = useState("");
   useEffect(() => {
     getProfilePicture();
@@ -41,17 +46,23 @@ export default function Linkbud() {
             elit. Eveniet, quas?
           </h2>
           <div className="my-4 flex w-full flex-col gap-4">
-            {links.map((link) => {
-              if (link.type === LinkType.Classic) {
-                return <LinkButton key={link.id} theme="white" link={link} />;
-              } else if (link.type === LinkType.Header) {
-                return (
-                  <div key={link.id} className="w-full text-center">
-                    <h1 className="text-1xl font-semibold">{link.title}</h1>
-                  </div>
-                );
-              }
-            })}
+            {links ? (
+              links.map((dbLink) => {
+                if (dbLink.type === LinkType.Classic) {
+                  return (
+                    <LinkButton key={dbLink.id} theme="white" link={dbLink} />
+                  );
+                } else if (dbLink.type === LinkType.Header) {
+                  return (
+                    <div key={dbLink.id} className="w-full text-center">
+                      <h1 className="text-1xl font-semibold">{dbLink.title}</h1>
+                    </div>
+                  );
+                }
+              })
+            ) : (
+              <></>
+            )}
           </div>
         </div>
       </main>

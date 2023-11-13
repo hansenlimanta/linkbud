@@ -4,21 +4,26 @@ import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 import AdminNav from "~/components/AdminNav";
 import DraggableLink from "~/components/DraggableLink";
 import DraggableHeader from "~/components/DraggableHeader";
-import { Link, LinkType, useLinksStore } from "~/store/linksStore";
+import { LinkType, useLinksStore } from "~/store/linksStore";
 import { RiLayoutTop2Line } from "react-icons/ri";
 import { RxCross2 } from "react-icons/rx";
 import { signIn, signOut, useSession } from "next-auth/react";
+import { Link } from "@prisma/client";
 import { api } from "~/utils/api";
 
 export default function Admin() {
   const { data: sessionData } = useSession();
-  const { data: dbLinks } = api.links.getLinks.useQuery();
+  const userEndpoint = sessionData?.user.urlEndpoint;
+  const { data: dbLinks } = api.links.getLinksById.useQuery();
+  const updateEndpoint = api.user.updateUrlEndPoint.useMutation();
+  const createNewLink = api.links.addLink.useMutation();
   const setInitialLinks = useLinksStore((state) => state.setInitialLinks);
   const addLink = useLinksStore((state) => state.addLink);
   const links = useLinksStore((state) => state.links);
   const updateOrders = useLinksStore((state) => state.updateOrders);
   const [inputUrl, setInputUrl] = useState("");
   const [isAddUrl, setIsAddUrl] = useState(false);
+  const [endpointInput, setEndpointInput] = useState("");
 
   useEffect(() => {
     const initialLinks = dbLinks
@@ -36,31 +41,34 @@ export default function Admin() {
     setInitialLinks(initialLinks);
   }, [dbLinks]);
 
-  const handleSubmitUrl = () => {
-    const newLink: Link = {
+  const handleSubmitUrl = async () => {
+    const newLink: Link = await createNewLink.mutateAsync({
       id: Math.floor(Math.random() * 100000000).toString(),
-      title: "Test",
+      title: "Test URL",
       url: inputUrl,
       isActive: true,
       type: LinkType.Classic,
-    };
+    });
     console.log(newLink);
 
     addLink(newLink);
     setInputUrl("");
     setIsAddUrl(false);
   };
-  const handleAddHeader = () => {
-    const newLink: Link = {
+  const handleAddHeader = async () => {
+    const newLink: Link = await createNewLink.mutateAsync({
       id: Math.floor(Math.random() * 100000000).toString(),
-      title: "Test",
+      title: "Test HEADER",
       url: "",
       isActive: true,
-      type: LinkType.Header,
-    };
+      type: LinkType.Classic,
+    });
     console.log(newLink);
 
     addLink(newLink);
+  };
+  const handleSetEndpoint = () => {
+    updateEndpoint.mutate({ endpoint: endpointInput });
   };
   const handleLogin = () => {
     sessionData ? signOut() : signIn("google");
@@ -84,6 +92,19 @@ export default function Admin() {
               >
                 {sessionData ? "SIGN OUT TEST" : "SIGN IN TEST"}
               </div>
+              {userEndpoint ? (
+                <div>Endpoint: {userEndpoint}</div>
+              ) : (
+                <>
+                  <input
+                    type="text"
+                    value={endpointInput}
+                    onChange={(e) => setEndpointInput(e.target.value)}
+                  />
+                  <button onClick={handleSetEndpoint}>Submit</button>
+                </>
+              )}
+
               <div className="flex h-20 w-full items-center justify-between rounded-3xl bg-blue-100 px-4 shadow">
                 <div className="flex items-center justify-start gap-2">
                   <p className="font-semibold">Your Linkbud is live: </p>

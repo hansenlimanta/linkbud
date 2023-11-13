@@ -1,3 +1,4 @@
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import {
@@ -15,13 +16,33 @@ export const linksRouter = createTRPCRouter({
       };
     }),
 
-  getLinks: protectedProcedure.query(({ ctx }) => {
+  getLinksById: protectedProcedure.query(({ ctx }) => {
     return ctx.db.link.findMany({
       where: {
         userId: ctx.session.user.id,
       },
     });
   }),
+
+  getLinksByEndpoint: publicProcedure
+    .input(z.object({ endpoint: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const user = await ctx.db.user.findFirst({
+        where: { urlEndpoint: input.endpoint },
+      });
+
+      if (!user)
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "User does not exist",
+        });
+
+      return ctx.db.link.findMany({
+        where: {
+          userId: user.id,
+        },
+      });
+    }),
 
   addLink: protectedProcedure
     .input(
@@ -49,7 +70,7 @@ export const linksRouter = createTRPCRouter({
   deleteLink: protectedProcedure
     .input(z.object({ id: z.string() }))
     .mutation(({ ctx, input }) => {
-      ctx.db.link.delete({
+      return ctx.db.link.delete({
         where: {
           id: input.id,
         },

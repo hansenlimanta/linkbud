@@ -1,19 +1,11 @@
 import { DropResult } from "@hello-pangea/dnd";
+import { Link } from "@prisma/client";
 import { create } from "zustand";
-import { api } from "~/utils/api";
 
 export enum LinkType {
   Header = "HEADER",
   Classic = "CLASSIC",
 }
-
-export type Link = {
-  id: string;
-  title: string;
-  url: string;
-  isActive: boolean;
-  type: LinkType;
-};
 
 type State = {
   links: Link[];

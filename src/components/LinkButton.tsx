@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react";
-import { Link } from "~/store/linksStore";
+import { Link } from "@prisma/client";
 
 type LinkButtonProps = {
   theme: string;

@@ -1,10 +1,11 @@
 import { FC, useState, useRef, useEffect } from "react";
 import { Draggable } from "@hello-pangea/dnd";
-import { Link, useLinksStore } from "~/store/linksStore";
+import { useLinksStore } from "~/store/linksStore";
 import * as Switch from "@radix-ui/react-switch";
 import { FiTrash2 } from "react-icons/fi";
 import { GoPencil } from "react-icons/go";
 import { PiDotsSixVerticalLight } from "react-icons/pi";
+import { Link } from "@prisma/client";
 
 type DraggableLinkProps = {
   link: Link;
