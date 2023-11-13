@@ -37,11 +37,13 @@ export const linksRouter = createTRPCRouter({
           message: "User does not exist",
         });
 
-      return ctx.db.link.findMany({
+      const links = await ctx.db.link.findMany({
         where: {
           userId: user.id,
         },
       });
+
+      return { user, links };
     }),
 
   addLink: protectedProcedure

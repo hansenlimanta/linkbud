@@ -7,18 +7,16 @@ import LinkButton from "~/components/LinkButton";
 import { LinkType } from "~/store/linksStore";
 import { api } from "~/utils/api";
 export default function Linkbud() {
-  const { data: sessionData } = useSession();
-  const userImage = sessionData?.user.image;
   const router = useRouter();
-  const { data: links } = api.links.getLinksByEndpoint.useQuery({
+  const { data: userData } = api.links.getLinksByEndpoint.useQuery({
     endpoint: router.query.endpoint as string,
   });
   const [profilePicture, setProfilePicture] = useState("");
   useEffect(() => {
-    if (userImage) {
-      setProfilePicture(userImage);
+    if (userData?.user.image) {
+      setProfilePicture(userData.user.image);
     }
-  }, [userImage]);
+  }, [userData?.user.image]);
 
   return (
     <>
@@ -29,7 +27,7 @@ export default function Linkbud() {
       </Head>
       <main className="min-h-screen w-full">
         <div className="flex flex-col items-center justify-start gap-2 px-8 py-20 text-white sm:mx-auto sm:w-96">
-          <Background theme="black" />
+          <Background theme="black" image={profilePicture} />
           <img
             className="h-20 rounded-full"
             src={profilePicture}
@@ -42,8 +40,8 @@ export default function Linkbud() {
             elit. Eveniet, quas?
           </h2>
           <div className="my-4 flex w-full flex-col gap-4">
-            {links ? (
-              links.map((dbLink) => {
+            {userData?.links ? (
+              userData.links.map((dbLink) => {
                 if (dbLink.type === LinkType.Classic) {
                   return (
                     <LinkButton key={dbLink.id} theme="white" link={dbLink} />
