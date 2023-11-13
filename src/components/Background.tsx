@@ -1,3 +1,4 @@
+import { useSession } from "next-auth/react";
 import { FC, useEffect, useState } from "react";
 
 type BackgroundProps = {
@@ -6,19 +7,13 @@ type BackgroundProps = {
 
 const Background: FC<BackgroundProps> = ({ theme }) => {
   const [profilePicture, setProfilePicture] = useState("");
+  const { data: sessionData } = useSession();
+  const userImage = sessionData?.user.image;
   useEffect(() => {
-    getProfilePicture();
-  }, []);
-
-  async function getProfilePicture() {
-    fetch("https://randomuser.me/api/")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data.results[0].picture.large);
-
-        setProfilePicture(data.results[0].picture.large);
-      });
-  }
+    if (userImage) {
+      setProfilePicture(userImage);
+    }
+  }, [userImage]);
   switch (theme) {
     case "white":
       return (
@@ -26,6 +21,7 @@ const Background: FC<BackgroundProps> = ({ theme }) => {
           <img
             className="h-full w-full object-cover opacity-50 blur-lg"
             src={profilePicture}
+            referrerPolicy="no-referrer"
             alt="bg"
           />
         </div>
@@ -36,6 +32,7 @@ const Background: FC<BackgroundProps> = ({ theme }) => {
           <img
             className="h-full w-full object-cover opacity-50 blur-lg"
             src={profilePicture}
+            referrerPolicy="no-referrer"
             alt="bg"
           />
         </div>
@@ -47,6 +44,7 @@ const Background: FC<BackgroundProps> = ({ theme }) => {
           <img
             className="h-full w-full object-cover opacity-50 blur-lg"
             src={profilePicture}
+            referrerPolicy="no-referrer"
             alt="bg"
           />
         </div>

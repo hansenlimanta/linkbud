@@ -1,29 +1,24 @@
-// page to show linkbud page. it will be like the linktree page
-
+import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Background from "~/components/Background";
 import LinkButton from "~/components/LinkButton";
-import { LinkType, useLinksStore } from "~/store/linksStore";
+import { LinkType } from "~/store/linksStore";
 import { api } from "~/utils/api";
 export default function Linkbud() {
-  const { pathname } = useRouter();
+  const { data: sessionData } = useSession();
+  const userImage = sessionData?.user.image;
+  const router = useRouter();
   const { data: links } = api.links.getLinksByEndpoint.useQuery({
-    endpoint: pathname,
+    endpoint: router.query.endpoint as string,
   });
   const [profilePicture, setProfilePicture] = useState("");
   useEffect(() => {
-    getProfilePicture();
-  }, []);
-
-  async function getProfilePicture() {
-    fetch("https://randomuser.me/api/")
-      .then((res) => res.json())
-      .then((data) => {
-        setProfilePicture(data.results[0].picture.large);
-      });
-  }
+    if (userImage) {
+      setProfilePicture(userImage);
+    }
+  }, [userImage]);
 
   return (
     <>
@@ -39,6 +34,7 @@ export default function Linkbud() {
             className="h-20 rounded-full"
             src={profilePicture}
             alt="profile picture"
+            referrerPolicy="no-referrer"
           />
           <h1 className="text-xl font-semibold">Hansen Limanta</h1>
           <h2 className="text-center">

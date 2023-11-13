@@ -204,7 +204,7 @@ export default function Admin() {
           </div>
           <div className="fixed right-0 top-0 z-10 h-screen w-[570px] border-l">
             <iframe
-              src="http://localhost:3000/linkbud"
+              src="http://localhost:3000/hansenlimanta"
               className="absolute left-1/2 top-1/2 h-[690px] w-[320px] -translate-x-1/2 -translate-y-1/2 scale-[0.7] overflow-hidden rounded-[40px] border-[10px] border-black bg-gray-800"
             ></iframe>
           </div>
