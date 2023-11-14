@@ -21,6 +21,9 @@ export const linksRouter = createTRPCRouter({
       where: {
         userId: ctx.session.user.id,
       },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
   }),
 
@@ -40,6 +43,9 @@ export const linksRouter = createTRPCRouter({
       const links = await ctx.db.link.findMany({
         where: {
           userId: user.id,
+        },
+        orderBy: {
+          createdAt: "desc",
         },
       });
 

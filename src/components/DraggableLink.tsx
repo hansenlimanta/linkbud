@@ -6,6 +6,7 @@ import { FiTrash2 } from "react-icons/fi";
 import { GoPencil } from "react-icons/go";
 import { PiDotsSixVerticalLight } from "react-icons/pi";
 import { Link } from "@prisma/client";
+import { api } from "~/utils/api";
 
 type DraggableLinkProps = {
   link: Link;
@@ -21,6 +22,15 @@ const DraggableLink: FC<DraggableLinkProps> = ({ link, index }) => {
   const urlRef = useRef<HTMLInputElement>(null);
   const updateLink = useLinksStore((state) => state.updateLink);
   const removeLink = useLinksStore((state) => state.removeLink);
+  const utils = api.useContext();
+  const deleteLink = api.links.deleteLink.useMutation({
+    onSuccess: () => {
+      utils.links.getLinksById.invalidate();
+    },
+    onError: () => {
+      utils.links.getLinksById.invalidate();
+    },
+  });
 
   useEffect(() => {
     setTitle(link.title);
@@ -56,6 +66,10 @@ const DraggableLink: FC<DraggableLinkProps> = ({ link, index }) => {
         updatedLink.isActive = isActive;
     }
     updateLink(updatedLink);
+  };
+  const handleRemoveLink = () => {
+    deleteLink.mutate({ id: link.id });
+    removeLink(link.id);
   };
 
   return (
@@ -167,7 +181,7 @@ const DraggableLink: FC<DraggableLinkProps> = ({ link, index }) => {
                 <Switch.Thumb className="block h-5 w-5 translate-x-0.5 rounded-full bg-white transition-transform will-change-transform group-aria-checked:translate-x-[18px]" />
               </Switch.Root>
               <button
-                onClick={() => removeLink(link.id)}
+                onClick={handleRemoveLink}
                 className="rounded-full bg-inherit p-2 text-sm text-red-300 transition-all hover:bg-stone-100 hover:text-red-600"
               >
                 <FiTrash2 />

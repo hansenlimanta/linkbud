@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, FormEvent } from "react";
 import Head from "next/head";
 import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 import AdminNav from "~/components/AdminNav";
@@ -16,16 +16,20 @@ import { getServerAuthSession } from "~/server/auth";
 export default function Admin() {
   const { data: sessionData } = useSession();
   const userEndpoint = sessionData?.user.urlEndpoint;
+
   const { data: dbLinks } = api.links.getLinksById.useQuery();
   const updateEndpoint = api.user.updateUrlEndPoint.useMutation();
   const createNewLink = api.links.addLink.useMutation();
+
+  const links = useLinksStore((state) => state.links);
   const setInitialLinks = useLinksStore((state) => state.setInitialLinks);
   const addLink = useLinksStore((state) => state.addLink);
-  const links = useLinksStore((state) => state.links);
   const updateOrders = useLinksStore((state) => state.updateOrders);
+
   const [inputUrl, setInputUrl] = useState("");
   const [isAddUrl, setIsAddUrl] = useState(false);
   const [endpointInput, setEndpointInput] = useState("");
+  const iframeRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
     const initialLinks = dbLinks
@@ -43,7 +47,12 @@ export default function Admin() {
     setInitialLinks(initialLinks);
   }, [dbLinks]);
 
-  const handleSubmitUrl = async () => {
+  useEffect(() => {
+    iframeRef.current?.contentWindow?.location.reload();
+  }, [links]);
+
+  const handleSubmitUrl = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     const newLink: Link = await createNewLink.mutateAsync({
       id: Math.floor(Math.random() * 100000000).toString(),
       title: "Test URL",
@@ -51,7 +60,6 @@ export default function Admin() {
       isActive: true,
       type: LinkType.Classic,
     });
-    console.log(newLink);
 
     addLink(newLink);
     setInputUrl("");
@@ -63,17 +71,13 @@ export default function Admin() {
       title: "Test HEADER",
       url: "",
       isActive: true,
-      type: LinkType.Classic,
+      type: LinkType.Header,
     });
-    console.log(newLink);
 
     addLink(newLink);
   };
   const handleSetEndpoint = () => {
     updateEndpoint.mutate({ endpoint: endpointInput });
-  };
-  const handleLogin = () => {
-    sessionData ? signOut() : signIn("google");
   };
 
   return (
@@ -89,7 +93,7 @@ export default function Admin() {
           <div className="!ml-0 mr-[570px] overflow-x-auto">
             <div className="mt-20 w-full px-6">
               <div
-                onClick={handleLogin}
+                onClick={() => (sessionData ? signOut() : signIn("google"))}
                 className="w-fit cursor-pointer rounded-2xl border bg-cyan-100 px-4  py-2 text-center transition-colors  hover:bg-cyan-200"
               >
                 {sessionData ? "SIGN OUT TEST" : "SIGN IN TEST"}
@@ -140,7 +144,7 @@ export default function Admin() {
                   </div>
                   <h2 className="mb-4 text-xl font-bold">Enter URL</h2>
                   <form
-                    onSubmit={handleSubmitUrl}
+                    onSubmit={(e) => handleSubmitUrl(e)}
                     className="flex w-full justify-between gap-4"
                   >
                     <input
@@ -207,6 +211,7 @@ export default function Admin() {
           <div className="fixed right-0 top-0 z-10 h-screen w-[570px] border-l">
             <iframe
               src="http://localhost:3000/hansenlimanta"
+              ref={iframeRef}
               className="absolute left-1/2 top-1/2 h-[690px] w-[320px] -translate-x-1/2 -translate-y-1/2 scale-[0.7] overflow-hidden rounded-[40px] border-[10px] border-black bg-gray-800"
             ></iframe>
           </div>
