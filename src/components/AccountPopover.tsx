@@ -3,6 +3,7 @@ import * as Popover from "@radix-ui/react-popover";
 import { RiAccountBoxLine } from "react-icons/ri";
 import { AiOutlineExclamationCircle, AiOutlineDollar } from "react-icons/ai";
 import { PiChatsLight, PiSignOutLight } from "react-icons/pi";
+import { signOut } from "next-auth/react";
 
 const AccountPopover = () => (
   <Popover.Root>
@@ -51,7 +52,10 @@ const AccountPopover = () => (
             <PiChatsLight size={25} />
             <p>Submit feedback</p>
           </div>
-          <div className="mt-2 flex cursor-pointer items-center justify-start gap-4 rounded-lg p-4 hover:bg-slate-100">
+          <div
+            onClick={() => signOut({ callbackUrl: "/" })}
+            className="mt-2 flex cursor-pointer items-center justify-start gap-4 rounded-lg p-4 hover:bg-slate-100"
+          >
             <PiSignOutLight size={25} />
             <p>Sign out</p>
           </div>

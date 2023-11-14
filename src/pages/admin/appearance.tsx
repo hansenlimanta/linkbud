@@ -1,5 +1,7 @@
+import { GetServerSidePropsContext } from "next";
 import Head from "next/head";
 import AdminNav from "~/components/AdminNav";
+import { getServerAuthSession } from "~/server/auth";
 
 export default function Admin() {
   return (
@@ -203,4 +205,20 @@ function Fonts() {
       </div>
     </div>
   );
+}
+
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+  const session = await getServerAuthSession(ctx);
+  if (session?.user) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
 }

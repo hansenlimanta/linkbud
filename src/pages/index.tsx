@@ -38,7 +38,9 @@ export default function Home() {
               ) : (
                 <button
                   className="rounded-full bg-pink-300 px-8 py-4 font-medium transition hover:bg-pink-400"
-                  onClick={() => void signIn("google")}
+                  onClick={() =>
+                    void signIn("google", { callbackUrl: "/admin" })
+                  }
                 >
                   Login
                 </button>

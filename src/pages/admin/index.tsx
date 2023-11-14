@@ -10,6 +10,8 @@ import { RxCross2 } from "react-icons/rx";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { Link } from "@prisma/client";
 import { api } from "~/utils/api";
+import { GetServerSidePropsContext } from "next";
+import { getServerAuthSession } from "~/server/auth";
 
 export default function Admin() {
   const { data: sessionData } = useSession();
@@ -212,4 +214,20 @@ export default function Admin() {
       </main>
     </>
   );
+}
+
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+  const session = await getServerAuthSession(ctx);
+  if (!session?.user) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
 }
