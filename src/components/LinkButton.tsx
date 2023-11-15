@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import { Link } from "@prisma/client";
 
 type LinkButtonProps = {

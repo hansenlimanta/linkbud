@@ -8,14 +8,6 @@ import {
 } from "~/server/api/trpc";
 
 export const linksRouter = createTRPCRouter({
-  hello: publicProcedure
-    .input(z.object({ text: z.string() }))
-    .query(({ input }) => {
-      return {
-        greeting: `Hello ${input.text}`,
-      };
-    }),
-
   getLinksById: protectedProcedure.query(({ ctx }) => {
     return ctx.db.link.findMany({
       where: {
