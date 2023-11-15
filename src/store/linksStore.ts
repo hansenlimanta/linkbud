@@ -9,6 +9,7 @@ export enum LinkType {
 
 type State = {
   links: Link[];
+  updateOrderParams: number;
 };
 
 type Action = {
@@ -21,6 +22,7 @@ type Action = {
 
 export const useLinksStore = create<State & Action>((set) => ({
   links: [],
+  updateOrderParams: 0,
   setInitialLinks: (initialLinks) => set(() => ({ links: [...initialLinks] })),
   updateOrders: (result) =>
     set((state) => {
@@ -39,11 +41,14 @@ export const useLinksStore = create<State & Action>((set) => ({
       const newLinks: Link[] = newOrder.map((taskId: string, index) => {
         return {
           ...(state.links.find((task) => task.id === taskId) as Link),
-          position: index,
+          position: newOrder.length - index - 1,
         };
       });
 
-      return { links: newLinks };
+      return {
+        links: newLinks,
+        updateOrderParams: state.updateOrderParams + 1,
+      };
     }),
   addLink: (link) =>
     set((state) => ({

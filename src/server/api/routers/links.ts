@@ -79,27 +79,36 @@ export const linksRouter = createTRPCRouter({
       });
     }),
 
+  // Sementara jangan dipake dulu karena masih pake sqlite ========================
   updateLink: protectedProcedure
     .input(
-      z.object({
-        id: z.string(),
-        isActive: z.boolean(),
-        position: z.number(),
-        title: z.string(),
-        url: z.string(),
-      }),
+      z
+        .object({
+          id: z.string(),
+          isActive: z.boolean(),
+          position: z.number(),
+          title: z.string(),
+          url: z.string(),
+        })
+        .array(),
     )
-    .mutation(({ ctx, input }) => {
-      return ctx.db.link.update({
-        where: {
-          id: input.id,
-        },
-        data: {
-          isActive: input.isActive,
-          position: input.position,
-          title: input.title,
-          url: input.url,
-        },
-      });
+    .mutation(async ({ ctx, input }) => {
+      try {
+        input.forEach(async (link) => {
+          await ctx.db.link.update({
+            where: {
+              id: link.id,
+            },
+            data: {
+              isActive: link.isActive,
+              position: link.position,
+              title: link.title,
+              url: link.url,
+            },
+          });
+        });
+      } catch (error) {
+        console.log(error);
+      }
     }),
 });

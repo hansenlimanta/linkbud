@@ -12,6 +12,7 @@ import { Link } from "@prisma/client";
 import { api } from "~/utils/api";
 import { GetServerSidePropsContext } from "next";
 import { getServerAuthSession } from "~/server/auth";
+import { link } from "fs";
 
 export default function Admin() {
   const { data: sessionData } = useSession();
@@ -23,6 +24,7 @@ export default function Admin() {
   const updateLink = api.links.updateLink.useMutation();
 
   const links = useLinksStore((state) => state.links);
+  const updateOrderParams = useLinksStore((state) => state.updateOrderParams);
   const setInitialLinks = useLinksStore((state) => state.setInitialLinks);
   const addLink = useLinksStore((state) => state.addLink);
   const updateOrders = useLinksStore((state) => state.updateOrders);
@@ -33,7 +35,6 @@ export default function Admin() {
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
-    if (links.length !== 0) return;
     const initialLinks = dbLinks
       ? dbLinks.map(
           (link) =>
@@ -52,18 +53,22 @@ export default function Admin() {
   }, [dbLinks]);
 
   useEffect(() => {
-    if (links.length === 0) return;
-    links.map((link) => {
-      updateLink.mutate({
-        id: link.id,
-        isActive: link.isActive,
-        position: link.position,
-        title: link.title,
-        url: link.url,
-      });
-    });
     iframeRef.current?.contentWindow?.location.reload();
   }, [links]);
+
+  // belum bisa karena masih pake sqlite
+  useEffect(() => {
+    if (!updateOrderParams) return;
+    const updateOrderData = links.map((link) => ({
+      id: link.id,
+      isActive: link.isActive,
+      position: link.position,
+      title: link.title,
+      url: link.url,
+    }));
+    updateLink.mutate(updateOrderData);
+    iframeRef.current?.contentWindow?.location.reload();
+  }, [updateOrderParams]);
 
   const handleSubmitUrl = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -73,7 +78,7 @@ export default function Admin() {
       url: inputUrl,
       isActive: true,
       type: LinkType.Classic,
-      position: 0,
+      position: links.length,
     });
 
     addLink(newLink);
@@ -87,7 +92,7 @@ export default function Admin() {
       url: "",
       isActive: true,
       type: LinkType.Header,
-      position: 0,
+      position: links.length,
     });
 
     addLink(newLink);
