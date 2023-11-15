@@ -1,0 +1,527 @@
+{
+  "account": {
+    "id": 66409427,
+    "uuid": "206f4652-5785-4bf4-acba-c3d1aeae4dc5",
+    "username": "hansenlimanta",
+    "isActive": true,
+    "profilePictureUrl": "https://ugc.production.linktr.ee/e7f2aa96-6cd3-4822-a082-332d3b5b1d73_untitled.png",
+    "pageTitle": "@hansenlimanta",
+    "googleAnalyticsId": null,
+    "facebookPixelId": null,
+    "tiktokPixelId": null,
+    "donationsActive": false,
+    "causeBanner": "BLM",
+    "contentWarning": null,
+    "description": null,
+    "isLogoVisible": true,
+    "socialLinksPosition": "BOTTOM",
+    "useSignupLink": false,
+    "createdAt": 1695353047000,
+    "updatedAt": 1699885793000,
+    "expandableLinkCaret": true,
+    "verticals": ["personal"],
+    "customAvatar": "https://ugc.production.linktr.ee/e7f2aa96-6cd3-4822-a082-332d3b5b1d73_untitled.png",
+    "customAvatarAttributes": null,
+    "backgroundImageAttributes": null,
+    "profileBadges": null,
+    "isVenmoEnabled": true,
+    "isSquareWalletEnabled": true,
+    "isCookieBannerEnabled": true,
+    "isInitialsProfileEnabled": true,
+    "isWhatsappNotificationsEnabled": true,
+    "isShareLinksEnabled": true,
+    "isOnlyfansSEOEnabled": false,
+    "isShareWithEllipsis": true,
+    "linkTypesForSEO": null,
+    "manualTitleTag": null,
+    "enableDynamicProfilePageMetadata": true,
+    "linkPlatforms": ["Instagram"],
+    "activeGates": [],
+    "isAmazonAffiliateEnabled": true,
+    "profileLinkContentDisplayType": "default",
+    "complementaryThemeProperties": false,
+    "timezone": "Asia/Jakarta",
+    "profileDirectoryVerticalUrl": "/discover/profile-directory/s/personal",
+    "groupsEnabled": false,
+    "showSignupOption": true,
+    "footerCtaButton": "Control",
+    "isSnapchatSocialShareEnabled": true,
+    "isReportLinktreeEnabled": true,
+    "getDynamicMetaTitleVariation": 0,
+    "isVisualLinkPreviewsEnabled": false,
+    "affiliateTokens": [],
+    "owner": {
+      "id": 72522289,
+      "isEmailVerified": true
+    },
+    "pageMeta": null,
+    "integrations": [],
+    "links": [
+      {
+        "id": 340226675,
+        "type": "HEADER",
+        "title": "Social",
+        "position": 0,
+        "url": "",
+        "shouldRouteToProfile": true,
+        "modifiers": {
+          "animation": null,
+          "isForwarding": false,
+          "isForwardingActive": false,
+          "thumbnailUrl": null,
+          "amazonAffiliate": null,
+          "layoutOption": "stack"
+        },
+        "context": {
+          "headerLayoutOption": "stack"
+        },
+        "rules": {
+          "gate": {
+            "activeOrder": [],
+            "sensitiveContent": {
+              "domain": ""
+            },
+            "age": null,
+            "passcode": null,
+            "nft": null,
+            "payment": null
+          }
+        },
+        "parent": null
+      },
+      {
+        "id": 339255331,
+        "type": "CLASSIC",
+        "title": "Linkedin",
+        "position": 1,
+        "url": "https://www.linkedin.com/in/hansenlimanta/",
+        "shouldRouteToProfile": false,
+        "modifiers": {
+          "animation": null,
+          "isForwarding": false,
+          "isForwardingActive": false,
+          "thumbnailUrl": null,
+          "amazonAffiliate": null,
+          "layoutOption": "stack"
+        },
+        "context": {},
+        "rules": {
+          "gate": {
+            "activeOrder": [],
+            "sensitiveContent": {
+              "domain": ""
+            },
+            "age": null,
+            "passcode": null,
+            "nft": null,
+            "payment": null
+          }
+        },
+        "parent": null
+      },
+      {
+        "id": 335586125,
+        "type": "CLASSIC",
+        "title": "Instagram",
+        "position": 2,
+        "url": "https://www.instagram.com/hansen_limanta/",
+        "shouldRouteToProfile": false,
+        "modifiers": {
+          "animation": null,
+          "isForwarding": false,
+          "isForwardingActive": false,
+          "thumbnailUrl": null,
+          "amazonAffiliate": null,
+          "layoutOption": null
+        },
+        "context": {},
+        "rules": {
+          "gate": {
+            "activeOrder": [],
+            "sensitiveContent": {
+              "domain": ""
+            },
+            "age": {
+              "message": null,
+              "minAge": 25
+            },
+            "passcode": null,
+            "nft": null,
+            "payment": null
+          }
+        },
+        "parent": null
+      },
+      {
+        "id": 340226716,
+        "type": "HEADER",
+        "title": "Videos",
+        "position": 3,
+        "url": "",
+        "shouldRouteToProfile": true,
+        "modifiers": {
+          "animation": null,
+          "isForwarding": false,
+          "isForwardingActive": false,
+          "thumbnailUrl": null,
+          "amazonAffiliate": null,
+          "layoutOption": "stack"
+        },
+        "context": {
+          "headerLayoutOption": "stack"
+        },
+        "rules": {
+          "gate": {
+            "activeOrder": [],
+            "sensitiveContent": {
+              "domain": ""
+            },
+            "age": null,
+            "passcode": null,
+            "nft": null,
+            "payment": null
+          }
+        },
+        "parent": null
+      },
+      {
+        "id": 336274678,
+        "type": "YOUTUBE_VIDEO",
+        "title": "Drag and drop in react was a lot easier than I thought",
+        "position": 4,
+        "url": "https://www.youtube.com/watch?v=u65Y-vqYNAk",
+        "shouldRouteToProfile": false,
+        "modifiers": {
+          "animation": null,
+          "isForwarding": false,
+          "isForwardingActive": false,
+          "thumbnailUrl": "https://ugc.production.linktr.ee/fedfed15-afa3-4439-90dc-5473dafe1a5f_19008bc7-efa6-434c-a0b8-3afc818bdc8a-maxresdefault.jpeg",
+          "amazonAffiliate": null,
+          "layoutOption": "stack"
+        },
+        "context": {
+          "embedOption": "LINK_OFF",
+          "autoplay": true,
+          "mute": true,
+          "videoId": "u65Y-vqYNAk",
+          "startTime": 0
+        },
+        "rules": {
+          "gate": {
+            "activeOrder": [],
+            "sensitiveContent": {
+              "domain": ""
+            },
+            "age": null,
+            "passcode": null,
+            "nft": null,
+            "payment": null
+          }
+        },
+        "parent": null
+      }
+    ],
+    "socialLinks": [],
+    "theme": {
+      "key": "lake-white"
+    },
+    "themeV2": {
+      "key": "lake-white",
+      "luminance": "LIGHT",
+      "background": {
+        "type": "DEFAULT"
+      },
+      "buttonStyle": {
+        "type": "DEFAULT",
+        "backgroundStyle": {
+          "color": "#ffffff"
+        },
+        "shadowStyle": {
+          "color": "#000000"
+        },
+        "textStyle": {
+          "color": "#000000"
+        }
+      },
+      "typeface": {
+        "color": "#000000",
+        "family": "inter regular"
+      }
+    }
+  },
+  "theme": {
+    "key": "lake-white",
+    "mode": "light",
+    "colors": {
+      "body": "#000",
+      "linkBackground": "rgba(255,255,255,0.8)",
+      "linkText": "#000",
+      "linkShadow": "#000"
+    },
+    "components": {
+      "SignupSubmitButton": {
+        "borderLeftWidth": "2px",
+        "borderLeftColor": "rgba(0,0,0, 0.1)"
+      },
+      "ProfileBackground": {
+        "backgroundColor": "#fff",
+        "backgroundStyle": "noise"
+      },
+      "ProfileDescription": {
+        "color": "rgba(0,0,0, 0.6)"
+      },
+      "LinkContainer": {
+        "borderRadius": "4px",
+        "gridBorderRadius": "4px",
+        "styleType": "fill-scale-shadow"
+      },
+      "LinkHeader": {
+        "color": "body"
+      },
+      "LinkThumbnail": {
+        "borderRadius": "4px",
+        "size": "48px"
+      },
+      "SocialLink": {
+        "fill": "#000"
+      },
+      "Banner": {
+        "default": {
+          "backgroundColor": "linkBackground",
+          "color": "linkText"
+        }
+      },
+      "Footer": {
+        "logo": "black"
+      }
+    }
+  },
+  "isProfileVerified": true,
+  "hasConsentedToView": true,
+  "username": "hansenlimanta",
+  "pageTitle": "@hansenlimanta",
+  "description": null,
+  "socialLinks": [],
+  "integrations": [],
+  "seoSchemaClassifications": {
+    "typeClassification": null
+  },
+  "metaTitle": "hansenlimanta | Instagram | Linktree",
+  "metaDescription": "Linktree. Make your link do more.",
+  "profilePictureUrl": "https://ugc.production.linktr.ee/e7f2aa96-6cd3-4822-a082-332d3b5b1d73_untitled.png",
+  "links": [
+    {
+      "id": "340226675",
+      "title": "Social",
+      "context": {
+        "headerLayoutOption": "stack"
+      },
+      "animation": null,
+      "thumbnail": null,
+      "url": "",
+      "amazonAffiliate": null,
+      "type": "HEADER",
+      "rules": {
+        "gate": {
+          "activeOrder": [],
+          "sensitiveContent": {
+            "domain": ""
+          },
+          "age": null,
+          "passcode": null,
+          "nft": null,
+          "payment": null
+        }
+      },
+      "position": 0,
+      "locked": null,
+      "parent": null,
+      "children": [],
+      "layoutOption": "stack",
+      "childLinks": [
+        {
+          "id": "339255331",
+          "title": "Linkedin",
+          "context": {},
+          "animation": null,
+          "thumbnail": null,
+          "url": "https://www.linkedin.com/in/hansenlimanta/",
+          "amazonAffiliate": null,
+          "type": "CLASSIC",
+          "rules": {
+            "gate": {
+              "activeOrder": [],
+              "sensitiveContent": {
+                "domain": ""
+              },
+              "age": null,
+              "passcode": null,
+              "nft": null,
+              "payment": null
+            }
+          },
+          "position": 1,
+          "locked": null,
+          "parent": null,
+          "children": [],
+          "layoutOption": "stack"
+        },
+        {
+          "id": "335586125",
+          "title": "Instagram",
+          "context": {},
+          "animation": null,
+          "thumbnail": null,
+          "url": "https://www.instagram.com/hansen_limanta/",
+          "amazonAffiliate": null,
+          "type": "CLASSIC",
+          "rules": {
+            "gate": {
+              "activeOrder": [],
+              "sensitiveContent": {
+                "domain": ""
+              },
+              "age": {
+                "message": null,
+                "minAge": 25
+              },
+              "passcode": null,
+              "nft": null,
+              "payment": null
+            }
+          },
+          "position": 2,
+          "locked": null,
+          "parent": null,
+          "children": [],
+          "layoutOption": "stack"
+        }
+      ]
+    },
+    null,
+    null,
+    {
+      "id": "340226716",
+      "title": "Videos",
+      "context": {
+        "headerLayoutOption": "stack"
+      },
+      "animation": null,
+      "thumbnail": null,
+      "url": "",
+      "amazonAffiliate": null,
+      "type": "HEADER",
+      "rules": {
+        "gate": {
+          "activeOrder": [],
+          "sensitiveContent": {
+            "domain": ""
+          },
+          "age": null,
+          "passcode": null,
+          "nft": null,
+          "payment": null
+        }
+      },
+      "position": 3,
+      "locked": null,
+      "parent": null,
+      "children": [],
+      "layoutOption": "stack",
+      "childLinks": [
+        {
+          "id": "336274678",
+          "title": "Drag and drop in react was a lot easier than I thought",
+          "context": {
+            "embedOption": "LINK_OFF",
+            "autoplay": true,
+            "mute": true,
+            "videoId": "u65Y-vqYNAk",
+            "startTime": 0
+          },
+          "animation": null,
+          "thumbnail": "https://ugc.production.linktr.ee/fedfed15-afa3-4439-90dc-5473dafe1a5f_19008bc7-efa6-434c-a0b8-3afc818bdc8a-maxresdefault.jpeg",
+          "url": "https://www.youtube.com/watch?v=u65Y-vqYNAk",
+          "amazonAffiliate": null,
+          "type": "CLASSIC",
+          "rules": {
+            "gate": {
+              "activeOrder": [],
+              "sensitiveContent": {
+                "domain": ""
+              },
+              "age": null,
+              "passcode": null,
+              "nft": null,
+              "payment": null
+            }
+          },
+          "position": 4,
+          "locked": null,
+          "parent": null,
+          "children": [],
+          "layoutOption": "stack",
+          "autoOpenOnActive": false,
+          "isContentMatchingType": false
+        }
+      ]
+    },
+    {
+      "id": "336274678",
+      "title": "Drag and drop in react was a lot easier than I thought",
+      "animation": null,
+      "thumbnail": "https://ugc.production.linktr.ee/fedfed15-afa3-4439-90dc-5473dafe1a5f_19008bc7-efa6-434c-a0b8-3afc818bdc8a-maxresdefault.jpeg",
+      "url": "https://www.youtube.com/watch?v=u65Y-vqYNAk",
+      "amazonAffiliate": null,
+      "type": "YOUTUBE_VIDEO",
+      "position": 4,
+      "locked": null,
+      "parent": null,
+      "layoutOption": "stack"
+    }
+  ],
+  "leapLink": null,
+  "isOwner": false,
+  "isLogoVisible": true,
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+  "stage": "production",
+  "environment": {
+    "LINK_TYPES_ASSETS_ENDPOINT": "https://link-types-assets.production.linktr.ee",
+    "STRIPE_PAYMENTS_API_ENDPOINT": "https://stripe-payments.linktr.ee",
+    "STRIPE_PUBLISHABLE_KEY": "pk_live_51IdFBuL9SYJKPuFO2CTt5Wrpw46qcwd1ZjWC4MLOYi1aUXIfhfRbK7EkDJgMVQVaTcOceuPpCEnkv0g7J6TgkNdD00TD9bsb4o",
+    "PAYPAL_PAYMENTS_API_ENDPOINT": "https://paypal-payments.linktr.ee",
+    "PAYPAL_PAYMENTS_CLIENT_ID": "ATsU006_NqnC_Jk_W49YoQSnMh9kDXgMY_IVkUhJbutOkhQ7F8wlTWoJHyi2GteXaczfOGu22BSdWopq",
+    "SHOPIFY_INTEGRATIONS_API_ENDPOINT": "https://shopify-integrations.linktr.ee",
+    "META_IMAGE_URL": "https://assets.production.linktr.ee/profiles/_next/static/logo-assets/default-meta-image.png",
+    "RECAPTCHA_SITE_KEY": "6LdGYT4cAAAAANW9oE1Sa2AxBi8b9ZAbmvYBPnZm",
+    "RECAPTCHA_SITE_KEY_INVISIBLE": "6LcGlm0dAAAAAMfsVsJl3MZtjI-cKhBYzq5RPEo4",
+    "GRAPHQL_API_ENDPOINT": "https://graph.linktr.ee/graphql",
+    "PROFILES_API_HOST": "https://profiles-api.production.linktr.ee",
+    "LINKER_RECOMMENDATIONS_ENDPOINT": "https://api.linktr.ee/recommendations",
+    "BASE_PROFILE_URL": "https://linktr.ee",
+    "CDN_DISTRIBUTION_URL": "https://assets.production.linktr.ee/profiles/"
+  },
+  "contentGating": "none",
+  "videoStructuredData": [],
+  "hasSensitiveContent": false,
+  "auth0Config": {
+    "clientID": "rdPMLphw1ztUXo52bXtf3ah07kSUWguy",
+    "domain": "auth.linktr.ee",
+    "redirectUri": "https://linktr.ee/auth/callback",
+    "responseType": "token id_token",
+    "responseMode": "form_post",
+    "audience": "https://linktr.ee/api",
+    "plugins": {
+      "plugins": []
+    },
+    "_sendTelemetry": true,
+    "_timesToRetryFailedRequests": 0,
+    "tenant": "auth",
+    "token_issuer": "https://auth.linktr.ee/",
+    "legacySameSiteCookie": true,
+    "rootUrl": "https://auth.linktr.ee",
+    "universalLoginPage": true
+  },
+  "followerNotificationsEnabled": false,
+  "followerCapabilities": null
+}

@@ -19,7 +19,8 @@ export default function Admin() {
 
   const { data: dbLinks } = api.links.getLinksById.useQuery();
   const updateEndpoint = api.user.updateUrlEndPoint.useMutation();
-  const createNewLink = api.links.addLink.useMutation();
+  const createLink = api.links.addLink.useMutation();
+  const updateLink = api.links.updateLink.useMutation();
 
   const links = useLinksStore((state) => state.links);
   const setInitialLinks = useLinksStore((state) => state.setInitialLinks);
@@ -32,6 +33,7 @@ export default function Admin() {
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
+    if (links.length !== 0) return;
     const initialLinks = dbLinks
       ? dbLinks.map(
           (link) =>
@@ -41,6 +43,8 @@ export default function Admin() {
               title: link.title,
               type: link.type,
               url: link.url,
+              position: link.position,
+              userId: link.userId,
             }) as Link,
         )
       : ([] as Link[]);
@@ -48,17 +52,28 @@ export default function Admin() {
   }, [dbLinks]);
 
   useEffect(() => {
+    if (links.length === 0) return;
+    links.map((link) => {
+      updateLink.mutate({
+        id: link.id,
+        isActive: link.isActive,
+        position: link.position,
+        title: link.title,
+        url: link.url,
+      });
+    });
     iframeRef.current?.contentWindow?.location.reload();
   }, [links]);
 
   const handleSubmitUrl = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const newLink: Link = await createNewLink.mutateAsync({
+    const newLink: Link = await createLink.mutateAsync({
       id: Math.floor(Math.random() * 100000000).toString(),
       title: "Test URL",
       url: inputUrl,
       isActive: true,
       type: LinkType.Classic,
+      position: 0,
     });
 
     addLink(newLink);
@@ -66,12 +81,13 @@ export default function Admin() {
     setIsAddUrl(false);
   };
   const handleAddHeader = async () => {
-    const newLink: Link = await createNewLink.mutateAsync({
+    const newLink: Link = await createLink.mutateAsync({
       id: Math.floor(Math.random() * 100000000).toString(),
       title: "Test HEADER",
       url: "",
       isActive: true,
       type: LinkType.Header,
+      position: 0,
     });
 
     addLink(newLink);

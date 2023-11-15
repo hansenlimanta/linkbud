@@ -36,8 +36,11 @@ export const useLinksStore = create<State & Action>((set) => ({
       newOrder.splice(source.index, 1);
       newOrder.splice(destination.index, 0, draggableId);
 
-      const newLinks: Link[] = newOrder.map((taskId: string) => {
-        return state.links.find((task) => task.id === taskId) as Link;
+      const newLinks: Link[] = newOrder.map((taskId: string, index) => {
+        return {
+          ...(state.links.find((task) => task.id === taskId) as Link),
+          position: index,
+        };
       });
 
       return { links: newLinks };

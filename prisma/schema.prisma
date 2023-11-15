@@ -63,13 +63,11 @@ model VerificationToken {
 
 model Link {
     id          String      @id
-    title       String
-    url         String
     isActive    Boolean
+    position    Int
+    title       String
     type        String
+    url         String
     userId      String
     user        User        @relation(fields: [userId], references: [id])
-    createdAt   DateTime    @default(now())
-    updatedAt   DateTime    @updatedAt
-    orderParam  DateTime    @default(now())
 }

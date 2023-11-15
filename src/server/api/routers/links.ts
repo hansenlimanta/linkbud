@@ -14,7 +14,7 @@ export const linksRouter = createTRPCRouter({
         userId: ctx.session.user.id,
       },
       orderBy: {
-        createdAt: "desc",
+        position: "asc",
       },
     });
   }),
@@ -37,7 +37,7 @@ export const linksRouter = createTRPCRouter({
           userId: user.id,
         },
         orderBy: {
-          createdAt: "desc",
+          position: "asc",
         },
       });
 
@@ -50,6 +50,7 @@ export const linksRouter = createTRPCRouter({
         id: z.string(),
         title: z.string(),
         url: z.string(),
+        position: z.number(),
         isActive: z.boolean(),
         type: z.string(),
       }),
@@ -63,6 +64,7 @@ export const linksRouter = createTRPCRouter({
           url: input.url,
           isActive: input.isActive,
           type: input.type,
+          position: input.position,
         },
       });
     }),
@@ -73,6 +75,30 @@ export const linksRouter = createTRPCRouter({
       return ctx.db.link.delete({
         where: {
           id: input.id,
+        },
+      });
+    }),
+
+  updateLink: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        isActive: z.boolean(),
+        position: z.number(),
+        title: z.string(),
+        url: z.string(),
+      }),
+    )
+    .mutation(({ ctx, input }) => {
+      return ctx.db.link.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          isActive: input.isActive,
+          position: input.position,
+          title: input.title,
+          url: input.url,
         },
       });
     }),
