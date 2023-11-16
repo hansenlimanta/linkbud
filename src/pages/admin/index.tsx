@@ -1,11 +1,10 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import Head from "next/head";
 import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 import AdminNav from "~/components/AdminNav";
 import DraggableLink from "~/components/DraggableLink";
 import DraggableHeader from "~/components/DraggableHeader";
 import { LinkType, useLinksStore } from "~/store/linksStore";
-import { useSession } from "next-auth/react";
 import { Link } from "@prisma/client";
 import { api } from "~/utils/api";
 import { GetServerSidePropsContext } from "next";
@@ -13,11 +12,7 @@ import { getServerAuthSession } from "~/server/auth";
 import AddUrlForm from "~/components/AddUrlForm";
 
 export default function Admin() {
-  const { data: sessionData } = useSession();
-  const userEndpoint = sessionData?.user.urlEndpoint;
-
   const { data: dbLinks } = api.links.getLinksById.useQuery();
-  const updateEndpoint = api.user.updateUrlEndPoint.useMutation();
   const updateLink = api.links.updateLinksArray.useMutation();
 
   const links = useLinksStore((state) => state.links);
@@ -25,7 +20,6 @@ export default function Admin() {
   const setInitialLinks = useLinksStore((state) => state.setInitialLinks);
   const updateOrders = useLinksStore((state) => state.updateOrders);
 
-  const [endpointInput, setEndpointInput] = useState("");
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
@@ -64,10 +58,6 @@ export default function Admin() {
     iframeRef.current?.contentWindow?.location.reload();
   }, [updateOrderParams]);
 
-  const handleSetEndpoint = () => {
-    updateEndpoint.mutate({ endpoint: endpointInput });
-  };
-
   return (
     <>
       <Head>
@@ -80,19 +70,6 @@ export default function Admin() {
         <DragDropContext onDragEnd={(e) => updateOrders(e)}>
           <div className="!ml-0 mr-[570px] overflow-x-auto">
             <div className="mt-20 w-full px-6">
-              {userEndpoint ? (
-                <div>Endpoint: {userEndpoint}</div>
-              ) : (
-                <>
-                  <input
-                    type="text"
-                    value={endpointInput}
-                    onChange={(e) => setEndpointInput(e.target.value)}
-                  />
-                  <button onClick={handleSetEndpoint}>Submit</button>
-                </>
-              )}
-
               <div className="flex h-20 w-full items-center justify-between rounded-3xl bg-blue-100 px-4 shadow">
                 <div className="flex items-center justify-start gap-2">
                   <p className="font-semibold">Your Linkbud is live: </p>
@@ -168,6 +145,14 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     return {
       redirect: {
         destination: "/",
+        permanent: false,
+      },
+    };
+  }
+  if (!session.user.username) {
+    return {
+      redirect: {
+        destination: "/admin/register-username",
         permanent: false,
       },
     };

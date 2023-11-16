@@ -51,7 +51,7 @@ const AddUrlForm = () => {
           </div>
           <h2 className="mb-4 text-xl font-bold">Enter URL</h2>
           <form
-            onSubmit={(e) => handleSubmitUrl(e)}
+            onSubmit={handleSubmitUrl}
             className="flex w-full justify-between gap-4"
           >
             <input

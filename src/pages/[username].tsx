@@ -8,8 +8,8 @@ import { api } from "~/utils/api";
 export default function Linkbud() {
   const router = useRouter();
   const [error, setError] = useState("");
-  const userQuery = api.links.getLinksByEndpoint.useQuery({
-    endpoint: router.query.endpoint as string,
+  const userQuery = api.links.getLinksByUsername.useQuery({
+    username: router.query.username as string,
   });
   const { data: userData } = userQuery;
   const [profilePicture, setProfilePicture] = useState("");

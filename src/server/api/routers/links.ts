@@ -19,11 +19,11 @@ export const linksRouter = createTRPCRouter({
     });
   }),
 
-  getLinksByEndpoint: publicProcedure
-    .input(z.object({ endpoint: z.string() }))
+  getLinksByUsername: publicProcedure
+    .input(z.object({ username: z.string() }))
     .query(async ({ ctx, input }) => {
       const user = await ctx.db.user.findFirst({
-        where: { urlEndpoint: input.endpoint },
+        where: { username: input.username },
       });
 
       if (!user)

@@ -209,10 +209,18 @@ function Fonts() {
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const session = await getServerAuthSession(ctx);
-  if (session?.user) {
+  if (!session?.user) {
     return {
       redirect: {
         destination: "/",
+        permanent: false,
+      },
+    };
+  }
+  if (!session.user.username) {
+    return {
+      redirect: {
+        destination: "/admin/register-username",
         permanent: false,
       },
     };
