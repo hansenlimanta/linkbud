@@ -14,7 +14,7 @@ export const linksRouter = createTRPCRouter({
         userId: ctx.session.user.id,
       },
       orderBy: {
-        position: "asc",
+        position: "desc",
       },
     });
   }),
@@ -37,7 +37,7 @@ export const linksRouter = createTRPCRouter({
           userId: user.id,
         },
         orderBy: {
-          position: "asc",
+          position: "desc",
         },
       });
 
@@ -79,8 +79,32 @@ export const linksRouter = createTRPCRouter({
       });
     }),
 
-  // Sementara jangan dipake dulu karena masih pake sqlite ========================
   updateLink: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        isActive: z.boolean(),
+        position: z.number(),
+        title: z.string(),
+        url: z.string(),
+      }),
+    )
+    .mutation(({ ctx, input }) => {
+      ctx.db.link.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          isActive: input.isActive,
+          position: input.position,
+          title: input.title,
+          url: input.url,
+        },
+      });
+    }),
+
+  // Sementara jangan dipake dulu karena masih pake sqlite ========================
+  updateLinksArray: protectedProcedure
     .input(
       z
         .object({

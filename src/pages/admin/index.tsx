@@ -1,18 +1,16 @@
-import { useState, useEffect, useRef, FormEvent } from "react";
+import { useState, useEffect, useRef } from "react";
 import Head from "next/head";
 import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 import AdminNav from "~/components/AdminNav";
 import DraggableLink from "~/components/DraggableLink";
 import DraggableHeader from "~/components/DraggableHeader";
 import { LinkType, useLinksStore } from "~/store/linksStore";
-import { RiLayoutTop2Line } from "react-icons/ri";
-import { RxCross2 } from "react-icons/rx";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { Link } from "@prisma/client";
 import { api } from "~/utils/api";
 import { GetServerSidePropsContext } from "next";
 import { getServerAuthSession } from "~/server/auth";
-import { link } from "fs";
+import AddUrlForm from "~/components/AddUrlForm";
 
 export default function Admin() {
   const { data: sessionData } = useSession();
@@ -20,17 +18,13 @@ export default function Admin() {
 
   const { data: dbLinks } = api.links.getLinksById.useQuery();
   const updateEndpoint = api.user.updateUrlEndPoint.useMutation();
-  const createLink = api.links.addLink.useMutation();
-  const updateLink = api.links.updateLink.useMutation();
+  const updateLink = api.links.updateLinksArray.useMutation();
 
   const links = useLinksStore((state) => state.links);
   const updateOrderParams = useLinksStore((state) => state.updateOrderParams);
   const setInitialLinks = useLinksStore((state) => state.setInitialLinks);
-  const addLink = useLinksStore((state) => state.addLink);
   const updateOrders = useLinksStore((state) => state.updateOrders);
 
-  const [inputUrl, setInputUrl] = useState("");
-  const [isAddUrl, setIsAddUrl] = useState(false);
   const [endpointInput, setEndpointInput] = useState("");
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
@@ -70,33 +64,6 @@ export default function Admin() {
     iframeRef.current?.contentWindow?.location.reload();
   }, [updateOrderParams]);
 
-  const handleSubmitUrl = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const newLink: Link = await createLink.mutateAsync({
-      id: Math.floor(Math.random() * 100000000).toString(),
-      title: "Test URL",
-      url: inputUrl,
-      isActive: true,
-      type: LinkType.Classic,
-      position: links.length,
-    });
-
-    addLink(newLink);
-    setInputUrl("");
-    setIsAddUrl(false);
-  };
-  const handleAddHeader = async () => {
-    const newLink: Link = await createLink.mutateAsync({
-      id: Math.floor(Math.random() * 100000000).toString(),
-      title: "Test HEADER",
-      url: "",
-      isActive: true,
-      type: LinkType.Header,
-      position: links.length,
-    });
-
-    addLink(newLink);
-  };
   const handleSetEndpoint = () => {
     updateEndpoint.mutate({ endpoint: endpointInput });
   };
@@ -113,12 +80,6 @@ export default function Admin() {
         <DragDropContext onDragEnd={(e) => updateOrders(e)}>
           <div className="!ml-0 mr-[570px] overflow-x-auto">
             <div className="mt-20 w-full px-6">
-              <div
-                onClick={() => (sessionData ? signOut() : signIn("google"))}
-                className="w-fit cursor-pointer rounded-2xl border bg-cyan-100 px-4  py-2 text-center transition-colors  hover:bg-cyan-200"
-              >
-                {sessionData ? "SIGN OUT TEST" : "SIGN IN TEST"}
-              </div>
               {userEndpoint ? (
                 <div>Endpoint: {userEndpoint}</div>
               ) : (
@@ -155,48 +116,7 @@ export default function Admin() {
               </div>
             </div>
             <div className="m-auto flex min-h-screen max-w-[620px] flex-auto flex-col items-center justify-start gap-4 py-14">
-              {isAddUrl ? (
-                <div className="relative flex w-full flex-col justify-center rounded-xl border bg-white p-6 align-baseline transition-all ease-in-out">
-                  <div
-                    className="absolute right-2 top-2 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full p-2 transition-all hover:bg-slate-100"
-                    onClick={() => setIsAddUrl(false)}
-                  >
-                    <RxCross2 />
-                  </div>
-                  <h2 className="mb-4 text-xl font-bold">Enter URL</h2>
-                  <form
-                    onSubmit={(e) => handleSubmitUrl(e)}
-                    className="flex w-full justify-between gap-4"
-                  >
-                    <input
-                      value={inputUrl}
-                      onChange={(e) => setInputUrl(e.target.value)}
-                      type="text"
-                      placeholder="URL"
-                      className="w-full rounded-lg border bg-stone-100 px-4 py-2"
-                    />
-                    <button className="rounded-full border bg-stone-50 px-5 py-2 transition-all hover:bg-stone-200">
-                      Add
-                    </button>
-                  </form>
-                </div>
-              ) : (
-                <button
-                  onClick={() => setIsAddUrl(true)}
-                  className="w-full rounded-full bg-amber-200 px-4 py-3 font-semibold transition-all ease-in-out hover:bg-amber-300"
-                >
-                  + Add Link
-                </button>
-              )}
-              <div className="w-full">
-                <button
-                  onClick={handleAddHeader}
-                  className="flex items-center justify-center gap-2 rounded-full border-2 bg-inherit px-4 py-2 hover:bg-white"
-                >
-                  <RiLayoutTop2Line />
-                  Add header
-                </button>
-              </div>
+              <AddUrlForm />
               <Droppable droppableId={"drop-area"}>
                 {(provided) => (
                   <div
