@@ -5,28 +5,33 @@ import { getServerAuthSession } from "~/server/auth";
 import { signOut } from "next-auth/react";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
+import { useForm, SubmitHandler } from "react-hook-form";
+
+type Inputs = {
+  username: string;
+};
 
 export default function RegisterUsername() {
   const router = useRouter();
+  const { data: usernames } = api.user.getAllUserNames.useQuery();
   const updateUsername = api.user.updateUsername.useMutation({
     onSuccess: () => {
       router.push("/admin");
     },
   });
   const [isFocus, setIsFocus] = useState(false);
-  const [disable, setDisable] = useState(true);
-  const [username, setUsername] = useState("");
-  useEffect(() => {
-    if (username === "") {
-      setDisable(true);
-    } else {
-      setDisable(false);
-    }
-  }, [username]);
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    updateUsername.mutate({ username: username });
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors, isDirty, isValid },
+  } = useForm<Inputs>();
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    console.log(data);
+    //   e.preventDefault();
+    //   updateUsername.mutate({ username: username });
   };
+
   return (
     <>
       <Head>
@@ -36,12 +41,13 @@ export default function RegisterUsername() {
       </Head>
       <main className="h-screen bg-stone-100">
         <form
-          onSubmit={handleSubmit}
-          className="m-auto flex h-full w-[620px] flex-col items-center justify-center gap-6"
+          onSubmit={handleSubmit(onSubmit)}
+          className="m-auto flex h-full w-[620px] flex-col items-center justify-start gap-6 pt-40"
         >
           <h1 className="text-5xl font-extrabold">Welcome to Linkbud!</h1>
           <p>Choose your Linkbud username. You can always change it later.</p>
           <div
+            onClick={() => setIsFocus(true)}
             className={
               "my-6 flex h-fit w-full items-center justify-start overflow-hidden rounded-md bg-zinc-300 " +
               `${isFocus ? "outline outline-offset-1" : "outline-none"}`
@@ -54,10 +60,7 @@ export default function RegisterUsername() {
               <input
                 type="text"
                 placeholder="Username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                onFocus={() => setIsFocus(true)}
-                onBlur={() => setIsFocus(false)}
+                {...register("username", { required: true })}
                 className="h-full w-full bg-inherit p-2 focus:outline-none"
               />
             </span>
@@ -67,13 +70,13 @@ export default function RegisterUsername() {
             Linkbud
           </p>
           <button
-            disabled={disable}
-            className={
-              "w-full rounded-full bg-slate-200 py-3 hover:bg-slate-300 " +
-              `${
-                disable ? "cursor-default hover:bg-slate-200" : "cursor-pointer"
-              }`
-            }
+            type="submit"
+            disabled={!isDirty || !isValid}
+            className={`w-full rounded-full py-3 font-semibold transition-all ${
+              !isDirty || !isValid
+                ? "cursor-default bg-slate-200"
+                : "cursor-pointer bg-lime-300 hover:bg-lime-400 "
+            }`}
           >
             Continue
           </button>
