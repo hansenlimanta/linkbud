@@ -27,21 +27,29 @@ const DraggableLink: FC<DraggableLinkProps> = ({ link, index }) => {
 
   const [isEditTitle, setIsEditTitle] = useState(false);
   const [isEditUrl, setIsEditUrl] = useState(false);
-  const [title, setTitle] = useState("");
-  const [url, setUrl] = useState("");
   const titleRef = useRef<HTMLInputElement>(null);
   const urlRef = useRef<HTMLInputElement>(null);
   const updateLink = useLinksStore((state) => state.updateLink);
   const removeLink = useLinksStore((state) => state.removeLink);
 
   useEffect(() => {
-    setTitle(link.title);
-    setUrl(link.url);
-  }, []);
+    const timeOutId = setTimeout(
+      () =>
+        updateLinkApi.mutate({
+          id: link.id,
+          isActive: link.isActive,
+          position: link.position,
+          title: link.title,
+          url: link.url,
+        }),
+      2000,
+    );
+    return () => clearTimeout(timeOutId);
+  }, [link]);
 
   const handleEditTitle = () => {
     if (titleRef.current?.selectionStart === 0) {
-      titleRef.current.setSelectionRange(title.length, title.length);
+      titleRef.current.setSelectionRange(link.title.length, link.title.length);
     }
     titleRef.current?.focus();
     setIsEditTitle(true);
@@ -49,7 +57,7 @@ const DraggableLink: FC<DraggableLinkProps> = ({ link, index }) => {
 
   const handleEditUrl = () => {
     if (urlRef.current?.selectionStart === 0) {
-      urlRef.current.setSelectionRange(url.length, url.length);
+      urlRef.current.setSelectionRange(link.url.length, link.url.length);
     }
     urlRef.current?.focus();
     setIsEditUrl(true);
@@ -57,7 +65,6 @@ const DraggableLink: FC<DraggableLinkProps> = ({ link, index }) => {
 
   const handleInput = (input: string, type: string, isActive: boolean) => {
     const updatedLink: Link = { ...link };
-
     switch (type) {
       case "url":
         updatedLink.url = input;
@@ -68,13 +75,6 @@ const DraggableLink: FC<DraggableLinkProps> = ({ link, index }) => {
       case "isActive":
         updatedLink.isActive = isActive;
     }
-    updateLinkApi.mutate({
-      id: updatedLink.id,
-      isActive: updatedLink.isActive,
-      position: updatedLink.position,
-      title: updatedLink.title,
-      url: updatedLink.url,
-    });
     updateLink(updatedLink);
   };
   const handleRemoveLink = () => {

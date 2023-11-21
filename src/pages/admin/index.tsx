@@ -44,7 +44,11 @@ export default function Admin() {
   }, [dbLinks]);
 
   useEffect(() => {
-    iframeRef.current?.contentWindow?.location.reload();
+    const timeOutId = setTimeout(
+      () => iframeRef.current?.contentWindow?.location.reload(),
+      2000,
+    );
+    return () => clearTimeout(timeOutId);
   }, [links]);
 
   useEffect(() => {
