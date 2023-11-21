@@ -14,6 +14,17 @@ type DraggableLinkProps = {
 };
 
 const DraggableLink: FC<DraggableLinkProps> = ({ link, index }) => {
+  const utils = api.useContext();
+  const updateLinkApi = api.links.updateLink.useMutation();
+  const deleteLinkApi = api.links.deleteLink.useMutation({
+    onSuccess: () => {
+      utils.links.getLinksById.invalidate();
+    },
+    onError: () => {
+      utils.links.getLinksById.invalidate();
+    },
+  });
+
   const [isEditTitle, setIsEditTitle] = useState(false);
   const [isEditUrl, setIsEditUrl] = useState(false);
   const [title, setTitle] = useState("");
@@ -22,15 +33,6 @@ const DraggableLink: FC<DraggableLinkProps> = ({ link, index }) => {
   const urlRef = useRef<HTMLInputElement>(null);
   const updateLink = useLinksStore((state) => state.updateLink);
   const removeLink = useLinksStore((state) => state.removeLink);
-  const utils = api.useContext();
-  const deleteLink = api.links.deleteLink.useMutation({
-    onSuccess: () => {
-      utils.links.getLinksById.invalidate();
-    },
-    onError: () => {
-      utils.links.getLinksById.invalidate();
-    },
-  });
 
   useEffect(() => {
     setTitle(link.title);
@@ -55,6 +57,7 @@ const DraggableLink: FC<DraggableLinkProps> = ({ link, index }) => {
 
   const handleInput = (input: string, type: string, isActive: boolean) => {
     const updatedLink: Link = { ...link };
+
     switch (type) {
       case "url":
         updatedLink.url = input;
@@ -65,10 +68,17 @@ const DraggableLink: FC<DraggableLinkProps> = ({ link, index }) => {
       case "isActive":
         updatedLink.isActive = isActive;
     }
+    updateLinkApi.mutate({
+      id: updatedLink.id,
+      isActive: updatedLink.isActive,
+      position: updatedLink.position,
+      title: updatedLink.title,
+      url: updatedLink.url,
+    });
     updateLink(updatedLink);
   };
   const handleRemoveLink = () => {
-    deleteLink.mutate({ id: link.id });
+    deleteLinkApi.mutate({ id: link.id });
     removeLink(link.id);
   };
 

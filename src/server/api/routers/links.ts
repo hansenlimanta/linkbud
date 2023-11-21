@@ -90,7 +90,7 @@ export const linksRouter = createTRPCRouter({
       }),
     )
     .mutation(({ ctx, input }) => {
-      ctx.db.link.update({
+      return ctx.db.link.update({
         where: {
           id: input.id,
         },
@@ -118,8 +118,8 @@ export const linksRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       try {
-        input.forEach(async (link) => {
-          await ctx.db.link.update({
+        const result = input.map(async (link) => {
+          return await ctx.db.link.update({
             where: {
               id: link.id,
             },
@@ -131,6 +131,7 @@ export const linksRouter = createTRPCRouter({
             },
           });
         });
+        return result;
       } catch (error) {
         console.log(error);
       }

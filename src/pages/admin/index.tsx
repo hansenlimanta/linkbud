@@ -15,7 +15,7 @@ import { useSession } from "next-auth/react";
 export default function Admin() {
   const { data: sessionData } = useSession();
   const { data: dbLinks } = api.links.getLinksById.useQuery();
-  const updateLink = api.links.updateLinksArray.useMutation();
+  const updateLinksArray = api.links.updateLinksArray.useMutation();
 
   const links = useLinksStore((state) => state.links);
   const updateOrderParams = useLinksStore((state) => state.updateOrderParams);
@@ -23,7 +23,7 @@ export default function Admin() {
   const updateOrders = useLinksStore((state) => state.updateOrders);
 
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  const [userUrl, setUserUrl] = useState("http://localhost:3000/");
+  const [userUrl, setUserUrl] = useState("");
 
   useEffect(() => {
     const initialLinks = dbLinks
@@ -63,7 +63,7 @@ export default function Admin() {
       title: link.title,
       url: link.url,
     }));
-    updateLink.mutate(updateOrderData);
+    updateLinksArray.mutate(updateOrderData);
     iframeRef.current?.contentWindow?.location.reload();
   }, [updateOrderParams]);
 
@@ -134,11 +134,15 @@ export default function Admin() {
             </div>
           </div>
           <div className="fixed right-0 top-0 z-10 h-screen w-[570px] border-l">
-            <iframe
-              src={userUrl}
-              ref={iframeRef}
-              className="absolute left-1/2 top-1/2 h-[690px] w-[320px] -translate-x-1/2 -translate-y-1/2 scale-[0.7] overflow-hidden rounded-[40px] border-[10px] border-black bg-gray-800"
-            ></iframe>
+            {userUrl === "" ? (
+              <></>
+            ) : (
+              <iframe
+                src={userUrl}
+                ref={iframeRef}
+                className="absolute left-1/2 top-1/2 h-[690px] w-[320px] -translate-x-1/2 -translate-y-1/2 scale-[0.7] overflow-hidden rounded-[40px] border-[10px] border-black bg-gray-800"
+              ></iframe>
+            )}
           </div>
         </DragDropContext>
       </main>
