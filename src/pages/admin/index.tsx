@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Head from "next/head";
 import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 import AdminNav from "~/components/AdminNav";
@@ -10,8 +10,10 @@ import { api } from "~/utils/api";
 import { GetServerSidePropsContext } from "next";
 import { getServerAuthSession } from "~/server/auth";
 import AddUrlForm from "~/components/AddUrlForm";
+import { useSession } from "next-auth/react";
 
 export default function Admin() {
+  const { data: sessionData } = useSession();
   const { data: dbLinks } = api.links.getLinksById.useQuery();
   const updateLink = api.links.updateLinksArray.useMutation();
 
@@ -21,6 +23,7 @@ export default function Admin() {
   const updateOrders = useLinksStore((state) => state.updateOrders);
 
   const iframeRef = useRef<HTMLIFrameElement>(null);
+  const [userUrl, setUserUrl] = useState("http://localhost:3000/");
 
   useEffect(() => {
     const initialLinks = dbLinks
@@ -43,6 +46,12 @@ export default function Admin() {
   useEffect(() => {
     iframeRef.current?.contentWindow?.location.reload();
   }, [links]);
+
+  useEffect(() => {
+    if (sessionData?.user.username) {
+      setUserUrl(`http://localhost:3000/${sessionData.user.username}`);
+    }
+  }, [sessionData]);
 
   // belum bisa karena masih pake sqlite
   useEffect(() => {
@@ -73,17 +82,15 @@ export default function Admin() {
               <div className="flex h-20 w-full items-center justify-between rounded-3xl bg-blue-100 px-4 shadow">
                 <div className="flex items-center justify-start gap-2">
                   <p className="font-semibold">Your Linkbud is live: </p>
-                  <a href="/" target="_blank" className="underline">
-                    link.bud/hansenlimanta
+                  <a href={userUrl} target="_blank" className="underline">
+                    {userUrl}
                   </a>
                 </div>
                 <div className="flex items-center justify-end gap-2">
                   <p>Share your Linktree to your socials</p>
                   <button
                     onClick={() => {
-                      navigator.clipboard.writeText(
-                        "http://www.hansenlimanta.com",
-                      );
+                      navigator.clipboard.writeText(userUrl);
                     }}
                     className="rounded-full border bg-white px-4 py-2 font-semibold hover:bg-slate-100"
                   >
@@ -128,7 +135,7 @@ export default function Admin() {
           </div>
           <div className="fixed right-0 top-0 z-10 h-screen w-[570px] border-l">
             <iframe
-              src="http://localhost:3000/hansenlimanta"
+              src={userUrl}
               ref={iframeRef}
               className="absolute left-1/2 top-1/2 h-[690px] w-[320px] -translate-x-1/2 -translate-y-1/2 scale-[0.7] overflow-hidden rounded-[40px] border-[10px] border-black bg-gray-800"
             ></iframe>

@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { useState, useEffect, FormEvent, use } from "react";
+import { useState, useEffect } from "react";
 import { GetServerSidePropsContext } from "next";
 import { getServerAuthSession } from "~/server/auth";
 import { signOut } from "next-auth/react";
@@ -13,8 +13,13 @@ type Inputs = {
 
 export default function RegisterUsername() {
   const router = useRouter();
-  const { data: usernames } = api.user.getAllUserNames.useQuery();
+  const [usernames, setUsernames] = useState<string[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { data: usernamesApi } = api.user.getAllUserNames.useQuery();
   const updateUsername = api.user.updateUsername.useMutation({
+    onMutate: () => {
+      setIsSubmitting(true);
+    },
     onSuccess: () => {
       router.push("/admin");
     },
@@ -23,16 +28,23 @@ export default function RegisterUsername() {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors, isDirty, isValid },
-  } = useForm<Inputs>();
+  } = useForm<Inputs>({ mode: "onChange" });
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log(data);
-    //   updateUsername.mutate({ username: username });
+    updateUsername.mutate({ username: data.username });
   };
   useEffect(() => {
-    console.log("errors", errors);
-  }, [errors]);
+    if (usernamesApi) {
+      const newArray = usernamesApi.map((item) => {
+        if (item.username !== null) {
+          return item.username;
+        } else {
+          return "";
+        }
+      });
+      setUsernames(newArray);
+    }
+  }, [usernamesApi]);
   return (
     <>
       <Head>
@@ -49,14 +61,14 @@ export default function RegisterUsername() {
           <p>Choose your Linkbud username. You can always change it later.</p>
           <div className="flex w-full flex-col items-start justify-center">
             <div
-              className={`mt-6 flex h-fit w-full items-center justify-start overflow-hidden rounded-md bg-zinc-300 ${
+              className={`mt-6 flex h-fit w-full items-center justify-start overflow-hidden rounded-md border-2 bg-zinc-300 ${
                 errors.username
                   ? isFocus
-                    ? "border-2 border-red-600 outline outline-offset-1"
-                    : "border-2 border-red-600 outline-none"
+                    ? "border-red-600 outline outline-offset-1"
+                    : "border-red-600 outline-none"
                   : isFocus
-                  ? "outline outline-offset-1"
-                  : "outline-none"
+                  ? "border-transparent outline outline-offset-1"
+                  : "border-transparent outline-none hover:border-gray-400"
               }`}
             >
               <p className="cursor-default px-4 py-2 pr-0 text-gray-500">
@@ -78,6 +90,9 @@ export default function RegisterUsername() {
                       message:
                         "Usernames may only contain letters, numbers, underscores ('_') and periods ('.')",
                     },
+                    validate: (value) =>
+                      !usernames?.includes(value) ||
+                      "Username is already taken",
                   })}
                   onFocus={() => setIsFocus(true)}
                   className="h-full w-full bg-inherit p-2 focus:outline-none"
@@ -96,7 +111,7 @@ export default function RegisterUsername() {
           </p>
           <button
             type="submit"
-            disabled={!isDirty || !isValid}
+            disabled={!isDirty || !isValid || isSubmitting}
             className={`w-full rounded-full py-3 font-semibold transition-all ${
               !isDirty || !isValid
                 ? "cursor-default bg-slate-200 text-gray-500"
