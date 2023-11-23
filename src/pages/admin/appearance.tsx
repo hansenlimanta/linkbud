@@ -1,9 +1,20 @@
 import { GetServerSidePropsContext } from "next";
+import { useSession } from "next-auth/react";
 import Head from "next/head";
+import { useState, useEffect } from "react";
 import AdminNav from "~/components/AdminNav";
 import { getServerAuthSession } from "~/server/auth";
 
 export default function Admin() {
+  const { data: sessionData } = useSession();
+  const [userUrl, setUserUrl] = useState("");
+
+  useEffect(() => {
+    if (sessionData?.user.username) {
+      setUserUrl(`http://localhost:3000/${sessionData.user.username}`);
+    }
+  }, [sessionData]);
+
   return (
     <>
       <Head>
@@ -30,7 +41,7 @@ export default function Admin() {
         </div>
         <div className="fixed right-0 top-0 z-10 h-screen w-[570px] border-l">
           <iframe
-            src="http://localhost:3000/linkbud"
+            src={userUrl}
             className="absolute left-1/2 top-1/2 h-[690px] w-[320px] -translate-x-1/2 -translate-y-1/2 scale-[0.7] overflow-hidden rounded-[40px] border-[10px] border-black bg-gray-800"
           ></iframe>
         </div>
@@ -58,7 +69,34 @@ function Profile() {
           </div>
         </div>
         <form className="flex w-full flex-col gap-4">
-          <input type="text" className="rounded-lg border" />
+          <div className="relative grow rounded-lg border px-3 pt-2">
+            <input
+              id="setting-page-title"
+              data-testid="ProfileTitleInput"
+              type="text"
+              placeholder="Profile Title"
+              aria-invalid="false"
+              aria-labelledby="label-ltclid75"
+              className="pt-xl h-2xl p-md bg-chalk peer  block w-full rounded-sm text-sm leading-[48px] text-black placeholder-transparent !outline-none transition duration-75 ease-out placeholder:leading-[48px]"
+            />
+            <label
+              id="label-ltclid75"
+              className="left-md peer-focus:left-md text-concrete pointer-events-none absolute top-[13px] max-w-[calc(100%-(16px*2))] origin-[0] -translate-y-2.5 scale-[0.85] transform truncate text-sm transition-all peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-placeholder-shown:tracking-normal peer-focus:-translate-y-2.5 peer-focus:scale-[0.85]"
+            >
+              Profile Title
+            </label>
+          </div>
+          {/* <div className="relative grow">
+            <input
+              type="text"
+              placeholder="Profile title"
+              className="rounded-lg border px-4 py-2"
+              aria-labelledby="label-profile-title"
+            />
+            <label className="absolute" id="label-profile-title">
+              Profile title
+            </label>
+          </div> */}
           <textarea className="rounded-lg border"></textarea>
         </form>
       </div>
