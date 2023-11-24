@@ -15,13 +15,22 @@ export default function RegisterUsername() {
   const router = useRouter();
   const [usernames, setUsernames] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { data: usernamesApi } = api.user.getAllUserNames.useQuery();
+  const { data: usernamesApi } = api.user.getAllUsernames.useQuery();
+  const updatePageTitle = api.user.updatePageTitle.useMutation({
+    onSuccess: () => {
+      router.push("/admin");
+    },
+  });
   const updateUsername = api.user.updateUsername.useMutation({
     onMutate: () => {
       setIsSubmitting(true);
     },
-    onSuccess: () => {
-      router.push("/admin");
+    onSuccess: ({ username }) => {
+      if (username !== null) {
+        updatePageTitle.mutate({ pageTitle: username });
+      } else {
+        setIsSubmitting(false);
+      }
     },
   });
   const [isFocus, setIsFocus] = useState(false);

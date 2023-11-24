@@ -48,6 +48,8 @@ model User {
     emailVerified DateTime?
     image         String?
     username      String?    @unique
+    pageTitle     String?
+    description   String?
     accounts      Account[]
     sessions      Session[]
     links         Link[]
