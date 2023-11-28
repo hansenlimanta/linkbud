@@ -1,8 +1,8 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import Background from "~/components/Background";
-import LinkButton from "~/components/LinkButton";
+import Background from "~/components/linkbudPage/Background";
+import LinkButton from "~/components/linkbudPage/LinkButton";
 import { LinkType } from "~/store/linksStore";
 import { api } from "~/utils/api";
 export default function Linkbud() {

@@ -1,19 +1,34 @@
-import { GetServerSidePropsContext } from "next";
-import { useSession } from "next-auth/react";
-import Head from "next/head";
 import { useState, useEffect } from "react";
-import AdminNav from "~/components/AdminNav";
+import { useSession } from "next-auth/react";
+import { GetServerSidePropsContext } from "next";
 import { getServerAuthSession } from "~/server/auth";
+import { api } from "~/utils/api";
+
+import Head from "next/head";
+import AdminNav from "~/components/AdminNav";
+import Backgrounds from "~/components/appearancePage/Backgrounds";
+import Buttons from "~/components/appearancePage/Buttons";
+import Fonts from "~/components/appearancePage/Fonts";
+import Profile from "~/components/appearancePage/Profile";
+import Themes from "~/components/appearancePage/Themes";
 
 export default function Admin() {
   const { data: sessionData } = useSession();
   const [userUrl, setUserUrl] = useState("");
+  const updatePageTitleApi = api.user.updatePageTitle.useMutation();
 
   useEffect(() => {
     if (sessionData?.user.username) {
       setUserUrl(`http://localhost:3000/${sessionData.user.username}`);
     }
   }, [sessionData]);
+  useEffect(() => {
+    const timeOutId = setTimeout(
+      () => updatePageTitleApi.mutate({ pageTitle: "Linkbud Admin" }),
+      2000,
+    );
+    return () => clearTimeout(timeOutId);
+  }, []);
 
   return (
     <>
@@ -47,201 +62,6 @@ export default function Admin() {
         </div>
       </main>
     </>
-  );
-}
-
-function Profile() {
-  return (
-    <div className="flex w-full max-w-[620px] flex-col gap-4">
-      <p className="text-xl font-semibold">Profile</p>
-      <div className="flex flex-col gap-8 rounded-2xl bg-white p-6">
-        <div className="flex w-full items-center justify-start gap-4">
-          <div className="flex items-center justify-center p-1">
-            <div className="h-20 w-20 rounded-full bg-red-400" />
-          </div>
-          <div className="flex w-full flex-col gap-2">
-            <button className="w-full rounded-full bg-green-500 p-3 font-medium text-white hover:bg-green-600">
-              Pick an image
-            </button>
-            <button className="w-full rounded-full border bg-white p-3 font-medium text-black hover:bg-slate-300">
-              Remove
-            </button>
-          </div>
-        </div>
-        <form className="flex w-full flex-col gap-4">
-          <div className="relative grow rounded-lg border px-3 pt-2">
-            <input
-              id="setting-page-title"
-              data-testid="ProfileTitleInput"
-              type="text"
-              placeholder="Profile Title"
-              aria-invalid="false"
-              aria-labelledby="label-ltclid75"
-              className="pt-xl h-2xl p-md bg-chalk peer  block w-full rounded-sm text-sm leading-[48px] text-black placeholder-transparent !outline-none transition duration-75 ease-out placeholder:leading-[48px]"
-            />
-            <label
-              id="label-ltclid75"
-              className="left-md peer-focus:left-md text-concrete pointer-events-none absolute top-[13px] max-w-[calc(100%-(16px*2))] origin-[0] -translate-y-2.5 scale-[0.85] transform truncate text-sm transition-all peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-placeholder-shown:tracking-normal peer-focus:-translate-y-2.5 peer-focus:scale-[0.85]"
-            >
-              Profile Title
-            </label>
-          </div>
-          {/* <div className="relative grow">
-            <input
-              type="text"
-              placeholder="Profile title"
-              className="rounded-lg border px-4 py-2"
-              aria-labelledby="label-profile-title"
-            />
-            <label className="absolute" id="label-profile-title">
-              Profile title
-            </label>
-          </div> */}
-          <textarea className="rounded-lg border"></textarea>
-        </form>
-      </div>
-    </div>
-  );
-}
-
-function Themes() {
-  const data = [0, 1, 2, 3, 4, 5, 6, 7];
-  return (
-    <div className="mt-10 flex w-full max-w-[620px] flex-col gap-4">
-      <p className="text-xl font-semibold">Themes</p>
-      <div className="inline-grid grid-cols-[repeat(auto-fit,_minmax(130px,_1fr))] gap-4 rounded-2xl bg-white p-6">
-        {data.map((item, index) => {
-          return (
-            <div
-              key={index}
-              className="flex h-fit w-full flex-col items-center justify-start"
-            >
-              <div className="h-[200px] w-full cursor-pointer rounded-lg border"></div>
-              <p className="py-3">Custom</p>
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
-
-function Backgrounds() {
-  const data = [0, 1, 2, 3, 4, 5, 6, 7];
-  return (
-    <div className="mt-10 flex w-full max-w-[620px] flex-col gap-4">
-      <p className="text-xl font-semibold">Backgrounds</p>
-      <div className="rounded-2xl bg-white p-6">
-        <div className="inline-grid w-full grid-cols-[repeat(auto-fit,_minmax(130px,_1fr))] gap-4">
-          {data.map((item, index) => {
-            return (
-              <div
-                key={index}
-                className="flex h-fit w-full flex-col items-center justify-start"
-              >
-                <div className="h-[200px] w-full cursor-pointer rounded-lg border"></div>
-                <p className="py-3">Custom</p>
-              </div>
-            );
-          })}
-        </div>
-        <div className="mt-4 flex flex-col gap-2">
-          <p className="font-semibold">Color</p>
-          <div className="flex items-center justify-start gap-4">
-            <div className="h-12 w-12 rounded-lg bg-green-300" />
-            <div className="flex h-12 w-40 flex-col items-start justify-center rounded-lg bg-gray-300 px-4">
-              <p className="text-sm text-gray-500">Color</p>
-              <p>#ffffff</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function Buttons() {
-  const data = [0, 1, 2];
-  return (
-    <div className="mt-10 flex w-full max-w-[620px] flex-col gap-4">
-      <p className="text-xl font-semibold">Buttons</p>
-      <div className="flex flex-col gap-2 rounded-2xl bg-white p-6">
-        <p>Fill</p>
-        <div className="inline-grid w-full grid-cols-2 gap-4 md:grid-cols-3">
-          {data.map((item, index) => {
-            return (
-              <div
-                key={index}
-                className="flex h-fit w-full flex-col items-center justify-start"
-              >
-                <div className="h-9 w-full cursor-pointer rounded-lg border"></div>
-              </div>
-            );
-          })}
-        </div>
-        <p>Outline</p>
-        <div className="inline-grid w-full grid-cols-2 gap-4 md:grid-cols-3">
-          {data.map((item, index) => {
-            return (
-              <div
-                key={index}
-                className="flex h-fit w-full flex-col items-center justify-start"
-              >
-                <div className="h-9 w-full cursor-pointer rounded-lg border"></div>
-              </div>
-            );
-          })}
-        </div>
-        <p>Soft shadow</p>
-        <div className="inline-grid w-full grid-cols-2 gap-4 md:grid-cols-3">
-          {data.map((item, index) => {
-            return (
-              <div
-                key={index}
-                className="flex h-fit w-full flex-col items-center justify-start"
-              >
-                <div className="h-9 w-full cursor-pointer rounded-lg border"></div>
-              </div>
-            );
-          })}
-        </div>
-        <div className="mt-4 flex flex-col gap-2">
-          <p className="font-semibold">Button color</p>
-          <div className="flex items-center justify-start gap-4">
-            <div className="h-12 w-12 rounded-lg bg-green-300" />
-            <div className="flex h-12 w-40 flex-col items-start justify-center rounded-lg bg-gray-300 px-4">
-              <p className="text-sm text-gray-500">Color</p>
-              <p>#ffffff</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function Fonts() {
-  const data = [0, 1, 2, 3, 4, 5, 6, 7];
-  return (
-    <div className="mt-10 flex w-full max-w-[620px] flex-col gap-4">
-      <p className="text-xl font-semibold">Fonts</p>
-      <div className="rounded-2xl bg-white p-6">
-        <div className="flex flex-col gap-2">
-          <p className="font-semibold">Font</p>
-          <div className="flex h-20 w-full cursor-pointer items-center justify-start gap-4 rounded-xl border-2 hover:bg-slate-300"></div>
-        </div>
-        <div className="mt-4 flex flex-col gap-2">
-          <p className="font-semibold">Color</p>
-          <div className="flex items-center justify-start gap-4">
-            <div className="h-12 w-12 rounded-lg bg-green-300" />
-            <div className="flex h-12 w-40 flex-col items-start justify-center rounded-lg bg-gray-300 px-4">
-              <p className="text-sm text-gray-500">Color</p>
-              <p>#ffffff</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
   );
 }
 

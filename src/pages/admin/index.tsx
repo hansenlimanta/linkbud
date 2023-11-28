@@ -2,14 +2,14 @@ import { useEffect, useRef, useState } from "react";
 import Head from "next/head";
 import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 import AdminNav from "~/components/AdminNav";
-import DraggableLink from "~/components/DraggableLink";
-import DraggableHeader from "~/components/DraggableHeader";
+import DraggableLink from "~/components/adminPage/DraggableLink";
+import DraggableHeader from "~/components/adminPage/DraggableHeader";
 import { LinkType, useLinksStore } from "~/store/linksStore";
 import { Link } from "@prisma/client";
 import { api } from "~/utils/api";
 import { GetServerSidePropsContext } from "next";
 import { getServerAuthSession } from "~/server/auth";
-import AddUrlForm from "~/components/AddUrlForm";
+import AddUrlForm from "~/components/adminPage/AddUrlForm";
 import { useSession } from "next-auth/react";
 
 export default function Admin() {
