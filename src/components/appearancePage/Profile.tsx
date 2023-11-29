@@ -1,7 +1,11 @@
 import { useState } from "react";
+import { api } from "~/utils/api";
 
 const Profile = () => {
+  const updatePageTitle = api.user.updatePageTitle.useMutation();
   const [pageTitle, setPageTitle] = useState("");
+  const [description, setDescription] = useState("");
+
   return (
     <div className="flex w-full max-w-[620px] flex-col gap-4">
       <p className="text-xl font-semibold">Profile</p>
@@ -20,16 +24,37 @@ const Profile = () => {
           </div>
         </div>
         <form className="flex w-full flex-col gap-4">
-          <div className="relative grow rounded-lg border px-3 pt-2">
+          <div>
+            <label
+              htmlFor="pageTitle"
+              className="pb-1 pl-1 text-xs text-gray-500"
+            >
+              Page Title
+            </label>
             <input
+              id="pageTitle"
               value={pageTitle}
               onChange={(e) => setPageTitle(e.target.value)}
               type="text"
               placeholder="Page title"
-              className="w-full rounded-lg border bg-stone-100 px-4 py-2"
+              className="w-full rounded-lg border bg-stone-100 px-3 py-2"
             />
           </div>
-          <textarea className="rounded-lg border"></textarea>
+          <div>
+            <label
+              htmlFor="description"
+              className="pb-1 pl-1 text-xs text-gray-500"
+            >
+              Description
+            </label>
+            <textarea
+              id="description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Description"
+              className="w-full rounded-lg border bg-stone-100 px-3 py-2"
+            />
+          </div>
         </form>
       </div>
     </div>
