@@ -2,29 +2,46 @@ import { FC, useEffect, useState } from "react";
 import { api } from "~/utils/api";
 
 type ProfileProps = {
-  user: {
-    id: string;
-    name?: string | null;
-    email?: string | null;
-    image?: string | null;
-    username?: string | null;
-    pageTitle?: string | null;
-    description?: string | null;
-  };
+  pageTitle: string | null | undefined;
+  description: string | null | undefined;
+  iframe: HTMLIFrameElement | null;
 };
 
-const Profile: FC<ProfileProps> = ({ user }) => {
-  const updatePageTitle = api.user.updatePageTitle.useMutation();
-  const [pageTitle, setPageTitle] = useState("");
-  const [description, setDescription] = useState("");
+const Profile: FC<ProfileProps> = ({ description, pageTitle, iframe }) => {
+  const updatePageTitle = api.user.updatePageTitle.useMutation({
+    onSuccess: () => {
+      iframe?.contentWindow?.location.reload();
+    },
+  });
+  const updateDescription = api.user.updateDescription.useMutation({
+    onSuccess: () => {
+      iframe?.contentWindow?.location.reload();
+    },
+  });
+  const [title, setTitle] = useState("");
+  const [desc, setDesc] = useState("");
   useEffect(() => {
-    if (user.pageTitle !== null && user.pageTitle !== undefined) {
-      setPageTitle(user.pageTitle);
+    if (pageTitle !== null && pageTitle !== undefined) {
+      setTitle(pageTitle);
     }
-    if (user.description !== null && user.description !== undefined) {
-      setDescription(user.description);
+    if (description !== null && description !== undefined) {
+      setDesc(description);
     }
   }, []);
+  useEffect(() => {
+    const timeOutId = setTimeout(
+      () => updatePageTitle.mutate({ pageTitle: title }),
+      2000,
+    );
+    return () => clearTimeout(timeOutId);
+  }, [title]);
+  useEffect(() => {
+    const timeOutId = setTimeout(
+      () => updateDescription.mutate({ description: desc }),
+      2000,
+    );
+    return () => clearTimeout(timeOutId);
+  }, [desc]);
 
   return (
     <div className="flex w-full max-w-[620px] flex-col gap-4">
@@ -53,8 +70,8 @@ const Profile: FC<ProfileProps> = ({ user }) => {
             </label>
             <input
               id="pageTitle"
-              value={pageTitle}
-              onChange={(e) => setPageTitle(e.target.value)}
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
               type="text"
               placeholder="Page title"
               className="w-full rounded-lg border bg-stone-100 px-3 py-2"
@@ -69,8 +86,8 @@ const Profile: FC<ProfileProps> = ({ user }) => {
             </label>
             <textarea
               id="description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              value={desc}
+              onChange={(e) => setDesc(e.target.value)}
               placeholder="Description"
               className="w-full rounded-lg border bg-stone-100 px-3 py-2"
             />
