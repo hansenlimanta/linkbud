@@ -1,10 +1,30 @@
-import { useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { api } from "~/utils/api";
 
-const Profile = () => {
+type ProfileProps = {
+  user: {
+    id: string;
+    name?: string | null;
+    email?: string | null;
+    image?: string | null;
+    username?: string | null;
+    pageTitle?: string | null;
+    description?: string | null;
+  };
+};
+
+const Profile: FC<ProfileProps> = ({ user }) => {
   const updatePageTitle = api.user.updatePageTitle.useMutation();
   const [pageTitle, setPageTitle] = useState("");
   const [description, setDescription] = useState("");
+  useEffect(() => {
+    if (user.pageTitle !== null && user.pageTitle !== undefined) {
+      setPageTitle(user.pageTitle);
+    }
+    if (user.description !== null && user.description !== undefined) {
+      setDescription(user.description);
+    }
+  }, []);
 
   return (
     <div className="flex w-full max-w-[620px] flex-col gap-4">

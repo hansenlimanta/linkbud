@@ -13,7 +13,7 @@ import Profile from "~/components/appearancePage/Profile";
 import Themes from "~/components/appearancePage/Themes";
 
 export default function Admin() {
-  const { data: sessionData } = useSession();
+  const { data: sessionData, status: authStatus } = useSession();
   const [userUrl, setUserUrl] = useState("");
   const updatePageTitleApi = api.user.updatePageTitle.useMutation();
 
@@ -30,6 +30,16 @@ export default function Admin() {
     return () => clearTimeout(timeOutId);
   }, []);
 
+  if (authStatus === "loading" || sessionData === null) {
+    return (
+      <>
+        <p className="flex h-screen w-screen animate-pulse items-center justify-center">
+          Loading...
+        </p>
+      </>
+    );
+  }
+
   return (
     <>
       <Head>
@@ -40,7 +50,7 @@ export default function Admin() {
       <main className="min-h-screen bg-stone-100">
         <AdminNav />
         <div className="!ml-0 mr-[570px] flex flex-col items-center justify-center overflow-x-auto py-24">
-          <Profile />
+          <Profile user={sessionData.user} />
           <Themes />
           <div className="mt-10 flex w-full max-w-[620px] flex-col gap-4">
             <p className="text-xl font-semibold">Custom appearance</p>
