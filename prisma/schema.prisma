@@ -53,6 +53,7 @@ model User {
     accounts      Account[]
     sessions      Session[]
     links         Link[]
+    theme         Theme?
 }
 
 model VerificationToken {
@@ -72,4 +73,14 @@ model Link {
     url         String
     userId      String
     user        User        @relation(fields: [userId], references: [id])
+}
+
+model Theme {
+    id          String      @id
+    userId      String      @unique
+    user        User        @relation(fields: [userId], references: [id])
+    key         String
+    background  String
+    buttonStyle String
+    typeface    String
 }

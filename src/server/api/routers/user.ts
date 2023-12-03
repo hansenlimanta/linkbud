@@ -1,10 +1,6 @@
 import { z } from "zod";
 
-import {
-  createTRPCRouter,
-  protectedProcedure,
-  publicProcedure,
-} from "~/server/api/trpc";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const userRouter = createTRPCRouter({
   getAllUsernames: protectedProcedure.query(({ ctx }) => {
@@ -50,6 +46,33 @@ export const userRouter = createTRPCRouter({
         },
         data: {
           description: input.description,
+        },
+      });
+    }),
+
+  updateUserTheme: protectedProcedure
+    .input(
+      z.object({
+        key: z.string(),
+        background: z.string(),
+        buttonStyle: z.string(),
+        typeface: z.string(),
+      }),
+    )
+    .mutation(({ ctx, input }) => {
+      return ctx.db.user.update({
+        where: {
+          id: ctx.session.user.id,
+        },
+        data: {
+          theme: {
+            update: {
+              key: input.key,
+              background: input.background,
+              buttonStyle: input.buttonStyle,
+              typeface: input.typeface,
+            },
+          },
         },
       });
     }),
