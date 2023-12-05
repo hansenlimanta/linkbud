@@ -7,9 +7,6 @@ type LinkButtonProps = {
 };
 
 const LinkButton: FC<LinkButtonProps> = ({ theme, link }) => {
-  if (link.isActive === false) {
-    return <></>;
-  }
   switch (theme) {
     case "white":
       return (

@@ -74,14 +74,27 @@ export default function Linkbud() {
           )}
           <div className="my-4 flex w-full flex-col gap-4">
             {userData?.links ? (
-              userData.links.map((dbLink) => {
-                if (dbLink.type === LinkType.Classic) {
+              userData.links.map((dbLink, index) => {
+                if (dbLink.isActive === false) {
+                  return <></>;
+                } else if (dbLink.type === LinkType.Classic) {
                   return (
-                    <LinkButton key={dbLink.id} theme="white" link={dbLink} />
+                    <LinkButton
+                      key={dbLink.id}
+                      theme={userData.theme?.buttonStyle || "DEFAULT"}
+                      link={dbLink}
+                    />
                   );
                 } else if (dbLink.type === LinkType.Header) {
                   return (
-                    <div key={dbLink.id} className="w-full text-center">
+                    <div
+                      key={dbLink.id}
+                      className={
+                        index === 0
+                          ? "w-full py-0 text-center"
+                          : "w-full pb-0 pt-4 text-center"
+                      }
+                    >
                       <h1 className="text-1xl font-semibold">{dbLink.title}</h1>
                     </div>
                   );

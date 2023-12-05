@@ -16,9 +16,14 @@ export default function RegisterUsername() {
   const [usernames, setUsernames] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { data: usernamesApi } = api.user.getAllUsernames.useQuery();
-  const updatePageTitle = api.user.updatePageTitle.useMutation({
+  const createDefaultTheme = api.user.createDefaultTheme.useMutation({
     onSuccess: () => {
       router.push("/admin");
+    },
+  });
+  const setDefaultPageTitle = api.user.updatePageTitle.useMutation({
+    onSuccess: () => {
+      createDefaultTheme.mutate();
     },
   });
   const updateUsername = api.user.updateUsername.useMutation({
@@ -27,7 +32,7 @@ export default function RegisterUsername() {
     },
     onSuccess: ({ username }) => {
       if (username !== null) {
-        updatePageTitle.mutate({ pageTitle: username });
+        setDefaultPageTitle.mutate({ pageTitle: username });
       } else {
         setIsSubmitting(false);
       }

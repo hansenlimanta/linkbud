@@ -41,7 +41,13 @@ export const linksRouter = createTRPCRouter({
         },
       });
 
-      return { user, links };
+      const theme = await ctx.db.theme.findFirst({
+        where: {
+          userId: user.id,
+        },
+      });
+
+      return { user, links, theme };
     }),
 
   addLink: protectedProcedure

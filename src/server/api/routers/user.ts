@@ -1,3 +1,4 @@
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
@@ -49,6 +50,25 @@ export const userRouter = createTRPCRouter({
         },
       });
     }),
+
+  createDefaultTheme: protectedProcedure.mutation(({ ctx }) => {
+    return ctx.db.user.update({
+      where: {
+        id: ctx.session.user.id,
+      },
+      data: {
+        theme: {
+          create: {
+            id: ctx.session.user.id,
+            key: "default",
+            background: "#ffffff",
+            buttonStyle: "#000000",
+            typeface: "sans-serif",
+          },
+        },
+      },
+    });
+  }),
 
   updateUserTheme: protectedProcedure
     .input(
