@@ -11,10 +11,10 @@ import { GetServerSidePropsContext } from "next";
 import { getServerAuthSession } from "~/server/auth";
 import AddUrlForm from "~/components/adminPage/AddUrlForm";
 import { useSession } from "next-auth/react";
-import { set } from "zod";
+import Preview from "~/components/adminPage/Preview";
 
 export default function Admin() {
-  const { data: sessionData } = useSession();
+  const { data: sessionData, status: authStatus } = useSession();
   const { data: dbLinks } = api.links.getLinksById.useQuery();
   const updateLinksArray = api.links.updateLinksArray.useMutation();
 
@@ -25,32 +25,6 @@ export default function Admin() {
 
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [userUrl, setUserUrl] = useState("");
-  const [scale, setScale] = useState("0.7");
-  const getWindowSize = () => {
-    if (typeof window !== "undefined") {
-      const { innerWidth, innerHeight } = window;
-      return { innerWidth, innerHeight };
-    }
-  };
-  const [windowSize, setWindowSize] = useState(getWindowSize());
-
-  useEffect(() => {
-    const handleWindowResize = () => {
-      setWindowSize(getWindowSize());
-    };
-
-    window.addEventListener("resize", handleWindowResize);
-
-    return () => {
-      window.removeEventListener("resize", handleWindowResize);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!windowSize?.innerHeight) return;
-
-    setScale((windowSize.innerHeight / 1000).toFixed(2).toString());
-  }, [windowSize?.innerHeight]);
 
   useEffect(() => {
     const initialLinks = dbLinks
@@ -97,6 +71,16 @@ export default function Admin() {
     updateLinksArray.mutate(updateOrderData);
     iframeRef.current?.contentWindow?.location.reload();
   }, [updateOrderParams]);
+
+  if (authStatus === "loading" || sessionData === null) {
+    return (
+      <>
+        <p className="flex h-screen w-screen animate-pulse items-center justify-center">
+          Loading...
+        </p>
+      </>
+    );
+  }
 
   return (
     <>
@@ -164,20 +148,7 @@ export default function Admin() {
               </Droppable>
             </div>
           </div>
-          <div className="fixed right-0 top-0 z-10 h-screen w-[570px] border-l">
-            {userUrl === "" ? (
-              <></>
-            ) : (
-              <iframe
-                src={userUrl}
-                ref={iframeRef}
-                style={{
-                  transform: `translateX(-50%) translateY(-50%) scale(${scale})`,
-                }}
-                className={`absolute left-1/2 top-1/2 h-[690px] w-[320px] overflow-hidden rounded-[40px] border-[10px] border-black bg-gray-800`}
-              ></iframe>
-            )}
-          </div>
+          <Preview userUrl={userUrl} />
         </DragDropContext>
       </main>
     </>

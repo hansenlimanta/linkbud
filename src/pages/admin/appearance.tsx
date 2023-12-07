@@ -11,6 +11,7 @@ import Buttons from "~/components/appearancePage/Buttons";
 import Fonts from "~/components/appearancePage/Fonts";
 import Profile from "~/components/appearancePage/Profile";
 import Themes from "~/components/appearancePage/Themes";
+import Preview from "~/components/adminPage/Preview";
 
 export default function Admin() {
   const { data: sessionData, status: authStatus } = useSession();
@@ -69,13 +70,7 @@ export default function Admin() {
           <Buttons />
           <Fonts />
         </div>
-        <div className="fixed right-0 top-0 z-10 h-screen w-[570px] border-l">
-          <iframe
-            src={userUrl}
-            ref={iframeRef}
-            className="absolute left-1/2 top-1/2 h-[690px] w-[320px] -translate-x-1/2 -translate-y-1/2 scale-[0.7] overflow-hidden rounded-[40px] border-[10px] border-black bg-gray-800"
-          ></iframe>
-        </div>
+        <Preview userUrl={userUrl} />
       </main>
     </>
   );
