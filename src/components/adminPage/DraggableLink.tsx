@@ -77,6 +77,7 @@ const DraggableLink: FC<DraggableLinkProps> = ({ link, index }) => {
     }
     updateLink(updatedLink);
   };
+
   const handleRemoveLink = () => {
     deleteLinkApi.mutate({ id: link.id });
     removeLink(link.id);

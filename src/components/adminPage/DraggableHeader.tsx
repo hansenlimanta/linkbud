@@ -14,13 +14,9 @@ type DraggableHeaderProps = {
 };
 
 const DraggableHeader: FC<DraggableHeaderProps> = ({ link, index }) => {
-  const [isEditTitle, setIsEditTitle] = useState(false);
-  const [title, setTitle] = useState("");
-  const titleRef = useRef<HTMLInputElement>(null);
-  const updateLink = useLinksStore((state) => state.updateLink);
-  const removeLink = useLinksStore((state) => state.removeLink);
   const utils = api.useContext();
-  const deleteLink = api.links.deleteLink.useMutation({
+  const updateLinkApi = api.links.updateLink.useMutation();
+  const deleteLinkApi = api.links.deleteLink.useMutation({
     onSuccess: () => {
       utils.links.getLinksById.invalidate();
     },
@@ -29,9 +25,30 @@ const DraggableHeader: FC<DraggableHeaderProps> = ({ link, index }) => {
     },
   });
 
+  const [isEditTitle, setIsEditTitle] = useState(false);
+  const [title, setTitle] = useState("");
+  const titleRef = useRef<HTMLInputElement>(null);
+  const updateLink = useLinksStore((state) => state.updateLink);
+  const removeLink = useLinksStore((state) => state.removeLink);
+
   useEffect(() => {
     setTitle(link.title);
   }, []);
+
+  useEffect(() => {
+    const timeOutId = setTimeout(
+      () =>
+        updateLinkApi.mutate({
+          id: link.id,
+          isActive: link.isActive,
+          position: link.position,
+          title: link.title,
+          url: link.url,
+        }),
+      2000,
+    );
+    return () => clearTimeout(timeOutId);
+  }, [link]);
 
   const handleEditTitle = () => {
     if (titleRef.current?.selectionStart === 0) {
@@ -57,7 +74,7 @@ const DraggableHeader: FC<DraggableHeaderProps> = ({ link, index }) => {
   };
 
   const handleRemoveLink = () => {
-    deleteLink.mutate({ id: link.id });
+    deleteLinkApi.mutate({ id: link.id });
     removeLink(link.id);
   };
 
