@@ -24,6 +24,14 @@ const LinkButton: FC<LinkButtonProps> = ({ theme, link }) => {
           </div>
         </a>
       );
+    case "warburton":
+      return (
+        <a key={link.id} href={link.url} target="_blank">
+          <div className="w-100 flex cursor-pointer items-center justify-center gap-2 rounded-md border-2 border-blue-900 bg-transparent py-3 font-medium text-blue-900 duration-150 ease-in-out hover:bg-blue-900 hover:text-white">
+            <p className="text-center">{link.title}</p>
+          </div>
+        </a>
+      );
 
     default:
       return (
