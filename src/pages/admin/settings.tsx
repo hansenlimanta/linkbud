@@ -1,18 +1,14 @@
 import { GetServerSidePropsContext } from "next";
 import { getServerAuthSession } from "~/server/auth";
 
-import Head from "next/head";
 import AdminNav from "~/components/AdminNav";
 import Link from "next/link";
+import Meta from "~/components/Meta";
 
 export default function Settings() {
   return (
     <>
-      <Head>
-        <title>Linkbud Admin</title>
-        <meta name="description" content="linkbud admin" />
-        <link rel="icon" href="/favicon.svg" />
-      </Head>
+      <Meta />
       <main className="min-h-screen bg-stone-100">
         <AdminNav />
         <div className="relative flex h-screen w-screen flex-col items-center justify-center gap-8">

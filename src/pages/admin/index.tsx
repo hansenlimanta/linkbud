@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import Head from "next/head";
 import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 import AdminNav from "~/components/AdminNav";
 import DraggableLink from "~/components/adminPage/DraggableLink";
@@ -12,6 +11,7 @@ import { getServerAuthSession } from "~/server/auth";
 import AddUrlForm from "~/components/adminPage/AddUrlForm";
 import { useSession } from "next-auth/react";
 import Preview from "~/components/adminPage/Preview";
+import Meta from "~/components/Meta";
 
 export default function Admin() {
   const { data: sessionData, status: authStatus } = useSession();
@@ -75,6 +75,7 @@ export default function Admin() {
   if (authStatus === "loading" || sessionData === null) {
     return (
       <>
+        <Meta />
         <p className="flex h-screen w-screen animate-pulse items-center justify-center">
           Loading...
         </p>
@@ -84,11 +85,7 @@ export default function Admin() {
 
   return (
     <>
-      <Head>
-        <title>Linkbud Admin</title>
-        <meta name="description" content="linkbud admin" />
-        <link rel="icon" href="/favicon.svg" />
-      </Head>
+      <Meta />
       <main className="min-h-screen bg-stone-100">
         <AdminNav />
         <DragDropContext onDragEnd={(e) => updateOrders(e)}>

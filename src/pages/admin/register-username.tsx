@@ -1,4 +1,3 @@
-import Head from "next/head";
 import { useState, useEffect } from "react";
 import { GetServerSidePropsContext } from "next";
 import { getServerAuthSession } from "~/server/auth";
@@ -6,6 +5,7 @@ import { signOut } from "next-auth/react";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import { useForm, SubmitHandler } from "react-hook-form";
+import Meta from "~/components/Meta";
 
 type Inputs = {
   username: string;
@@ -61,11 +61,7 @@ export default function RegisterUsername() {
   }, [usernamesApi]);
   return (
     <>
-      <Head>
-        <title>Linkbud Admin</title>
-        <meta name="description" content="linkbud admin" />
-        <link rel="icon" href="/favicon.svg" />
-      </Head>
+      <Meta />
       <main className="h-screen bg-stone-100">
         <form
           onSubmit={handleSubmit(onSubmit)}
