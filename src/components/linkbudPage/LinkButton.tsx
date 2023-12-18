@@ -11,7 +11,7 @@ const LinkButton: FC<LinkButtonProps> = ({ theme, link }) => {
     case "white":
       return (
         <a key={link.id} href={link.url} target="_blank">
-          <div className="w-100 flex cursor-pointer items-center justify-center gap-2 rounded-full border-2 border-white bg-white py-3 text-black duration-150 ease-in-out hover:bg-transparent hover:text-white">
+          <div className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-full border-2 border-white bg-white py-3 text-black duration-150 ease-in-out hover:bg-transparent hover:text-white">
             <p className="text-center">{link.title}</p>
           </div>
         </a>
@@ -19,7 +19,7 @@ const LinkButton: FC<LinkButtonProps> = ({ theme, link }) => {
     case "black":
       return (
         <a key={link.id} href={link.url} target="_blank">
-          <div className="w-100 flex cursor-pointer items-center justify-center gap-2 rounded-full border-2 border-black bg-black py-3 text-white duration-150 ease-in-out hover:bg-transparent hover:text-black">
+          <div className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-full border-2 border-black bg-black py-3 text-white duration-150 ease-in-out hover:bg-transparent hover:text-black">
             <p className="text-center">{link.title}</p>
           </div>
         </a>
@@ -27,16 +27,25 @@ const LinkButton: FC<LinkButtonProps> = ({ theme, link }) => {
     case "warburton":
       return (
         <a key={link.id} href={link.url} target="_blank">
-          <div className="w-100 flex cursor-pointer items-center justify-center gap-2 rounded-md border-2 border-blue-900 bg-transparent py-3 font-medium text-blue-900 duration-150 ease-in-out hover:bg-blue-900 hover:text-white">
+          <div className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-md border-2 border-blue-900 bg-transparent py-3 font-medium text-blue-900 duration-150 ease-in-out hover:bg-blue-900 hover:text-white">
             <p className="text-center">{link.title}</p>
           </div>
+        </a>
+      );
+    case "ulster":
+      return (
+        <a key={link.id} href={link.url} target="_blank">
+          <div className="flex w-full -translate-x-1 -translate-y-1 cursor-pointer items-center justify-center gap-2 rounded-lg border-2 border-white bg-orange-700 py-3 font-medium text-white duration-150 ease-in-out hover:translate-x-0 hover:translate-y-0">
+            <p className="text-center">{link.title}</p>
+          </div>
+          <div className="h-full w-full rounded-lg bg-white" />
         </a>
       );
 
     default:
       return (
         <a key={link.id} href={link.url} target="_blank">
-          <div className="w-100 flex cursor-pointer items-center justify-center gap-2 rounded-full border-2 border-white bg-white py-3 text-black duration-150 ease-in-out hover:bg-transparent hover:text-white">
+          <div className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-full border-2 border-white bg-white py-3 text-black duration-150 ease-in-out hover:bg-transparent hover:text-white">
             <p className="text-center">{link.title}</p>
           </div>
         </a>

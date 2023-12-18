@@ -45,6 +45,17 @@ const PageTitle: FC<PageTitleProps> = ({ theme, userData }) => {
           )}
         </>
       );
+    case "ulster":
+      return (
+        <>
+          <h1 className="text-xl font-bold text-white">{userData.pageTitle}</h1>
+          {userData.description ? (
+            <h2 className="text-center text-white">{userData.description}</h2>
+          ) : (
+            <></>
+          )}
+        </>
+      );
 
     default:
       return (

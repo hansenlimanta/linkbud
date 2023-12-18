@@ -30,6 +30,12 @@ const LinkHeader: FC<LinkHeaderProps> = ({ theme, link, index }) => {
           <h1 className="text-1xl font-bold text-blue-900">{link.title}</h1>
         </div>
       );
+    case "ulster":
+      return (
+        <div key={link.id} className={classWrapper}>
+          <h1 className="text-1xl font-bold text-white">{link.title}</h1>
+        </div>
+      );
 
     default:
       return (
