@@ -34,12 +34,16 @@ const LinkButton: FC<LinkButtonProps> = ({ theme, link }) => {
       );
     case "ulster":
       return (
-        <a key={link.id} href={link.url} target="_blank">
-          <div className="flex w-full -translate-x-1 -translate-y-1 cursor-pointer items-center justify-center gap-2 rounded-lg border-2 border-white bg-orange-700 py-3 font-medium text-white duration-150 ease-in-out hover:translate-x-0 hover:translate-y-0">
+        <div className="relative w-full">
+          <div className="absolute w-full translate-x-1 translate-y-1 cursor-auto rounded-lg border-2 border-white bg-white py-3 font-medium text-white">
             <p className="text-center">{link.title}</p>
           </div>
-          <div className="h-full w-full rounded-lg bg-white" />
-        </a>
+          <a key={link.id} href={link.url} target="_blank">
+            <div className="flex w-full -translate-x-1 -translate-y-1 cursor-pointer items-center justify-center rounded-lg border-2 border-white bg-orange-700 py-3 font-medium text-white duration-150 ease-in-out hover:translate-x-0 hover:translate-y-0">
+              <p className="text-center">{link.title}</p>
+            </div>
+          </a>
+        </div>
       );
 
     default:
