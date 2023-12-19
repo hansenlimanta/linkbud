@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Meta from "~/components/Meta";
+import Link from "next/link";
 
 export default function Home() {
   const { data: sessionData } = useSession();
@@ -21,15 +22,22 @@ export default function Home() {
             </div>
             <div>
               {sessionData ? (
-                <button
-                  className="rounded-full bg-pink-300 px-8 py-4 font-medium transition hover:bg-pink-400"
-                  onClick={() => void signOut()}
-                >
-                  logout
-                </button>
+                <div className="flex items-center justify-center gap-4">
+                  <Link href="/admin">
+                    <button className="rounded-xl bg-slate-200 px-8 py-3 font-medium text-black transition hover:bg-slate-300">
+                      Admin
+                    </button>
+                  </Link>
+                  <button
+                    className="rounded-full bg-slate-800 px-8 py-3 font-medium text-white transition hover:bg-slate-700"
+                    onClick={() => void signOut()}
+                  >
+                    logout
+                  </button>
+                </div>
               ) : (
                 <button
-                  className="rounded-full bg-pink-300 px-8 py-4 font-medium transition hover:bg-pink-400"
+                  className="rounded-full bg-slate-800 px-8 py-3 font-medium text-white transition hover:bg-slate-700"
                   onClick={() =>
                     void signIn("google", { callbackUrl: "/admin" })
                   }
@@ -40,7 +48,7 @@ export default function Home() {
             </div>
           </div>
         </nav>
-        <div className="flex h-screen w-full bg-lime-600 px-36">
+        <div className="flex h-screen w-full bg-green-900 px-36 text-yellow-400">
           <div className="flex flex-1 flex-col items-start justify-center gap-6">
             <h1 className="text-7xl font-extrabold">
               Everything you are. In one, simple link in bio.
@@ -57,7 +65,7 @@ export default function Home() {
                 type="text"
                 placeholder="link.bud/yourname"
               />
-              <button className="rounded-full bg-pink-300 px-8 py-4 font-medium transition hover:bg-pink-400">
+              <button className="rounded-full bg-pink-300 px-8 py-4 font-medium text-black transition hover:bg-pink-400">
                 Claim your Linkbud
               </button>
             </div>
@@ -65,10 +73,11 @@ export default function Home() {
           <div className="flex flex-1 items-center justify-center">
             <div className="relative h-[600px] w-[350px] rounded-lg">
               <Image
-                alt="example"
-                src="/linkbud-example.png"
-                className="object-cover"
-                fill
+                src="/linkbud.svg"
+                layout="fill"
+                objectFit="contain"
+                alt="linkbud"
+                className="animate-pulse"
               />
             </div>
           </div>
