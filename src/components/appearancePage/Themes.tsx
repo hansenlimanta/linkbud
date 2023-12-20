@@ -1,5 +1,48 @@
+import { GoPlus } from "react-icons/go";
+
 const Themes = () => {
-  const data = [0, 1, 2, 3, 4, 5, 6, 7];
+  const data = [
+    {
+      id: 1,
+      name: "Custom",
+      image: "",
+    },
+    {
+      id: 2,
+      name: "Ulster",
+      image: "/ulster-theme.svg",
+    },
+    {
+      id: 3,
+      name: "Ulster",
+      image: "/ulster-theme.svg",
+    },
+    {
+      id: 4,
+      name: "Ulster",
+      image: "/ulster-theme.svg",
+    },
+    {
+      id: 5,
+      name: "Ulster",
+      image: "/ulster-theme.svg",
+    },
+    {
+      id: 6,
+      name: "Ulster",
+      image: "/ulster-theme.svg",
+    },
+    {
+      id: 7,
+      name: "Ulster",
+      image: "/ulster-theme.svg",
+    },
+    {
+      id: 8,
+      name: "Ulster",
+      image: "/ulster-theme.svg",
+    },
+  ];
   return (
     <div className="mt-10 flex w-full max-w-[620px] flex-col gap-4">
       <p className="text-xl font-semibold">Themes</p>
@@ -10,8 +53,20 @@ const Themes = () => {
               key={index}
               className="flex h-fit w-full flex-col items-center justify-start"
             >
-              <div className="h-[200px] w-full cursor-pointer rounded-lg border"></div>
-              <p className="py-3">Custom</p>
+              <div className="h-[200px] w-full cursor-pointer rounded-lg border">
+                {item.name === "Custom" ? (
+                  <div className="flex h-full w-full items-center justify-center">
+                    <GoPlus size={30} />
+                  </div>
+                ) : (
+                  <img
+                    className="h-full w-full rounded-lg object-cover"
+                    src="/ulster-theme.svg"
+                    alt="bg"
+                  />
+                )}
+              </div>
+              <p className="py-3">{item.name}</p>
             </div>
           );
         })}
