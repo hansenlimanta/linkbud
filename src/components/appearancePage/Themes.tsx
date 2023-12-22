@@ -3,42 +3,42 @@ import { GoPlus } from "react-icons/go";
 const Themes = () => {
   const data = [
     {
-      id: 1,
+      id: "default",
       name: "Custom",
       image: "",
     },
     {
-      id: 2,
+      id: "ulster",
       name: "Ulster",
       image: "/ulster-theme.svg",
     },
     {
-      id: 3,
+      id: "warburton",
+      name: "Warburton",
+      image: "/warburton-theme.svg",
+    },
+    {
+      id: "ulster",
       name: "Ulster",
       image: "/ulster-theme.svg",
     },
     {
-      id: 4,
+      id: "warburton",
+      name: "Warburton",
+      image: "/warburton-theme.svg",
+    },
+    {
+      id: "ulster",
       name: "Ulster",
       image: "/ulster-theme.svg",
     },
     {
-      id: 5,
-      name: "Ulster",
-      image: "/ulster-theme.svg",
+      id: "warburton",
+      name: "Warburton",
+      image: "/warburton-theme.svg",
     },
     {
-      id: 6,
-      name: "Ulster",
-      image: "/ulster-theme.svg",
-    },
-    {
-      id: 7,
-      name: "Ulster",
-      image: "/ulster-theme.svg",
-    },
-    {
-      id: 8,
+      id: "ulster",
       name: "Ulster",
       image: "/ulster-theme.svg",
     },
@@ -61,7 +61,7 @@ const Themes = () => {
                 ) : (
                   <img
                     className="h-full w-full rounded-lg object-cover"
-                    src="/ulster-theme.svg"
+                    src={item.image}
                     alt="bg"
                   />
                 )}
