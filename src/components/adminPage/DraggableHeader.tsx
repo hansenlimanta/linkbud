@@ -26,7 +26,6 @@ const DraggableHeader: FC<DraggableHeaderProps> = ({ link, index }) => {
   });
 
   const [isEditTitle, setIsEditTitle] = useState(false);
-  const [title, setTitle] = useState("");
   const [countOnLoadPage, setCountOnLoadPage] = useState(0);
   const titleRef = useRef<HTMLInputElement>(null);
   const updateLink = useLinksStore((state) => state.updateLink);
@@ -53,7 +52,7 @@ const DraggableHeader: FC<DraggableHeaderProps> = ({ link, index }) => {
 
   const handleEditTitle = () => {
     if (titleRef.current?.selectionStart === 0) {
-      titleRef.current.setSelectionRange(title.length, title.length);
+      titleRef.current.setSelectionRange(link.title.length, link.title.length);
     }
     titleRef.current?.focus();
     setIsEditTitle(true);
