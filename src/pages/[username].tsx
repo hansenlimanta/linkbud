@@ -60,9 +60,9 @@ export default function Linkbud() {
 
   return (
     <>
-      <Meta />
+      <Meta title={userData.user.name ?? "Linkbud"} />
       <main className={poppins.className}>
-        <div className="flex min-h-screen w-full flex-col items-center justify-start gap-2 px-8 py-20 text-white sm:mx-auto sm:w-96">
+        <div className="max-w-96 flex min-h-screen w-full flex-col items-center justify-start gap-2 px-8 py-20 text-white sm:mx-auto sm:max-w-[680px] ">
           <Background
             theme={userData.theme?.buttonStyle || "DEFAULT"}
             image={profilePicture}
