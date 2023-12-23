@@ -4,28 +4,45 @@ import { RxCross2 } from "react-icons/rx";
 import { RiLayoutTop2Line } from "react-icons/ri";
 import { api } from "~/utils/api";
 import { LinkType, useLinksStore } from "~/store/linksStore";
+import { SubmitHandler, set, useForm } from "react-hook-form";
+
+type Inputs = {
+  url: string;
+};
 
 const AddUrlForm = () => {
-  const [inputUrl, setInputUrl] = useState("");
   const [isAddUrl, setIsAddUrl] = useState(false);
   const createLink = api.links.addLink.useMutation();
   const addLink = useLinksStore((state) => state.addLink);
   const links = useLinksStore((state) => state.links);
 
-  const handleSubmitUrl = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    resetField,
+    formState: { isDirty, isValid },
+  } = useForm<Inputs>({ mode: "onChange" });
+
+  const handleSubmitUrl: SubmitHandler<Inputs> = async (data) => {
+    let url = data.url;
+    if (
+      data.url.slice(0, 7) !== "http://" &&
+      data.url.slice(0, 8) !== "https://"
+    ) {
+      url = `http://${data.url}`;
+    }
     const newLink: Link = await createLink.mutateAsync({
       id: Math.floor(Math.random() * 100000000).toString(),
       title: "Test URL",
-      url: inputUrl,
+      url: url,
       isActive: true,
       type: LinkType.Classic,
       position: links.length,
     });
 
     addLink(newLink);
-    setInputUrl("");
     setIsAddUrl(false);
+    resetField("url");
   };
   const handleAddHeader = async () => {
     const newLink: Link = await createLink.mutateAsync({
@@ -51,17 +68,26 @@ const AddUrlForm = () => {
           </div>
           <h2 className="mb-4 text-xl font-bold">Enter URL</h2>
           <form
-            onSubmit={handleSubmitUrl}
+            onSubmit={handleSubmit(handleSubmitUrl)}
             className="flex w-full justify-between gap-4"
           >
             <input
-              value={inputUrl}
-              onChange={(e) => setInputUrl(e.target.value)}
-              type="text"
               placeholder="URL"
               className="w-full rounded-lg border bg-stone-100 px-4 py-2"
+              {...register("url", {
+                pattern:
+                  /^[-a-zA-Z0-9@:%._\+~#?&//=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%._\+~#?&//=]*)$/,
+              })}
             />
-            <button className="rounded-full border bg-stone-50 px-5 py-2 transition-all hover:bg-stone-200">
+            <button
+              type="submit"
+              disabled={!isValid || !isDirty}
+              className={`rounded-full border px-5 py-2 transition-all ${
+                !isValid || !isDirty
+                  ? "cursor-default bg-stone-50 text-gray-500"
+                  : "cursor-pointer bg-stone-100 text-black hover:bg-stone-200"
+              }`}
+            >
               Add
             </button>
           </form>
