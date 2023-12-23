@@ -27,15 +27,16 @@ const DraggableHeader: FC<DraggableHeaderProps> = ({ link, index }) => {
 
   const [isEditTitle, setIsEditTitle] = useState(false);
   const [title, setTitle] = useState("");
+  const [countOnLoadPage, setCountOnLoadPage] = useState(0);
   const titleRef = useRef<HTMLInputElement>(null);
   const updateLink = useLinksStore((state) => state.updateLink);
   const removeLink = useLinksStore((state) => state.removeLink);
 
   useEffect(() => {
-    setTitle(link.title);
-  }, []);
-
-  useEffect(() => {
+    if (countOnLoadPage < 2) {
+      setCountOnLoadPage(countOnLoadPage + 1);
+      return;
+    }
     const timeOutId = setTimeout(
       () =>
         updateLinkApi.mutate({
@@ -48,7 +49,7 @@ const DraggableHeader: FC<DraggableHeaderProps> = ({ link, index }) => {
       2000,
     );
     return () => clearTimeout(timeOutId);
-  }, [link]);
+  }, [link.isActive, link.position, link.title, link.url]);
 
   const handleEditTitle = () => {
     if (titleRef.current?.selectionStart === 0) {

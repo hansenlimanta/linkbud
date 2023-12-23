@@ -27,12 +27,17 @@ const DraggableLink: FC<DraggableLinkProps> = ({ link, index }) => {
 
   const [isEditTitle, setIsEditTitle] = useState(false);
   const [isEditUrl, setIsEditUrl] = useState(false);
+  const [countOnLoadPage, setCountOnLoadPage] = useState(0);
   const titleRef = useRef<HTMLInputElement>(null);
   const urlRef = useRef<HTMLInputElement>(null);
   const updateLink = useLinksStore((state) => state.updateLink);
   const removeLink = useLinksStore((state) => state.removeLink);
 
   useEffect(() => {
+    if (countOnLoadPage < 2) {
+      setCountOnLoadPage(countOnLoadPage + 1);
+      return;
+    }
     const timeOutId = setTimeout(
       () =>
         updateLinkApi.mutate({
@@ -45,7 +50,7 @@ const DraggableLink: FC<DraggableLinkProps> = ({ link, index }) => {
       2000,
     );
     return () => clearTimeout(timeOutId);
-  }, [link]);
+  }, [link.isActive, link.position, link.title, link.url]);
 
   const handleEditTitle = () => {
     if (titleRef.current?.selectionStart === 0) {
