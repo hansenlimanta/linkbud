@@ -13,9 +13,6 @@ export const linksRouter = createTRPCRouter({
       where: {
         userId: ctx.session.user.id,
       },
-      orderBy: {
-        position: "desc",
-      },
     });
   }),
 
@@ -36,9 +33,6 @@ export const linksRouter = createTRPCRouter({
         where: {
           userId: user.id,
         },
-        orderBy: {
-          position: "desc",
-        },
       });
 
       const theme = await ctx.db.theme.findFirst({
@@ -56,7 +50,6 @@ export const linksRouter = createTRPCRouter({
         id: z.string(),
         title: z.string(),
         url: z.string(),
-        position: z.number(),
         isActive: z.boolean(),
         type: z.string(),
       }),
@@ -70,7 +63,6 @@ export const linksRouter = createTRPCRouter({
           url: input.url,
           isActive: input.isActive,
           type: input.type,
-          position: input.position,
         },
       });
     }),
@@ -90,7 +82,6 @@ export const linksRouter = createTRPCRouter({
       z.object({
         id: z.string(),
         isActive: z.boolean(),
-        position: z.number(),
         title: z.string(),
         url: z.string(),
       }),
@@ -102,7 +93,6 @@ export const linksRouter = createTRPCRouter({
         },
         data: {
           isActive: input.isActive,
-          position: input.position,
           title: input.title,
           url: input.url,
         },
@@ -116,7 +106,6 @@ export const linksRouter = createTRPCRouter({
         .object({
           id: z.string(),
           isActive: z.boolean(),
-          position: z.number(),
           title: z.string(),
           url: z.string(),
         })
@@ -131,7 +120,6 @@ export const linksRouter = createTRPCRouter({
             },
             data: {
               isActive: link.isActive,
-              position: link.position,
               title: link.title,
               url: link.url,
             },

@@ -53,6 +53,7 @@ model User {
     accounts      Account[]
     sessions      Session[]
     links         Link[]
+    linkOrder     String?
     theme         Theme?
 }
 
@@ -67,7 +68,6 @@ model VerificationToken {
 model Link {
     id          String      @id
     isActive    Boolean
-    position    Int
     title       String
     type        String
     url         String

@@ -41,14 +41,13 @@ const DraggableHeader: FC<DraggableHeaderProps> = ({ link, index }) => {
         updateLinkApi.mutate({
           id: link.id,
           isActive: link.isActive,
-          position: link.position,
           title: link.title,
           url: link.url,
         }),
       2000,
     );
     return () => clearTimeout(timeOutId);
-  }, [link.isActive, link.position, link.title, link.url]);
+  }, [link.isActive, link.title, link.url]);
 
   const handleEditTitle = () => {
     if (titleRef.current?.selectionStart === 0) {

@@ -23,6 +23,7 @@ declare module "next-auth" {
       username?: string | null;
       pageTitle?: string | null;
       description?: string | null;
+      linkOrder?: string | null;
       // ...other properties
       // role: UserRole;
     };
@@ -32,6 +33,7 @@ declare module "next-auth" {
     username: string;
     pageTitle: string;
     description: string;
+    linkOrder: string;
   }
 
   // interface User {
@@ -55,6 +57,7 @@ export const authOptions: NextAuthOptions = {
         username: user.username,
         pageTitle: user.pageTitle,
         description: user.description,
+        linkOrder: user.linkOrder,
       },
     }),
   },

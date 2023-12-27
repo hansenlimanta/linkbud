@@ -37,7 +37,6 @@ const AddUrlForm = () => {
       url: url,
       isActive: true,
       type: LinkType.Classic,
-      position: links.length,
     });
 
     addLink(newLink);
@@ -51,7 +50,6 @@ const AddUrlForm = () => {
       url: "",
       isActive: true,
       type: LinkType.Header,
-      position: links.length,
     });
 
     addLink(newLink);
