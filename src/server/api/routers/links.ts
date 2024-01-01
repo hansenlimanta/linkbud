@@ -52,9 +52,21 @@ export const linksRouter = createTRPCRouter({
         url: z.string(),
         isActive: z.boolean(),
         type: z.string(),
+        order: z.string(),
       }),
     )
     .mutation(({ ctx, input }) => {
+      console.log(
+        `-----------------------------${input}-------------------------------`,
+      );
+      ctx.db.user.update({
+        where: {
+          id: ctx.session.user.id,
+        },
+        data: {
+          linkOrder: input.order,
+        },
+      });
       return ctx.db.link.create({
         data: {
           id: input.id,
@@ -99,35 +111,16 @@ export const linksRouter = createTRPCRouter({
       });
     }),
 
-  // Sementara jangan dipake dulu karena masih pake sqlite ========================
-  updateLinksArray: protectedProcedure
-    .input(
-      z
-        .object({
-          id: z.string(),
-          isActive: z.boolean(),
-          title: z.string(),
-          url: z.string(),
-        })
-        .array(),
-    )
-    .mutation(async ({ ctx, input }) => {
-      try {
-        const result = input.map(async (link) => {
-          return await ctx.db.link.update({
-            where: {
-              id: link.id,
-            },
-            data: {
-              isActive: link.isActive,
-              title: link.title,
-              url: link.url,
-            },
-          });
-        });
-        return result;
-      } catch (error) {
-        console.log(error);
-      }
+  updateLinkOrder: protectedProcedure
+    .input(z.object({ order: z.string() }))
+    .mutation(({ ctx, input }) => {
+      return ctx.db.user.update({
+        where: {
+          id: ctx.session.user.id,
+        },
+        data: {
+          linkOrder: input.order,
+        },
+      });
     }),
 });

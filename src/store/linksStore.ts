@@ -9,7 +9,8 @@ export enum LinkType {
 
 type State = {
   links: Link[];
-  updateOrderParams: number;
+  order: string[];
+  orderDbFormat: string;
 };
 
 type Action = {
@@ -17,13 +18,19 @@ type Action = {
   addLink: (link: Link) => void;
   removeLink: (id: string) => void;
   updateLink: (link: Link) => void;
-  setInitialLinks: (links: Link[]) => void;
+  setInitialLinksAndOrder: (links: Link[], order: string[]) => void;
 };
 
 export const useLinksStore = create<State & Action>((set) => ({
   links: [],
-  updateOrderParams: 0,
-  setInitialLinks: (initialLinks) => set(() => ({ links: [...initialLinks] })),
+  order: [],
+  orderDbFormat: "",
+  setInitialLinksAndOrder: (initialLinks, initialOrder) =>
+    set(() => ({
+      links: [...initialLinks],
+      order: [...initialOrder],
+      orderDbFormat: initialOrder.join(","),
+    })),
   updateOrders: (result) =>
     set((state) => {
       const { destination, source, draggableId } = result;
@@ -47,12 +54,15 @@ export const useLinksStore = create<State & Action>((set) => ({
 
       return {
         links: newLinks,
-        updateOrderParams: state.updateOrderParams + 1,
+        order: newOrder,
+        orderDbFormat: newOrder.join(","),
       };
     }),
   addLink: (link) =>
     set((state) => ({
       links: [link, ...state.links],
+      order: [link.id, ...state.order],
+      orderDbFormat: [link.id, ...state.order].join(","),
     })),
   removeLink: (id) =>
     set((state) => {

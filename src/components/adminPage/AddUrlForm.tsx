@@ -1,10 +1,10 @@
-import { FC, FormEvent, useState } from "react";
+import { useState } from "react";
 import { Link } from "@prisma/client";
 import { RxCross2 } from "react-icons/rx";
 import { RiLayoutTop2Line } from "react-icons/ri";
 import { api } from "~/utils/api";
 import { LinkType, useLinksStore } from "~/store/linksStore";
-import { SubmitHandler, set, useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 
 type Inputs = {
   url: string;
@@ -14,7 +14,7 @@ const AddUrlForm = () => {
   const [isAddUrl, setIsAddUrl] = useState(false);
   const createLink = api.links.addLink.useMutation();
   const addLink = useLinksStore((state) => state.addLink);
-  const links = useLinksStore((state) => state.links);
+  const orderDbFormat = useLinksStore((state) => state.orderDbFormat);
 
   const {
     register,
@@ -31,28 +31,37 @@ const AddUrlForm = () => {
     ) {
       url = `http://${data.url}`;
     }
-    const newLink: Link = await createLink.mutateAsync({
+
+    const newLink = {
       id: Math.floor(Math.random() * 100000000).toString(),
       title: "Test URL",
       url: url,
       isActive: true,
       type: LinkType.Classic,
-    });
-
+    } as Link;
     addLink(newLink);
+
+    createLink.mutateAsync({
+      ...newLink,
+      order: orderDbFormat,
+    });
     setIsAddUrl(false);
     resetField("url");
   };
-  const handleAddHeader = async () => {
-    const newLink: Link = await createLink.mutateAsync({
+  const handleAddHeader = () => {
+    const newLink = {
       id: Math.floor(Math.random() * 100000000).toString(),
       title: "Test HEADER",
       url: "",
       isActive: true,
       type: LinkType.Header,
-    });
-
+    } as Link;
     addLink(newLink);
+
+    createLink.mutateAsync({
+      ...newLink,
+      order: orderDbFormat,
+    });
   };
   return (
     <>

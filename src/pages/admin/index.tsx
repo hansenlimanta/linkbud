@@ -16,33 +16,32 @@ import Meta from "~/components/Meta";
 export default function Admin() {
   const { data: sessionData, status: authStatus } = useSession();
   const { data: dbLinks } = api.links.getLinksById.useQuery();
-  const updateLinksArray = api.links.updateLinksArray.useMutation();
+  const updateLinkOrder = api.links.updateLinkOrder.useMutation();
 
   const links = useLinksStore((state) => state.links);
-  const updateOrderParams = useLinksStore((state) => state.updateOrderParams);
-  const setInitialLinks = useLinksStore((state) => state.setInitialLinks);
+  const order = useLinksStore((state) => state.order);
+  const orderDbFormat = useLinksStore((state) => state.orderDbFormat);
+  const setInitialLinks = useLinksStore(
+    (state) => state.setInitialLinksAndOrder,
+  );
   const updateOrders = useLinksStore((state) => state.updateOrders);
 
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [userUrl, setUserUrl] = useState("");
 
   useEffect(() => {
-    const initialLinks = dbLinks
-      ? dbLinks.map(
-          (link) =>
-            ({
-              id: link.id,
-              isActive: link.isActive,
-              title: link.title,
-              type: link.type,
-              url: link.url,
-              position: link.position,
-              userId: link.userId,
-            }) as Link,
-        )
-      : ([] as Link[]);
-    setInitialLinks(initialLinks);
-  }, [dbLinks]);
+    let initialOrder: string[] = [];
+    let initialLinks: Link[] = [];
+    if (sessionData?.user.linkOrder) {
+      initialOrder = sessionData.user.linkOrder.split(",");
+      if (dbLinks) {
+        initialLinks = initialOrder.map((id) => {
+          return dbLinks.find((link) => link.id === id);
+        }) as Link[];
+      }
+    }
+    setInitialLinks(initialLinks, initialOrder);
+  }, [dbLinks, sessionData?.user.linkOrder]);
 
   useEffect(() => {
     const timeOutId = setTimeout(
@@ -60,17 +59,10 @@ export default function Admin() {
 
   // belum bisa karena masih pake sqlite
   useEffect(() => {
-    if (!updateOrderParams) return;
-    const updateOrderData = links.map((link) => ({
-      id: link.id,
-      isActive: link.isActive,
-      position: link.position,
-      title: link.title,
-      url: link.url,
-    }));
-    updateLinksArray.mutate(updateOrderData);
+    if (!orderDbFormat) return;
+    updateLinkOrder.mutate({ order: orderDbFormat });
     iframeRef.current?.contentWindow?.location.reload();
-  }, [updateOrderParams]);
+  }, [orderDbFormat]);
 
   if (authStatus === "loading" || sessionData === null) {
     return (
@@ -121,6 +113,8 @@ export default function Admin() {
                     {...provided.droppableProps}
                   >
                     {links.map((link, index) => {
+                      console.log(link);
+
                       if (link.type === LinkType.Header) {
                         return (
                           <DraggableHeader
