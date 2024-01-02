@@ -56,9 +56,6 @@ export const linksRouter = createTRPCRouter({
       }),
     )
     .mutation(({ ctx, input }) => {
-      console.log(
-        `-----------------------------${input}-------------------------------`,
-      );
       ctx.db.user.update({
         where: {
           id: ctx.session.user.id,

@@ -113,8 +113,6 @@ export default function Admin() {
                     {...provided.droppableProps}
                   >
                     {links.map((link, index) => {
-                      console.log(link);
-
                       if (link.type === LinkType.Header) {
                         return (
                           <DraggableHeader

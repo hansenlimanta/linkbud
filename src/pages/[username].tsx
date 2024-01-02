@@ -9,6 +9,7 @@ import LinkButton from "~/components/linkbudPage/LinkButton";
 import LinkHeader from "~/components/linkbudPage/LinkHeader";
 import PageTitle from "~/components/linkbudPage/PageTitle";
 import Meta from "~/components/Meta";
+import { Link } from "@prisma/client";
 
 const poppins = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -78,8 +79,10 @@ export default function Linkbud() {
             userData={userData.user}
           />
           <div className="my-4 flex w-full flex-col gap-4">
-            {userData.links ? (
-              userData.links.map((dbLink, index) => {
+            {userData.links && userData.user.linkOrder ? (
+              userData.user.linkOrder.split(",").map((id, index) => {
+                const dbLink =
+                  userData.links.find((link) => link.id === id) ?? ({} as Link);
                 if (dbLink.isActive === false) {
                   return <></>;
                 } else if (dbLink.type === LinkType.Classic) {
