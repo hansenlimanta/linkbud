@@ -19,7 +19,6 @@ export default function Admin() {
   const updateLinkOrder = api.links.updateLinkOrder.useMutation();
 
   const links = useLinksStore((state) => state.links);
-  const order = useLinksStore((state) => state.order);
   const orderDbFormat = useLinksStore((state) => state.orderDbFormat);
   const setInitialLinks = useLinksStore(
     (state) => state.setInitialLinksAndOrder,
@@ -44,14 +43,6 @@ export default function Admin() {
   }, [dbLinks, sessionData?.user.linkOrder]);
 
   useEffect(() => {
-    const timeOutId = setTimeout(
-      () => iframeRef.current?.contentWindow?.location.reload(),
-      2000,
-    );
-    return () => clearTimeout(timeOutId);
-  }, [links]);
-
-  useEffect(() => {
     if (sessionData?.user.username) {
       setUserUrl(`http://localhost:3000/${sessionData.user.username}`);
     }
@@ -59,9 +50,12 @@ export default function Admin() {
 
   // belum bisa karena masih pake sqlite
   useEffect(() => {
-    if (!orderDbFormat) return;
-    updateLinkOrder.mutate({ order: orderDbFormat });
-    iframeRef.current?.contentWindow?.location.reload();
+    const timeOutId = setTimeout(() => {
+      if (!orderDbFormat) return;
+      updateLinkOrder.mutate({ order: orderDbFormat });
+      iframeRef.current?.contentWindow?.location.reload();
+    }, 2000);
+    return () => clearTimeout(timeOutId);
   }, [orderDbFormat]);
 
   if (authStatus === "loading" || sessionData === null) {
@@ -137,7 +131,7 @@ export default function Admin() {
               </Droppable>
             </div>
           </div>
-          <Preview userUrl={userUrl} />
+          {/* <Preview userUrl={userUrl} /> */}
         </DragDropContext>
       </main>
     </>
