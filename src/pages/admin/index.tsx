@@ -27,8 +27,10 @@ export default function Admin() {
 
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [userUrl, setUserUrl] = useState("");
+  const [isInitialStateSet, setIsInitialStateSet] = useState(0);
 
   useEffect(() => {
+    if (isInitialStateSet > 0) return;
     let initialOrder: string[] = [];
     let initialLinks: Link[] = [];
     if (sessionData?.user.linkOrder) {
@@ -37,6 +39,7 @@ export default function Admin() {
         initialLinks = initialOrder.map((id) => {
           return dbLinks.find((link) => link.id === id);
         }) as Link[];
+        setIsInitialStateSet(1);
       }
     }
     setInitialLinks(initialLinks, initialOrder);
