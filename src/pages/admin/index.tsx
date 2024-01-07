@@ -51,7 +51,6 @@ export default function Admin() {
     }
   }, [sessionData]);
 
-  // belum bisa karena masih pake sqlite
   useEffect(() => {
     const timeOutId = setTimeout(() => {
       if (!orderDbFormat) return;
@@ -134,7 +133,7 @@ export default function Admin() {
               </Droppable>
             </div>
           </div>
-          {/* <Preview userUrl={userUrl} /> */}
+          <Preview userUrl={userUrl} />
         </DragDropContext>
       </main>
     </>

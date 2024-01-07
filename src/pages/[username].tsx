@@ -16,7 +16,7 @@ const poppins = Poppins({
   subsets: ["latin"],
 });
 
-export default function Linkbud() {
+export default function LinkbudUserView() {
   const router = useRouter();
   const [error, setError] = useState("");
   const userQuery = api.links.getLinksByUsername.useQuery({
