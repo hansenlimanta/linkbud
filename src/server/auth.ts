@@ -24,6 +24,7 @@ declare module "next-auth" {
       pageTitle?: string | null;
       description?: string | null;
       linkOrder?: string | null;
+      emailVerified?: string | null;
       // ...other properties
       // role: UserRole;
     };
@@ -34,6 +35,7 @@ declare module "next-auth" {
     pageTitle: string;
     description: string;
     linkOrder: string;
+    emailVerified: string;
   }
 
   // interface User {

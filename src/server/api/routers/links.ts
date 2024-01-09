@@ -41,6 +41,12 @@ export const linksRouter = createTRPCRouter({
         },
       });
 
+      if (!theme)
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Theme does not exist",
+        });
+
       return { user, links, theme };
     }),
 

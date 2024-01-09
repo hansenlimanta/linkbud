@@ -4,7 +4,7 @@ import AdminNav from "~/components/AdminNav";
 import DraggableLink from "~/components/adminPage/DraggableLink";
 import DraggableHeader from "~/components/adminPage/DraggableHeader";
 import { LinkType, useLinksStore } from "~/store/linksStore";
-import { Link } from "@prisma/client";
+import { Link, User } from "@prisma/client";
 import { api } from "~/utils/api";
 import { GetServerSidePropsContext } from "next";
 import { getServerAuthSession } from "~/server/auth";
@@ -133,7 +133,7 @@ export default function Admin() {
               </Droppable>
             </div>
           </div>
-          <Preview userUrl={userUrl} />
+          {/* <Preview links={dbLinks ?? []} theme={} user={sessionData.user}/> */}
         </DragDropContext>
       </main>
     </>
