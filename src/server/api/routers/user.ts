@@ -12,6 +12,34 @@ export const userRouter = createTRPCRouter({
     });
   }),
 
+  getUserAndTheme: protectedProcedure.query(async ({ ctx }) => {
+    const user = await ctx.db.user.findFirst({
+      where: {
+        id: ctx.session.user.id,
+      },
+    });
+
+    if (!user)
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "User does not exist",
+      });
+
+    const theme = await ctx.db.theme.findFirst({
+      where: {
+        userId: user.id,
+      },
+    });
+
+    if (!theme)
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "Theme does not exist",
+      });
+
+    return { user, theme };
+  }),
+
   updateUsername: protectedProcedure
     .input(z.object({ username: z.string() }))
     .mutation(({ ctx, input }) => {

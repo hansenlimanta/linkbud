@@ -1,15 +1,9 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { LinkType } from "~/store/linksStore";
 import { api } from "~/utils/api";
 import { Poppins } from "next/font/google";
 
-import Background from "~/components/linkbudPage/Background";
-import LinkButton from "~/components/linkbudPage/LinkButton";
-import LinkHeader from "~/components/linkbudPage/LinkHeader";
-import PageTitle from "~/components/linkbudPage/PageTitle";
 import Meta from "~/components/Meta";
-import { Link } from "@prisma/client";
 import Linkbud from "~/components/linkbudPage/Linkbud";
 
 const poppins = Poppins({
@@ -24,17 +18,11 @@ export default function LinkbudUserView() {
     username: router.query.username as string,
   });
   const { data: userData } = userQuery;
-  const [profilePicture, setProfilePicture] = useState("");
   useEffect(() => {
     if (userQuery.error?.data?.code) {
       setError(userQuery.error.message);
     }
   }, [userQuery.error?.data?.code]);
-  useEffect(() => {
-    if (userData?.user.image) {
-      setProfilePicture(userData.user.image);
-    }
-  }, [userData?.user.image]);
 
   if (error !== "") {
     return (

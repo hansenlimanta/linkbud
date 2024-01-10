@@ -4,7 +4,7 @@ import AdminNav from "~/components/AdminNav";
 import DraggableLink from "~/components/adminPage/DraggableLink";
 import DraggableHeader from "~/components/adminPage/DraggableHeader";
 import { LinkType, useLinksStore } from "~/store/linksStore";
-import { Link, User } from "@prisma/client";
+import { Link, Theme, User } from "@prisma/client";
 import { api } from "~/utils/api";
 import { GetServerSidePropsContext } from "next";
 import { getServerAuthSession } from "~/server/auth";
@@ -16,6 +16,7 @@ import Meta from "~/components/Meta";
 export default function Admin() {
   const { data: sessionData, status: authStatus } = useSession();
   const { data: dbLinks } = api.links.getLinksById.useQuery();
+  const { data: userData } = api.user.getUserAndTheme.useQuery();
   const updateLinkOrder = api.links.updateLinkOrder.useMutation();
 
   const links = useLinksStore((state) => state.links);
@@ -133,7 +134,11 @@ export default function Admin() {
               </Droppable>
             </div>
           </div>
-          {/* <Preview links={dbLinks ?? []} theme={} user={sessionData.user}/> */}
+          <Preview
+            links={dbLinks ?? []}
+            theme={userData?.theme ?? ({} as Theme)}
+            user={userData?.user ?? ({} as User)}
+          />
         </DragDropContext>
       </main>
     </>

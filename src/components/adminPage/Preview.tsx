@@ -10,16 +10,13 @@ type PreviewProps = {
 };
 
 const Preview: FC<PreviewProps> = ({ links, theme, user }) => {
-  const iframeRef = useRef<HTMLIFrameElement>(null);
-  const linksStore = useLinksStore((state) => state.links);
-  const [scale, setScale] = useState("0.7");
-
   const getWindowSize = () => {
     if (typeof window !== "undefined") {
       const { innerWidth, innerHeight } = window;
       return { innerWidth, innerHeight };
     }
   };
+  const [scale, setScale] = useState("0.7");
   const [windowSize, setWindowSize] = useState(getWindowSize());
 
   useEffect(() => {
@@ -36,14 +33,6 @@ const Preview: FC<PreviewProps> = ({ links, theme, user }) => {
     if (!windowSize?.innerHeight) return;
     setScale((windowSize.innerHeight / 1000).toFixed(2).toString());
   }, [windowSize?.innerHeight]);
-
-  useEffect(() => {
-    const timeOutId = setTimeout(
-      () => iframeRef.current?.contentWindow?.location.reload(),
-      2000,
-    );
-    return () => clearTimeout(timeOutId);
-  }, [linksStore]);
 
   return (
     <div className="fixed right-0 top-0 z-10 h-screen w-[570px] border-l">
