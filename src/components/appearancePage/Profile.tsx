@@ -4,18 +4,20 @@ import { api } from "~/utils/api";
 type ProfileProps = {
   pageTitle: string | null | undefined;
   description: string | null | undefined;
-  iframe: HTMLIFrameElement | null;
 };
 
-const Profile: FC<ProfileProps> = ({ description, pageTitle, iframe }) => {
+const Profile: FC<ProfileProps> = ({ description, pageTitle }) => {
+  const utils = api.useContext();
   const updatePageTitle = api.user.updatePageTitle.useMutation({
     onSuccess: () => {
-      iframe?.contentWindow?.location.reload();
+      utils.user.getUserAndTheme.invalidate();
+      utils.links.getLinksById.invalidate();
     },
   });
   const updateDescription = api.user.updateDescription.useMutation({
     onSuccess: () => {
-      iframe?.contentWindow?.location.reload();
+      utils.user.getUserAndTheme.invalidate();
+      utils.links.getLinksById.invalidate();
     },
   });
   const [title, setTitle] = useState("");
@@ -60,7 +62,12 @@ const Profile: FC<ProfileProps> = ({ description, pageTitle, iframe }) => {
             </button>
           </div>
         </div>
-        <form className="flex w-full flex-col gap-4">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+          }}
+          className="flex w-full flex-col gap-4"
+        >
           <div>
             <label
               htmlFor="pageTitle"

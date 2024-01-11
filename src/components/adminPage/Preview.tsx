@@ -1,5 +1,4 @@
-import { FC, useRef, useEffect, useState } from "react";
-import { useLinksStore } from "~/store/linksStore";
+import { FC, useEffect, useState } from "react";
 import Linkbud from "../linkbudPage/Linkbud";
 import { Link, Theme, User } from "@prisma/client";
 

@@ -11,8 +11,14 @@ type Inputs = {
 };
 
 const AddUrlForm = () => {
+  const utils = api.useContext();
   const [isAddUrl, setIsAddUrl] = useState(false);
-  const createLink = api.links.addLink.useMutation();
+  const createLink = api.links.addLink.useMutation({
+    onSuccess: () => {
+      utils.links.getLinksById.invalidate();
+      utils.user.getUserAndTheme.invalidate();
+    },
+  });
   const addLink = useLinksStore((state) => state.addLink);
   const orderDbFormat = useLinksStore((state) => state.orderDbFormat);
 

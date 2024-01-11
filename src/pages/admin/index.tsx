@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 import AdminNav from "~/components/AdminNav";
 import DraggableLink from "~/components/adminPage/DraggableLink";
@@ -14,10 +14,19 @@ import Preview from "~/components/adminPage/Preview";
 import Meta from "~/components/Meta";
 
 export default function Admin() {
+  const utils = api.useContext();
   const { data: sessionData, status: authStatus } = useSession();
   const { data: dbLinks } = api.links.getLinksById.useQuery();
   const { data: userData } = api.user.getUserAndTheme.useQuery();
-  const updateLinkOrder = api.links.updateLinkOrder.useMutation();
+  const updateLinkOrder = api.links.updateLinkOrder.useMutation({
+    onSuccess: () => {
+      utils.links.getLinksById.invalidate();
+      utils.user.getUserAndTheme.invalidate();
+    },
+    onError: () => {
+      utils.links.getLinksById.invalidate();
+    },
+  });
 
   const links = useLinksStore((state) => state.links);
   const orderDbFormat = useLinksStore((state) => state.orderDbFormat);
@@ -26,7 +35,6 @@ export default function Admin() {
   );
   const updateOrders = useLinksStore((state) => state.updateOrders);
 
-  const iframeRef = useRef<HTMLIFrameElement>(null);
   const [userUrl, setUserUrl] = useState("");
   const [isInitialStateSet, setIsInitialStateSet] = useState(0);
 
@@ -56,7 +64,6 @@ export default function Admin() {
     const timeOutId = setTimeout(() => {
       if (!orderDbFormat) return;
       updateLinkOrder.mutate({ order: orderDbFormat });
-      iframeRef.current?.contentWindow?.location.reload();
     }, 2000);
     return () => clearTimeout(timeOutId);
   }, [orderDbFormat]);

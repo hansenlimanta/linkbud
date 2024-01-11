@@ -15,7 +15,14 @@ type DraggableHeaderProps = {
 
 const DraggableHeader: FC<DraggableHeaderProps> = ({ link, index }) => {
   const utils = api.useContext();
-  const updateLinkApi = api.links.updateLink.useMutation();
+  const updateLinkApi = api.links.updateLink.useMutation({
+    onSuccess: () => {
+      utils.links.getLinksById.invalidate();
+    },
+    onError: () => {
+      utils.links.getLinksById.invalidate();
+    },
+  });
   const deleteLinkApi = api.links.deleteLink.useMutation({
     onSuccess: () => {
       utils.links.getLinksById.invalidate();

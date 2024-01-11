@@ -1,4 +1,3 @@
-import { useState, useEffect, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { GetServerSidePropsContext } from "next";
 import { getServerAuthSession } from "~/server/auth";
@@ -12,25 +11,12 @@ import Profile from "~/components/appearancePage/Profile";
 import Themes from "~/components/appearancePage/Themes";
 import Preview from "~/components/adminPage/Preview";
 import Meta from "~/components/Meta";
+import { Theme, User } from "@prisma/client";
 
 export default function Admin() {
   const { data: sessionData, status: authStatus } = useSession();
-  const [userUrl, setUserUrl] = useState("");
-  const updatePageTitleApi = api.user.updatePageTitle.useMutation();
-  const iframeRef = useRef<HTMLIFrameElement>(null);
-
-  useEffect(() => {
-    if (sessionData?.user.username) {
-      setUserUrl(`http://localhost:3000/${sessionData.user.username}`);
-    }
-  }, [sessionData]);
-  useEffect(() => {
-    const timeOutId = setTimeout(
-      () => updatePageTitleApi.mutate({ pageTitle: "Linkbud Admin" }),
-      2000,
-    );
-    return () => clearTimeout(timeOutId);
-  }, []);
+  const { data: dbLinks } = api.links.getLinksById.useQuery();
+  const { data: userData } = api.user.getUserAndTheme.useQuery();
 
   if (authStatus === "loading" || sessionData === null) {
     return (
@@ -52,7 +38,6 @@ export default function Admin() {
           <Profile
             description={sessionData.user.description}
             pageTitle={sessionData.user.pageTitle}
-            iframe={iframeRef.current}
           />
           <Themes />
           <div className="mt-10 flex w-full max-w-[620px] flex-col gap-4">
@@ -67,7 +52,11 @@ export default function Admin() {
           <Buttons />
           <Fonts />
         </div>
-        <Preview userUrl={userUrl} />
+        <Preview
+          links={dbLinks ?? []}
+          theme={userData?.theme ?? ({} as Theme)}
+          user={userData?.user ?? ({} as User)}
+        />
       </main>
     </>
   );
