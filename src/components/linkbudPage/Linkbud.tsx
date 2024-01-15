@@ -14,7 +14,7 @@ type LinkbudProps = {
 
 const Linkbud: FC<LinkbudProps> = ({ links, theme, user }) => {
   return (
-    <div className="max-w-96 flex min-h-screen w-full flex-col items-center justify-start gap-2 px-8 py-20 text-white sm:mx-auto sm:max-w-[680px] ">
+    <div className="max-w-96 flex min-h-full w-full flex-col items-center justify-start gap-2 overflow-y-auto px-8 py-20 text-white sm:mx-auto sm:max-w-[680px] ">
       <Background
         theme={theme?.buttonStyle || "DEFAULT"}
         image={user.image ?? ""}

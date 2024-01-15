@@ -39,7 +39,7 @@ const Preview: FC<PreviewProps> = ({ links, theme, user }) => {
         style={{
           transform: `translateX(-50%) translateY(-50%) scale(${scale})`,
         }}
-        className={`absolute left-1/2 top-1/2 h-[690px] w-[320px] overflow-hidden rounded-[40px] border-[10px] border-black bg-gray-800`}
+        className={`absolute left-1/2 top-1/2 flex h-[690px] w-[320px] flex-col overflow-hidden rounded-[40px] border-[10px] border-black bg-gray-800`}
       >
         <Linkbud links={links} theme={theme} user={user} />
       </div>
