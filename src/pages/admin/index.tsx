@@ -42,8 +42,8 @@ export default function Admin() {
     if (isInitialStateSet > 0) return;
     let initialOrder: string[] = [];
     let initialLinks: Link[] = [];
-    if (sessionData?.user.linkOrder) {
-      initialOrder = sessionData.user.linkOrder.split(",");
+    if (userData?.user.linkOrder) {
+      initialOrder = userData.user.linkOrder.split(",");
       if (dbLinks) {
         initialLinks = initialOrder.map((id) => {
           return dbLinks.find((link) => link.id === id);
@@ -52,7 +52,7 @@ export default function Admin() {
       }
     }
     setInitialLinks(initialLinks, initialOrder);
-  }, [dbLinks, sessionData?.user.linkOrder]);
+  }, [dbLinks, userData?.user.linkOrder]);
 
   useEffect(() => {
     if (sessionData?.user.username) {

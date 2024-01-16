@@ -15,8 +15,10 @@ const AddUrlForm = () => {
   const [isAddUrl, setIsAddUrl] = useState(false);
   const createLink = api.links.addLink.useMutation({
     onSuccess: () => {
-      utils.links.getLinksById.invalidate();
-      utils.user.getUserAndTheme.invalidate();
+      setTimeout(() => {
+        utils.links.getLinksById.invalidate();
+        utils.user.getUserAndTheme.invalidate();
+      }, 5000);
     },
   });
   const addLink = useLinksStore((state) => state.addLink);
