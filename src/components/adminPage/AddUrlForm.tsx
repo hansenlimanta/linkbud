@@ -18,7 +18,7 @@ const AddUrlForm = () => {
       setTimeout(() => {
         utils.links.getLinksById.invalidate();
         utils.user.getUserAndTheme.invalidate();
-      }, 5000);
+      }, 3000);
     },
   });
   const addLink = useLinksStore((state) => state.addLink);

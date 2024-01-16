@@ -13,12 +13,11 @@ type LinkbudProps = {
 };
 
 const Linkbud: FC<LinkbudProps> = ({ links, theme, user }) => {
+  console.log("----------- theme: ", theme);
+
   return (
     <div className="max-w-96 flex min-h-full w-full flex-col items-center justify-start gap-2 overflow-y-auto px-8 py-20 text-white sm:mx-auto sm:max-w-[680px] ">
-      <Background
-        theme={theme?.buttonStyle || "DEFAULT"}
-        image={user.image ?? ""}
-      />
+      <Background theme={theme?.key || "DEFAULT"} image={user.image ?? ""} />
       <img
         className="h-20 rounded-full"
         src={user.image ?? ""}
@@ -36,7 +35,7 @@ const Linkbud: FC<LinkbudProps> = ({ links, theme, user }) => {
               return (
                 <LinkButton
                   key={dbLink.id}
-                  theme={theme?.buttonStyle || "DEFAULT"}
+                  theme={theme?.key || "DEFAULT"}
                   link={dbLink}
                 />
               );
@@ -44,7 +43,7 @@ const Linkbud: FC<LinkbudProps> = ({ links, theme, user }) => {
               return (
                 <LinkHeader
                   key={dbLink.id}
-                  theme={theme?.buttonStyle || "DEFAULT"}
+                  theme={theme?.key || "DEFAULT"}
                   link={dbLink}
                   index={index}
                 />
