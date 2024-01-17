@@ -18,9 +18,9 @@ const Themes = () => {
       image: "/warburton-theme.svg",
     },
     {
-      id: "ulster",
-      name: "Ulster",
-      image: "/ulster-theme.svg",
+      id: "sugden",
+      name: "Sugden",
+      image: "/sugden-theme.svg",
     },
     {
       id: "warburton",

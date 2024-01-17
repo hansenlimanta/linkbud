@@ -36,6 +36,12 @@ const LinkHeader: FC<LinkHeaderProps> = ({ theme, link, index }) => {
           <h1 className="text-1xl font-bold text-white">{link.title}</h1>
         </div>
       );
+    case "sugden":
+      return (
+        <div key={link.id} className={classWrapper}>
+          <h1 className="text-1xl font-bold text-slate-800">{link.title}</h1>
+        </div>
+      );
 
     default:
       return (

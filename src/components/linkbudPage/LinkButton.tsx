@@ -45,6 +45,14 @@ const LinkButton: FC<LinkButtonProps> = ({ theme, link }) => {
           </a>
         </div>
       );
+    case "sugden":
+      return (
+        <a key={link.id} href={link.url} target="_blank">
+          <div className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-full border-2 border-slate-800 bg-slate-800 py-3 font-medium text-white duration-150 ease-in-out hover:bg-transparent hover:text-slate-800">
+            <p className="text-center">{link.title}</p>
+          </div>
+        </a>
+      );
 
     default:
       return (

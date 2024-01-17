@@ -56,6 +56,21 @@ const PageTitle: FC<PageTitleProps> = ({ theme, userData }) => {
           )}
         </>
       );
+    case "sugden":
+      return (
+        <>
+          <h1 className="text-xl font-bold text-slate-800">
+            {userData.pageTitle}
+          </h1>
+          {userData.description ? (
+            <h2 className="text-center text-slate-800">
+              {userData.description}
+            </h2>
+          ) : (
+            <></>
+          )}
+        </>
+      );
 
     default:
       return (

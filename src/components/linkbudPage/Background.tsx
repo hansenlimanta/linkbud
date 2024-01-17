@@ -51,6 +51,17 @@ const Background: FC<BackgroundProps> = ({ theme, image }) => {
           />
         </div>
       );
+    case "sugden":
+      return (
+        <div className="fixed left-0 top-0 -z-10 h-full w-full">
+          <img
+            className="h-full w-full object-cover"
+            src="/sugden-bg.svg"
+            referrerPolicy="no-referrer"
+            alt="bg"
+          />
+        </div>
+      );
 
     default:
       return (
