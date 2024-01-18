@@ -53,6 +53,14 @@ const LinkButton: FC<LinkButtonProps> = ({ theme, link }) => {
           </div>
         </a>
       );
+    case "merlin":
+      return (
+        <a key={link.id} href={link.url} target="_blank">
+          <div className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border-2 border-white bg-white py-3 font-medium text-slate-800 shadow-lg duration-150 ease-in-out hover:bg-transparent hover:text-white">
+            <p className="text-center">{link.title}</p>
+          </div>
+        </a>
+      );
 
     default:
       return (
