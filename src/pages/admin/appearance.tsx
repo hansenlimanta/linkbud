@@ -41,17 +41,24 @@ export default function Admin() {
             profile={sessionData.user.image}
           />
           <Themes />
-          <div className="mt-10 flex w-full max-w-[620px] flex-col gap-4">
-            <p className="text-xl font-semibold">Custom appearance</p>
-            <p>
-              Completely customize your Linktree profile. Change your background
-              with colors, gradients and images. Choose a button style, change
-              the typeface and more.
-            </p>
+          <div className="relative mt-4 flex flex-col items-center justify-center p-6">
+            <div className="absolute flex h-full w-full flex-col items-center justify-evenly rounded-2xl bg-slate-300/50 text-2xl font-bold uppercase">
+              <p>under development</p>
+              <p>under development</p>
+              <p>under development</p>
+            </div>
+            <div className="mt-10 flex w-full max-w-[620px] flex-col gap-4">
+              <p className="text-xl font-semibold">Custom appearance</p>
+              <p>
+                Completely customize your Linktree profile. Change your
+                background with colors, gradients and images. Choose a button
+                style, change the typeface and more.
+              </p>
+            </div>
+            <Backgrounds />
+            <Buttons />
+            <Fonts />
           </div>
-          <Backgrounds />
-          <Buttons />
-          <Fonts />
         </div>
         <Preview
           links={dbLinks ?? []}
