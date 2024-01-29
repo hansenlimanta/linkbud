@@ -13,8 +13,6 @@ type LinkbudProps = {
 };
 
 const Linkbud: FC<LinkbudProps> = ({ links, theme, user }) => {
-  console.log("----------- theme: ", theme);
-
   return (
     <div className="max-w-96 flex min-h-full w-full flex-col items-center justify-start gap-2 overflow-y-auto px-8 py-20 text-white sm:mx-auto sm:max-w-[680px] ">
       <Background theme={theme?.key || "DEFAULT"} image={user.image ?? ""} />

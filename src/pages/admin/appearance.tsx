@@ -38,6 +38,7 @@ export default function Admin() {
           <Profile
             description={sessionData.user.description}
             pageTitle={sessionData.user.pageTitle}
+            profile={sessionData.user.image}
           />
           <Themes />
           <div className="mt-10 flex w-full max-w-[620px] flex-col gap-4">
