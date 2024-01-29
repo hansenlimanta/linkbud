@@ -26,7 +26,7 @@ const AccountPopover = () => (
               <p className="text-sm text-gray-400">link.bud/hansenlimanta</p>
             </div>
           </div>
-          <p className="px-4 font-bold text-gray-500">Account</p>
+          {/* <p className="px-4 font-bold text-gray-500">Account</p>
           <div className="flex cursor-pointer items-center justify-start gap-4 rounded-lg p-4 hover:bg-slate-100">
             <RiAccountBoxLine size={25} />
             <p>My account</p>
@@ -51,10 +51,10 @@ const AccountPopover = () => (
           <div className="flex cursor-pointer items-center justify-start gap-4 rounded-lg p-4 hover:bg-slate-100">
             <PiChatsLight size={25} />
             <p>Submit feedback</p>
-          </div>
+          </div> */}
           <div
             onClick={() => signOut({ callbackUrl: "/" })}
-            className="mt-2 flex cursor-pointer items-center justify-start gap-4 rounded-lg p-4 hover:bg-slate-100"
+            className="flex cursor-pointer items-center justify-start gap-4 rounded-lg p-4 hover:bg-slate-100"
           >
             <PiSignOutLight size={25} />
             <p>Sign out</p>
