@@ -70,7 +70,9 @@ const AccountPopover = () => {
             <p>Submit feedback</p>
           </div> */}
             <div
-              onClick={async () => await signOut({ callbackUrl: "/" })}
+              onClick={() => {
+                async () => await signOut({ callbackUrl: "/" });
+              }}
               className="flex cursor-pointer items-center justify-start gap-4 rounded-lg p-4 hover:bg-slate-100"
             >
               <PiSignOutLight size={25} />

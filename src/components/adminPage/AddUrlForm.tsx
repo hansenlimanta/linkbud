@@ -15,9 +15,11 @@ const AddUrlForm = () => {
   const [isAddUrl, setIsAddUrl] = useState(false);
   const createLink = api.links.addLink.useMutation({
     onSuccess: () => {
-      setTimeout(async () => {
-        await utils.links.getLinksById.invalidate();
-        await utils.user.getUserAndTheme.invalidate();
+      setTimeout(() => {
+        async () => {
+          await utils.links.getLinksById.invalidate();
+          await utils.user.getUserAndTheme.invalidate();
+        };
       }, 3000);
     },
   });
@@ -80,7 +82,9 @@ const AddUrlForm = () => {
           </div>
           <h2 className="mb-4 text-xl font-bold">Enter URL</h2>
           <form
-            onSubmit={async () => await handleSubmit(handleSubmitUrl)}
+            onSubmit={() => {
+              () => handleSubmit(handleSubmitUrl);
+            }}
             className="flex w-full justify-between gap-4"
           >
             <input
@@ -114,7 +118,9 @@ const AddUrlForm = () => {
       )}
       <div className="w-full">
         <button
-          onClick={handleAddHeader}
+          onClick={() => {
+            async () => await handleAddHeader();
+          }}
           className="flex items-center justify-center gap-2 rounded-full border-2 bg-inherit px-4 py-2 hover:bg-white"
         >
           <RiLayoutTop2Line />

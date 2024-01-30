@@ -64,7 +64,9 @@ export default function RegisterUsername() {
       <Meta />
       <main className="h-screen bg-stone-100">
         <form
-          onSubmit={async () => await handleSubmit(onSubmit)}
+          onSubmit={() => {
+            () => handleSubmit(onSubmit);
+          }}
           className="m-auto flex h-full w-[620px] flex-col items-center justify-start gap-6 pt-40"
         >
           <h1 className="text-5xl font-extrabold">Welcome to Linkbud!</h1>
@@ -133,7 +135,9 @@ export default function RegisterUsername() {
           <p>
             Already have an account?{" "}
             <span
-              onClick={async () => await signOut({ callbackUrl: "/" })}
+              onClick={() => {
+                async () => await signOut({ callbackUrl: "/" });
+              }}
               className="cursor-pointer text-blue-800 underline hover:text-blue-600"
             >
               Login with different account
