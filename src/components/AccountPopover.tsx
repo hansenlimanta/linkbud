@@ -39,8 +39,12 @@ const AccountPopover = () => {
             <div className="flex items-center justify-start gap-4 p-4">
               <div className="h-12 w-12 rounded-full bg-pink-300" />
               <div className="flex flex-col items-start justify-center">
-                <p className="text-lg font-semibold">@hansenlimanta</p>
-                <p className="text-sm text-gray-400">link.bud/hansenlimanta</p>
+                <p className="text-lg font-semibold">
+                  {sessionData.user.username}
+                </p>
+                <p className="text-sm text-gray-400">
+                  {`linkbud.hansenlimanta.com/${sessionData.user.username}`}
+                </p>
               </div>
             </div>
             {/* <p className="px-4 font-bold text-gray-500">Account</p>

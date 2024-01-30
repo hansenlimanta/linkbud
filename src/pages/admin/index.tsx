@@ -37,6 +37,13 @@ export default function Admin() {
 
   const [userUrl, setUserUrl] = useState("");
   const [isInitialStateSet, setIsInitialStateSet] = useState(0);
+  const copyUserUrl = async () => {
+    try {
+      await navigator.clipboard.writeText(userUrl);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
     if (isInitialStateSet > 0) return;
@@ -56,7 +63,9 @@ export default function Admin() {
 
   useEffect(() => {
     if (sessionData?.user.username) {
-      setUserUrl(`http://localhost:3000/${sessionData.user.username}`);
+      setUserUrl(
+        `https://linkbud.hansenlimanta.com/${sessionData.user.username}`,
+      );
     }
   }, [sessionData]);
 
@@ -97,9 +106,7 @@ export default function Admin() {
                 <div className="flex items-center justify-end gap-2">
                   <p>Share your Linktree to your socials</p>
                   <button
-                    onClick={() => {
-                      async () => await navigator.clipboard.writeText(userUrl);
-                    }}
+                    onClick={() => copyUserUrl()}
                     className="rounded-full border bg-white px-4 py-2 font-semibold hover:bg-slate-100"
                   >
                     Copy URL
