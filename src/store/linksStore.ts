@@ -47,7 +47,7 @@ export const useLinksStore = create<State & Action>((set) => ({
 
       const newLinks: Link[] = newOrder.map((taskId: string, index) => {
         return {
-          ...(state.links.find((task) => task.id === taskId) as Link),
+          ...state.links.find((task) => task.id === taskId)!,
           position: newOrder.length - index - 1,
         };
       });

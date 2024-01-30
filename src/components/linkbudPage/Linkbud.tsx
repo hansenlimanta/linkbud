@@ -29,7 +29,7 @@ const Linkbud: FC<LinkbudProps> = ({ links, theme, user }) => {
             const dbLink = links.find((link) => link.id === id) ?? ({} as Link);
             if (dbLink.isActive === false) {
               return <></>;
-            } else if (dbLink.type === LinkType.Classic) {
+            } else if (dbLink.type === "CLASSIC") {
               return (
                 <LinkButton
                   key={dbLink.id}
@@ -37,7 +37,7 @@ const Linkbud: FC<LinkbudProps> = ({ links, theme, user }) => {
                   link={dbLink}
                 />
               );
-            } else if (dbLink.type === LinkType.Header) {
+            } else if (dbLink.type === "HEADER") {
               return (
                 <LinkHeader
                   key={dbLink.id}

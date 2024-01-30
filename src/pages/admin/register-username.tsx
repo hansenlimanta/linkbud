@@ -17,8 +17,8 @@ export default function RegisterUsername() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { data: usernamesApi } = api.user.getAllUsernames.useQuery();
   const createDefaultTheme = api.user.createDefaultTheme.useMutation({
-    onSuccess: () => {
-      router.push("/admin");
+    onSuccess: async () => {
+      await router.push("/admin");
     },
   });
   const setDefaultPageTitle = api.user.updatePageTitle.useMutation({
@@ -64,7 +64,7 @@ export default function RegisterUsername() {
       <Meta />
       <main className="h-screen bg-stone-100">
         <form
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={async () => await handleSubmit(onSubmit)}
           className="m-auto flex h-full w-[620px] flex-col items-center justify-start gap-6 pt-40"
         >
           <h1 className="text-5xl font-extrabold">Welcome to Linkbud!</h1>
@@ -133,7 +133,7 @@ export default function RegisterUsername() {
           <p>
             Already have an account?{" "}
             <span
-              onClick={() => signOut({ callbackUrl: "/" })}
+              onClick={async () => await signOut({ callbackUrl: "/" })}
               className="cursor-pointer text-blue-800 underline hover:text-blue-600"
             >
               Login with different account

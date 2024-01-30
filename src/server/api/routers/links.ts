@@ -61,8 +61,8 @@ export const linksRouter = createTRPCRouter({
         order: z.string(),
       }),
     )
-    .mutation(({ ctx, input }) => {
-      ctx.db.user.update({
+    .mutation(async ({ ctx, input }) => {
+      await ctx.db.user.update({
         where: {
           id: ctx.session.user.id,
         },

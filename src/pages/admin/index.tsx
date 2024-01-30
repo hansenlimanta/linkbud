@@ -19,12 +19,12 @@ export default function Admin() {
   const { data: dbLinks } = api.links.getLinksById.useQuery();
   const { data: userData } = api.user.getUserAndTheme.useQuery();
   const updateLinkOrder = api.links.updateLinkOrder.useMutation({
-    onSuccess: () => {
-      utils.links.getLinksById.invalidate();
-      utils.user.getUserAndTheme.invalidate();
+    onSuccess: async () => {
+      await utils.links.getLinksById.invalidate();
+      await utils.user.getUserAndTheme.invalidate();
     },
-    onError: () => {
-      utils.links.getLinksById.invalidate();
+    onError: async () => {
+      await utils.links.getLinksById.invalidate();
     },
   });
 
@@ -97,8 +97,8 @@ export default function Admin() {
                 <div className="flex items-center justify-end gap-2">
                   <p>Share your Linktree to your socials</p>
                   <button
-                    onClick={() => {
-                      navigator.clipboard.writeText(userUrl);
+                    onClick={async () => {
+                      await navigator.clipboard.writeText(userUrl);
                     }}
                     className="rounded-full border bg-white px-4 py-2 font-semibold hover:bg-slate-100"
                   >
@@ -117,7 +117,7 @@ export default function Admin() {
                     {...provided.droppableProps}
                   >
                     {links.map((link, index) => {
-                      if (link.type === LinkType.Header) {
+                      if (link.type === "HEADER") {
                         return (
                           <DraggableHeader
                             key={link.id}

@@ -16,19 +16,19 @@ type DraggableLinkProps = {
 const DraggableLink: FC<DraggableLinkProps> = ({ link, index }) => {
   const utils = api.useContext();
   const updateLinkApi = api.links.updateLink.useMutation({
-    onSuccess: () => {
-      utils.links.getLinksById.invalidate();
+    onSuccess: async () => {
+      await utils.links.getLinksById.invalidate();
     },
-    onError: () => {
-      utils.links.getLinksById.invalidate();
+    onError: async () => {
+      await utils.links.getLinksById.invalidate();
     },
   });
   const deleteLinkApi = api.links.deleteLink.useMutation({
-    onSuccess: () => {
-      utils.links.getLinksById.invalidate();
+    onSuccess: async () => {
+      await utils.links.getLinksById.invalidate();
     },
-    onError: () => {
-      utils.links.getLinksById.invalidate();
+    onError: async () => {
+      await utils.links.getLinksById.invalidate();
     },
   });
 
@@ -97,7 +97,7 @@ const DraggableLink: FC<DraggableLinkProps> = ({ link, index }) => {
   return (
     <Draggable
       key={link.id}
-      draggableId={link.id!}
+      draggableId={link.id}
       index={index}
       isDragDisabled={false}
     >

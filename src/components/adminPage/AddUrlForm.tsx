@@ -15,9 +15,9 @@ const AddUrlForm = () => {
   const [isAddUrl, setIsAddUrl] = useState(false);
   const createLink = api.links.addLink.useMutation({
     onSuccess: () => {
-      setTimeout(() => {
-        utils.links.getLinksById.invalidate();
-        utils.user.getUserAndTheme.invalidate();
+      setTimeout(async () => {
+        await utils.links.getLinksById.invalidate();
+        await utils.user.getUserAndTheme.invalidate();
       }, 3000);
     },
   });
@@ -33,10 +33,7 @@ const AddUrlForm = () => {
 
   const handleSubmitUrl: SubmitHandler<Inputs> = async (data) => {
     let url = data.url;
-    if (
-      data.url.slice(0, 7) !== "http://" &&
-      data.url.slice(0, 8) !== "https://"
-    ) {
+    if (!data.url.startsWith("http://") && !data.url.startsWith("https://")) {
       url = `http://${data.url}`;
     }
 
@@ -49,14 +46,14 @@ const AddUrlForm = () => {
     } as Link;
     addLink(newLink);
 
-    createLink.mutateAsync({
+    await createLink.mutateAsync({
       ...newLink,
       order: orderDbFormat,
     });
     setIsAddUrl(false);
     resetField("url");
   };
-  const handleAddHeader = () => {
+  const handleAddHeader = async () => {
     const newLink = {
       id: Math.floor(Math.random() * 100000000).toString(),
       title: "Test HEADER",
@@ -66,7 +63,7 @@ const AddUrlForm = () => {
     } as Link;
     addLink(newLink);
 
-    createLink.mutateAsync({
+    await createLink.mutateAsync({
       ...newLink,
       order: orderDbFormat,
     });
@@ -83,7 +80,7 @@ const AddUrlForm = () => {
           </div>
           <h2 className="mb-4 text-xl font-bold">Enter URL</h2>
           <form
-            onSubmit={handleSubmit(handleSubmitUrl)}
+            onSubmit={async () => await handleSubmit(handleSubmitUrl)}
             className="flex w-full justify-between gap-4"
           >
             <input

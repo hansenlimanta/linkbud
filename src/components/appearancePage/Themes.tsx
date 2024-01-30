@@ -13,8 +13,8 @@ type SimpleTheme = {
 const Themes = () => {
   const utils = api.useContext();
   const updateThemes = api.user.updateUserTheme.useMutation({
-    onSuccess: () => {
-      utils.user.getUserAndTheme.invalidate();
+    onSuccess: async () => {
+      await utils.user.getUserAndTheme.invalidate();
     },
   });
   const handleSelectTheme = (theme: SimpleTheme) => {

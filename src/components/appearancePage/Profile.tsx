@@ -11,15 +11,15 @@ type ProfileProps = {
 const Profile: FC<ProfileProps> = ({ description, pageTitle, profile }) => {
   const utils = api.useContext();
   const updatePageTitle = api.user.updatePageTitle.useMutation({
-    onSuccess: () => {
-      utils.user.getUserAndTheme.invalidate();
-      utils.links.getLinksById.invalidate();
+    onSuccess: async () => {
+      await utils.user.getUserAndTheme.invalidate();
+      await utils.links.getLinksById.invalidate();
     },
   });
   const updateDescription = api.user.updateDescription.useMutation({
-    onSuccess: () => {
-      utils.user.getUserAndTheme.invalidate();
-      utils.links.getLinksById.invalidate();
+    onSuccess: async () => {
+      await utils.user.getUserAndTheme.invalidate();
+      await utils.links.getLinksById.invalidate();
     },
   });
   const [title, setTitle] = useState("");
