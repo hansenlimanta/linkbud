@@ -2,6 +2,7 @@ import Image from "next/image";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Meta from "~/components/Meta";
 import Link from "next/link";
+import { PiTreePalmFill } from "react-icons/pi";
 
 export default function Home() {
   const { data: sessionData } = useSession();
@@ -11,14 +12,26 @@ export default function Home() {
       <Meta />
       <main className="min-h-screen w-full bg-stone-100">
         <nav className="fixed top-0 z-20 m-auto w-full">
-          <div className="mx-36 mt-12 flex max-w-[1728px] items-center justify-between rounded-full bg-white px-8 py-4">
-            <div className="flex items-center justify-start gap-6">
-              <p className="cursor-pointer px-4 text-3xl font-bold">Linkbud</p>
-              <p>Templates</p>
-              <p>Marketplace</p>
-              <p>Discover</p>
-              <p>Pricing</p>
-              <p>Learn</p>
+          <div className="mx-36 mt-8 flex max-w-[1728px] items-center justify-between rounded-full bg-white px-4 py-2">
+            <div className="flex items-center justify-start gap-2">
+              <div className="mx-4 cursor-pointer font-bold">
+                <PiTreePalmFill size={40} />
+              </div>
+              <p className="flex cursor-pointer items-center justify-center gap-2 rounded-xl p-2 font-semibold text-gray-700 hover:bg-slate-100">
+                Templates
+              </p>
+              <p className="flex cursor-pointer items-center justify-center gap-2 rounded-xl p-2 font-semibold text-gray-700 hover:bg-slate-100">
+                Marketplace
+              </p>
+              <p className="flex cursor-pointer items-center justify-center gap-2 rounded-xl p-2 font-semibold text-gray-700 hover:bg-slate-100">
+                Discover
+              </p>
+              <p className="flex cursor-pointer items-center justify-center gap-2 rounded-xl p-2 font-semibold text-gray-700 hover:bg-slate-100">
+                Pricing
+              </p>
+              <p className="flex cursor-pointer items-center justify-center gap-2 rounded-xl p-2 font-semibold text-gray-700 hover:bg-slate-100">
+                Learn
+              </p>
             </div>
             <div>
               {sessionData ? (
@@ -48,7 +61,7 @@ export default function Home() {
             </div>
           </div>
         </nav>
-        <div className="flex h-screen w-full bg-green-900 px-36 text-yellow-400">
+        <div className="flex h-screen w-full px-36 text-slate-900">
           <div className="flex flex-1 flex-col items-start justify-center gap-6">
             <h1 className="text-7xl font-extrabold">
               Everything you are. In one, simple link in bio.
@@ -61,23 +74,23 @@ export default function Home() {
             </h2>
             <div className="flex gap-3">
               <input
-                className="rounded-md p-4"
+                className="rounded-md border p-4"
                 type="text"
-                placeholder="link.bud/yourname"
+                placeholder="linkbud.com/yourname"
               />
-              <button className="rounded-full bg-pink-300 px-8 py-4 font-medium text-black transition hover:bg-pink-400">
+              <button className="rounded-full bg-green-300 px-8 py-4 font-medium text-slate-900 transition hover:bg-green-400">
                 Claim your Linkbud
               </button>
             </div>
           </div>
           <div className="flex flex-1 items-center justify-center">
-            <div className="relative h-[600px] w-[350px] rounded-lg">
+            <div className="relative h-2/3 w-[350px] rounded-lg">
               <Image
-                src="/linkbud.svg"
+                src="/sugden-theme.svg"
                 layout="fill"
-                objectFit="contain"
+                style={{ objectFit: "contain" }}
+                className="drop-shadow-2xl"
                 alt="linkbud"
-                className="animate-pulse"
               />
             </div>
           </div>
