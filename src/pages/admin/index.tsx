@@ -106,7 +106,7 @@ export default function Admin() {
                 <div className="flex items-center justify-end gap-2">
                   <p>Share your Linktree to your socials</p>
                   <button
-                    onClick={() => copyUserUrl()}
+                    onClick={() => void copyUserUrl()}
                     className="rounded-full border bg-white px-4 py-2 font-semibold hover:bg-slate-100"
                   >
                     Copy URL

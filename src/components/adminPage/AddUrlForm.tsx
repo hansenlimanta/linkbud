@@ -118,9 +118,7 @@ const AddUrlForm = () => {
       )}
       <div className="w-full">
         <button
-          onClick={() => {
-            async () => await handleAddHeader();
-          }}
+          onClick={() => void handleAddHeader()}
           className="flex items-center justify-center gap-2 rounded-full border-2 bg-inherit px-4 py-2 hover:bg-white"
         >
           <RiLayoutTop2Line />

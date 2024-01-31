@@ -135,9 +135,7 @@ export default function RegisterUsername() {
           <p>
             Already have an account?{" "}
             <span
-              onClick={() => {
-                async () => await signOut({ callbackUrl: "/" });
-              }}
+              onClick={() => void signOut({ callbackUrl: "/" })}
               className="cursor-pointer text-blue-800 underline hover:text-blue-600"
             >
               Login with different account
