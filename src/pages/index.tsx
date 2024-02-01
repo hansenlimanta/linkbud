@@ -3,6 +3,12 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import Meta from "~/components/Meta";
 import Link from "next/link";
 import { PiTreePalmFill } from "react-icons/pi";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "~/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
 
 export default function Home() {
   const { data: sessionData } = useSession();
@@ -83,17 +89,45 @@ export default function Home() {
               </button>
             </div>
           </div>
-          <div className="flex flex-1 items-center justify-center">
-            <div className="relative h-2/3 w-[350px] rounded-lg">
-              <Image
-                src="/sugden-theme.svg"
-                layout="fill"
-                style={{ objectFit: "contain" }}
-                className="drop-shadow-2xl"
-                alt="linkbud"
-              />
-            </div>
-          </div>
+          <Carousel
+            opts={{ loop: true }}
+            className="flex flex-1 items-center justify-center"
+            plugins={[
+              Autoplay({
+                delay: 4000,
+              }),
+            ]}
+          >
+            <CarouselContent className="h-screen w-[350px] px-4">
+              <CarouselItem className="relative m-auto h-2/3 w-[350px] rounded-lg">
+                <Image
+                  src="/sugden-theme.svg"
+                  style={{ objectFit: "contain" }}
+                  className="drop-shadow-2xl"
+                  alt="linkbud"
+                  fill
+                />
+              </CarouselItem>
+              <CarouselItem className="relative m-auto h-2/3 w-[350px] rounded-lg">
+                <Image
+                  src="/merlin-theme.svg"
+                  style={{ objectFit: "contain" }}
+                  className="drop-shadow-2xl"
+                  alt="linkbud"
+                  fill
+                />
+              </CarouselItem>
+              <CarouselItem className="relative m-auto h-2/3 w-[350px] rounded-lg">
+                <Image
+                  src="/warburton-theme.svg"
+                  style={{ objectFit: "contain" }}
+                  className="drop-shadow-2xl"
+                  alt="linkbud"
+                  fill
+                />
+              </CarouselItem>
+            </CarouselContent>
+          </Carousel>
         </div>
       </main>
     </>
