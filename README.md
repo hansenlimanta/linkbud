@@ -1,28 +1,79 @@
-# Create T3 App
+# LinkBud - Your Customizable Linktree Alternative
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+## Description
 
-## What's next? How do I make an app with this?
+LinkBud is a versatile Linktree clone app that empowers you to create a personalized list of links and choose the appearance that suits your style. Developed with Next.js, TypeScript, Tailwind CSS, Prisma, NextAuth, and Radix UI, LinkBud makes it easy for you to showcase your important links in a visually appealing and customizable way.
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+## Table of Contents
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+- [LinkBud - Your Customizable Linktree Alternative](#linkbud---your-personal-linktree-clone)
+  - [Description](#description)
+  - [Table of Contents](#table-of-contents)
+  - [Demo](#demo)
+  - [Features](#features)
+  - [Installation](#installation)
+  - [Usage](#usage)
+  - [Technologies Used](#technologies-used)
+  - [Contributing](#contributing)
+  - [Contact](#contact)
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+## Demo
 
-## Learn More
+Explore LinkBud live [here](https://linkbud.hansenlimanta.com/).
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+## Features
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+- **Home Page:** Your personalized LinkBud, showcasing a list of your important links.
+- **Admin Page:** Edit and manage your links effortlessly.
+- **Appearance Page:** Choose from a variety of styles to customize the look of your LinkBud.
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+## Installation
 
-## How do I deploy this?
+To set up LinkBud locally, follow these steps:
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+```bash
+# Clone the repository
+git clone https://github.com/hansenlimanta/linkbud.git
+
+# Navigate to the project directory
+cd linkbud
+
+# Install dependencies
+npm install
+
+# Run DB
+npx prisma db push
+
+# Start the development server
+npm run dev
+```
+
+## Usage
+
+1. **Home Page:**
+
+   - View and share your personalized LinkBud with others.
+
+2. **Admin Page:**
+
+   - Log in to the admin panel to edit and manage your links.
+
+3. **Appearance Page:**
+   - Choose the appearance that suits your style from the available options.
+
+## Technologies Used
+
+- Next.js
+- TypeScript
+- Tailwind CSS
+- Prisma
+- NextAuth
+- Radix UI
+
+## Contributing
+
+Contributions are welcome! If you have suggestions, find issues, or want to contribute code.
+
+## Contact
+
+For any inquiries or assistance, feel free to reach out via email at [hansenlimanta@gmail.com](mailto:hansenlimanta@gmail.com) or connect on [LinkedIn](https://www.linkedin.com/in/hansenlimanta/). Let's make LinkBud even better together!
