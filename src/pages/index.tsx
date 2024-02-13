@@ -67,7 +67,7 @@ export default function Home() {
             </div>
           </div>
         </nav>
-        <div className="flex h-screen w-full px-36 text-slate-900">
+        <div className="flex h-screen w-full px-36 py-20 text-slate-900">
           <div className="flex flex-1 flex-col items-start justify-center gap-6">
             <h1 className="text-7xl font-extrabold">
               Everything you are. In one, simple link in bio.
@@ -98,7 +98,7 @@ export default function Home() {
               }),
             ]}
           >
-            <CarouselContent className="h-screen w-[350px] px-4">
+            <CarouselContent className="h-screen w-[500px] px-4">
               <CarouselItem className="relative m-auto h-2/3 w-[350px] rounded-lg">
                 <Image
                   src="/sugden-theme.svg"
