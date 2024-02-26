@@ -69,6 +69,7 @@ npm run dev
 - Prisma
 - NextAuth
 - Radix UI
+- Zustand
 
 ## Contributing
 
